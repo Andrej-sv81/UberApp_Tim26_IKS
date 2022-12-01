@@ -1,0 +1,45 @@
+.login-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    width: 600px;
+    margin-left: -300px;
+    height: 600px;
+    margin-top: -250px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Poppins';
+
+}
+.login-container .login-title{
+    font-size: 35px;
+}
+.login-container .form-group{
+    display: flex;
+    flex-direction: column;
+}
+.login-container .login-label{
+    font-weight: 300;
+    font-size: 15px;
+    color: #b0b0b0;
+}
+.login-container .login-field{
+    background-color: #eae5e5a6;
+    border-color: white;
+    border-radius: 4px;
+    width: 300px;
+    height: 30px;
+    align-self: center;
+
+}
+
+.login-container .btn-container .btn.black{
+    background-color: black;
+    color: white;
+    font-family: 'Poppins';
+    margin-top: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
