@@ -8,11 +8,8 @@ import { Router } from '@angular/router';
 })
 export class ToolbarComponent {
 
-  constructor(private router: Router){
+  constructor(){}
 
-  }
-  redirectFromToolbar(route: string) {
-    this.router.navigate([route]);
-  }
+  ngOnInit(): void {}
 
 }
