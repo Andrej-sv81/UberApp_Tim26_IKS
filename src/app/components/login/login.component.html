@@ -1,15 +1,16 @@
 <div class="login-container">
     <h1 class="login-title">Please fill our login form</h1>
     <div class="form-group">
-        <label class="login-label" for="username">Please enter your email</label>
-        <input class="login-field" type="text" name="username"/>
+        <input class="login-field" type="text" name="username" placeholder="Please enter your email"/>
     </div>
     <div class="form-group">
-        <label class="login-label" for="password">Please enter your password</label>
-        <input class="login-field" type="password" name="password"/>
+        <input class="login-field" type="password" name="password" placeholder="Please enter your password"/>
     </div>
     <div class="btn-container">
         <button class="btn black" (click)="redirectFromToolbar('home')">Continue</button>
+    </div>
+    <div class="google-btn-container">
+        <button class="btn-google">Continue with Google</button>
     </div>
 </div>
 
