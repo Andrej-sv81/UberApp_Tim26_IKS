@@ -4,13 +4,23 @@
         <input class="login-field" type="text" name="username" placeholder="Please enter your email"/>
     </div>
     <div class="form-group">
-        <input class="login-field" type="password" name="password" placeholder="Please enter your password"/>
+        <input class="login-field2" type="password" name="password" placeholder="Please enter your password"/>
+    </div>
+    <div class="forgot-password">
+        <p class="forgot-pass-text">Forgot password?</p>
     </div>
     <div class="btn-container">
         <button class="btn black" (click)="redirectFromToolbar('home')">Continue</button>
+    <div class="or-text">
+        <p><span >or</span></p>
     </div>
     <div class="google-btn-container">
-        <button class="btn-google">Continue with Google</button>
+        <button class="btn-google">
+            <span class="button-png">
+                <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="null" width="30px">
+            </span>
+            <span class="button-text">Login with Google</span>
+        </button>
     </div>
 </div>
 

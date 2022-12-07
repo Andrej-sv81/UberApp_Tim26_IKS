@@ -1,6 +1,6 @@
 .login-container{
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     background-color: white;
     width: 600px;
@@ -11,6 +11,7 @@
     align-items: center;
     text-align: center;
     font-family: 'Poppins';
+    padding-top: 0px;
 
 }
 .login-container .login-title{
@@ -21,11 +22,7 @@
     display: flex;
     flex-direction: column;
 }
-.login-container .login-label{
-    font-weight: 300;
-    font-size: 15px;
-    color: #b0b0b0;
-}
+
 .login-container .login-field{
     background-color: #f0f0f0;
     border: none;
@@ -37,6 +34,21 @@
     text-indent: 10px;
     font-size: 18px;
     color: 757575;
+    padding: 0px;
+}
+
+.login-container .login-field2{
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 10px;
+    width: 595px;
+    height: 55px;
+    align-self: center;
+    margin-bottom: 0px;
+    text-indent: 10px;
+    font-size: 18px;
+    color: 757575;
+    padding: 0px;
 }
 
 .login-container .btn-container .btn.black{
@@ -48,13 +60,16 @@
     font-family: 'Poppins';
     font-size: 18px;
     font-display: semi-bold;
-    margin-top: 20px;
     border: none;
     cursor: pointer;
-    margin-bottom: 0px;
+    padding: 0px;
 }
 
 .login-container .google-btn-container .btn-google{
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     height: 81px;
     width: 595px;
     border: none;
@@ -62,5 +77,50 @@
     font-size: 18px;
     font-display: semi-bold;
     background-color: #f0f0f0;
-    margin-top: 100px;
+    padding: 0px;
+}
+
+.login-container.google-btn-container.btn-google.button-text{
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 20px;
+    height: 100%;
+}
+
+.login-container.google-btn-container.btn-google.button-png{
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 20px;
+    height: 100%;
+}
+
+.login-container .or-text p{
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #d3d3d3;
+    line-height: 1px;
+    margin: 40px 0 40px;
+}
+
+.login-container .or-text span{
+    padding: 0px 20px;
+    background: white;
+    color: #d3d3d3;
+    font-size: 18px;
+}
+
+.login-container.google-btn-container img{
+    margin-bottom: 3px;
+    margin-right: 5px;
+}
+
+.login-container.forgot-password{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.login-container .forgot-pass-text{
+    margin: 0px;
+    margin-bottom: 15px;
+    text-align: right;
 }
