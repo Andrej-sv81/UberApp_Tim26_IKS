@@ -1,0 +1,68 @@
+.register-container{
+    position: relative;
+    width: 50%;
+    padding-left: 25%;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Poppins';
+
+}
+.register-container .register-title{
+    font-size: 48px;
+    font-display: semi-bold;
+    width: 100%;
+}
+.register-container .register-group{
+    display: flex;
+    flex-direction: column;
+}
+.register-container .register-label{
+    font-weight: 300;
+    font-size: 15px;
+    color: #b0b0b0;
+}
+.register-container .register-field{
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 10px;
+    width: 595px;
+    height: 55px;
+    align-self: center;
+    margin-bottom: 30px;
+    text-indent: 10px;
+    font-size: 18px;
+    color: 757575;
+}
+
+.register-container .btn-container .btn.black{
+    background-color: black;
+    color: white;
+    width: 595px;
+    height: 55px;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    font-size: 18px;
+    font-display: semi-bold;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 0px;
+}
+
+.reminder{
+    color: rgb(236, 53, 53);
+    font-family: 'Poppins';
+    font-size: 14px;
+    font-display: bold;
+    justify-content: center;
+    display: flex;
+    padding-top: 15px;
+}
+
+.horizontal-line{
+    width: 50%;
+    justify-content: center;
+    margin-bottom: 30px;
+}
