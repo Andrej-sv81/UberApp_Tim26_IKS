@@ -1,17 +1,12 @@
 .login-container{
-    position: absolute;
-    top: 40%;
-    left: 50%;
+    position: relative;
+    width: 50%;
+    padding-left: 25%;
     background-color: white;
-    width: 600px;
-    margin-left: -300px;
-    height: 600px;
-    margin-top: -250px;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-family: 'Poppins';
-    padding-top: 0px;
 
 }
 .login-container .login-title{
@@ -122,5 +117,5 @@
 .login-container .forgot-pass-text{
     margin: 0px;
     margin-bottom: 15px;
-    text-align: right;
+    text-align: center;
 }
