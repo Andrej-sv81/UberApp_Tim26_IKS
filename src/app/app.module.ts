@@ -8,6 +8,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SafetyComponent } from './components/safety/safety.component';
 import { HelpComponent } from './components/help/help.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HelpComponent } from './components/help/help.component';
     ToolbarComponent,
     HomeComponent,
     SafetyComponent,
-    HelpComponent
+    HelpComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
