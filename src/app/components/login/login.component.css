@@ -89,15 +89,21 @@
     height: 100%;
 }
 
+/* .login-container.or-text{
+    width: 595px;
+} */
+
 .login-container .or-text p{
-    width: 100%;
     text-align: center;
     border-bottom: 1px solid #d3d3d3;
     line-height: 1px;
-    margin: 40px 0 40px;
+    margin: 40px 0px 40px;
+    /* padding-left: 112px;
+    padding-right: 112px; */
 }
 
 .login-container .or-text span{
+    text-align: center;
     padding: 0px 20px;
     background: white;
     color: #d3d3d3;
@@ -117,5 +123,6 @@
 .login-container .forgot-pass-text{
     margin: 0px;
     margin-bottom: 15px;
-    text-align: center;
+    text-align: right;
+    padding-right: 170px;
 }
