@@ -1,3 +1,20 @@
 <div class="home-container">
-    <img class="home-im" src="../../../assets/taxitraffic.png"/>
+   <div class="form-container">
+        <button class="form-button">Ride</button>
+        <button class="form-button">Drive</button>
+        <div class="form-line"></div>
+        <div class="ride-request-container">
+            <h2 class="ride-request-header">Request a ride now</h2>
+            <div class="form-group">
+                <input class="address-field" type="text" name="start-location" placeholder="Enter pickup location"/>
+            </div>
+            <div class="form-group">
+                <input class="address-field" type="text" name="destination" placeholder="Enter destination"/>
+            </div>
+            <div class="btn-container">
+                <button class="sign up" [routerLink]="['/registration']">Sign up first</button>
+                <button class="sign in" [routerLink]="['/login']">Sign in first</button>
+            </div>
+        </div>
+   </div>
 </div>
