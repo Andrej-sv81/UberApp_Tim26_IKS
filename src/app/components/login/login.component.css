@@ -116,6 +116,7 @@
 }
 
 .login-container.forgot-password{
+    position: relative;
     margin-top: 0px;
     margin-bottom: 0px;
 }

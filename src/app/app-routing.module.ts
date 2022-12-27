@@ -5,6 +5,8 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { SafetyComponent } from './components/safety/safety.component';
+import {MapComponent} from "./components/map/map.component";
+import {RequestRideComponent} from "./components/request-ride/request-ride.component";
 
 const routes: Routes = [
   {path: '', redirectTo: "login", pathMatch: 'full'},
@@ -13,6 +15,7 @@ const routes: Routes = [
   {path: 'help', component: HelpComponent},
   {path: 'safety', component: SafetyComponent},
   {path: 'registration', component: RegistrationComponent},
+  {path: 'requestride', component: RequestRideComponent},
   {path: '**', component: LoginComponent}
 ];
 
