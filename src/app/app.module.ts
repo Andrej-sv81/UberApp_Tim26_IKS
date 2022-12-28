@@ -11,6 +11,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { RequestRideComponent } from './components/request-ride/request-ride.component';
 import {MapModule} from "./components/map/map.module";
 import {CommonModule} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
 //import {HTTP_INTERCEPTORS} from "@angular/common/http"
 
 //import { MapComponent } from './components/map/map.component';
@@ -31,7 +32,8 @@ import {CommonModule} from "@angular/common";
     BrowserModule,
     AppRoutingModule,
     MapModule,
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
