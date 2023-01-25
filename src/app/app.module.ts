@@ -12,6 +12,7 @@ import { RequestRideComponent } from './components/request-ride/request-ride.com
 import {MapModule} from "./components/map/map.module";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
+import { FormsModule } from '@angular/forms';
 //import {HTTP_INTERCEPTORS} from "@angular/common/http"
 
 //import { MapComponent } from './components/map/map.component';
@@ -33,7 +34,8 @@ import {HttpClientModule} from "@angular/common/http";
     AppRoutingModule,
     MapModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
