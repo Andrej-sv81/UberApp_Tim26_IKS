@@ -6,27 +6,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.LoginComponent = void 0;
+exports.LoginGuard = void 0;
 var core_1 = require("@angular/core");
-var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router, http) {
+var LoginGuard = /** @class */ (function () {
+    function LoginGuard(authService, router) {
+        this.authService = authService;
         this.router = router;
-        this.http = http;
-        this.email = '';
-        this.password = '';
     }
-    LoginComponent.prototype.redirectFromToolbar = function (route) {
-        this.router.navigate([route]);
+    LoginGuard.prototype.canActivate = function (route, state) {
+        if (this.authService.isLoggedIn()) {
+            return true;
+        }
+        else {
+            this.router.navigate(['login']);
+            return false;
+        }
     };
-    LoginComponent.prototype.login = function () {
-    };
-    LoginComponent = __decorate([
-        core_1.Component({
-            selector: 'app-login',
-            templateUrl: './login.component.html',
-            styleUrls: ['./login.component.css']
+    LoginGuard = __decorate([
+        core_1.Injectable({
+            providedIn: 'root'
         })
-    ], LoginComponent);
-    return LoginComponent;
+    ], LoginGuard);
+    return LoginGuard;
 }());
-exports.LoginComponent = LoginComponent;
+exports.LoginGuard = LoginGuard;

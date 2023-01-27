@@ -58,7 +58,14 @@
     border: none;
     cursor: pointer;
     padding: 0px;
+    box-shadow: 0 5px #666;
 }
+.login-container .btn-container .btn.black:hover {background-color: #222522}
+.login-container .btn-container .btn.black:active {
+    background-color: #222522;
+    box-shadow: 0 1px #666;
+    transform: translateY(4px);
+  }
 
 .login-container .google-btn-container .btn-google{
     display: inline-flex;
