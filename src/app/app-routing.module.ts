@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HelpComponent } from './components/help/help.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './modules/auth/login/login.component';
-import { RegistrationComponent } from './modules/registration/registration.component';
+import { RegistrationComponent } from './modules/registration/register/registration.component';
 import { SafetyComponent } from './components/safety/safety.component';
 import {MapComponent} from "./components/map/map.component";
 import {RequestRideComponent} from "./components/request-ride/request-ride.component";

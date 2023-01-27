@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,11 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
+  registrationForm = new FormGroup({});
   constructor(private router: Router){
 
   }
-  redirectFromToolbar(route: string) {
-    this.router.navigate([route]);
+
+  register(){
+
   }
 
 }

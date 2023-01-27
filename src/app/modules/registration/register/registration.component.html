@@ -1,0 +1,38 @@
+<div class="register-container">
+    <h1 class="register-title">Please fill our registration form</h1>
+    <form [formGroup]="registrationForm" (ngSubmit)="register()">
+        <div class="form-group">
+            <input class="register-field" type="text" name="username" placeholder="Please enter your email"
+            formControlName=""/>
+        </div>
+        <div class="form-group">
+            <input class="register-field" type="password" name="password" placeholder="Please enter your password"
+            formControlName=""/>
+        </div>
+        <div class="form-group">
+            <input class="register-field" type="password" name="password" placeholder="Please confirm your password"
+            formControlName=""/>
+        </div>
+        <div class="form-group">
+            <input class="register-field" type="text" name="first-name" placeholder="Please enter your first name"
+            formControlName=""/>
+        </div>
+        <div class="form-group">
+            <input class="register-field" type="text" name="last-name" placeholder="Please enter your last name"
+            formControlName=""/>
+        </div>
+        <div class="form-group">
+            <input class="register-field" type="text" name="phone" placeholder="Please enter your phone number"
+            formControlName=""/>
+        </div>
+        <div class="btn-container">
+            <button class="btn black" type="submit">Continue</button>
+        </div>
+    </form>
+</div>
+<div>
+    <p class="reminder">Please check your email for account activation link</p>
+    <hr class="horizontal-line">
+</div>
+
+<!-- (click)="redirectFromToolbar('home')" -->

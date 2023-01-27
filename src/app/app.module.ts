@@ -7,14 +7,14 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SafetyComponent } from './components/safety/safety.component';
 import { HelpComponent } from './components/help/help.component';
-import { RegistrationComponent } from './modules/registration/registration.component';
+import { RegistrationComponent } from './modules/registration/register/registration.component';
 import { RequestRideComponent } from './components/request-ride/request-ride.component';
-import {MapModule} from "./components/map/map.module";
-import {CommonModule} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
+import { MapModule } from "./components/map/map.module";
+import { CommonModule } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Interceptor } from './modules/auth/interceptor/interceptor.service';
-import {HTTP_INTERCEPTORS} from "@angular/common/http"
+import { HTTP_INTERCEPTORS } from "@angular/common/http"
 //import { MapComponent } from './components/map/map.component';
 
 @NgModule({
