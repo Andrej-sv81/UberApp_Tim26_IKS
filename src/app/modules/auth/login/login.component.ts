@@ -6,7 +6,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TokenService } from '../token/token.service';
-
+import { Login } from '../model/login';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,9 +24,9 @@ export class LoginComponent {
               private tokenService: TokenService){}
 
   login(){
-    const login = {
+    const login: Login = {
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password,
+      password: this.loginForm.value.password
     }
 
     if (this.loginForm.valid) {

@@ -12,10 +12,10 @@ import { LoginGuard } from './modules/auth/guard/login.guard';
 const routes: Routes = [
   {path: '', redirectTo: "login", pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'home', component: HomeComponent, canActivate:[LoginGuard]},
+  {path: 'home', component: HomeComponent, },
   {path: 'help', component: HelpComponent, canActivate:[LoginGuard]},
   {path: 'safety', component: SafetyComponent, canActivate:[LoginGuard]},
-  {path: 'registration', component: RegistrationComponent, canActivate:[LoginGuard]},
+  {path: 'registration', component: RegistrationComponent},
   {path: 'requestride', component: RequestRideComponent, canActivate:[LoginGuard]},
   {path: '**', component: LoginComponent}
 ];

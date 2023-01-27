@@ -6,26 +6,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.SecurityModule = void 0;
+exports.RegistrationModule = void 0;
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
+var registration_component_1 = require("./register/registration.component");
 var forms_1 = require("@angular/forms");
-var router_1 = require("@angular/router");
-var login_component_1 = require("./login/login.component");
-var SecurityModule = /** @class */ (function () {
-    function SecurityModule() {
+var RegistrationModule = /** @class */ (function () {
+    function RegistrationModule() {
     }
-    SecurityModule = __decorate([
+    RegistrationModule = __decorate([
         core_1.NgModule({
-            declarations: [login_component_1.LoginComponent],
+            declarations: [registration_component_1.RegistrationComponent],
             imports: [
                 common_1.CommonModule,
                 forms_1.ReactiveFormsModule,
-                router_1.RouterModule,
                 forms_1.FormsModule
             ]
         })
-    ], SecurityModule);
-    return SecurityModule;
+    ], RegistrationModule);
+    return RegistrationModule;
 }());
-exports.SecurityModule = SecurityModule;
+exports.RegistrationModule = RegistrationModule;

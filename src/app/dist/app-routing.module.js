@@ -19,10 +19,10 @@ var login_guard_1 = require("./modules/auth/guard/login.guard");
 var routes = [
     { path: '', redirectTo: "login", pathMatch: 'full' },
     { path: 'login', component: login_component_1.LoginComponent },
-    { path: 'home', component: home_component_1.HomeComponent, canActivate: [login_guard_1.LoginGuard] },
+    { path: 'home', component: home_component_1.HomeComponent },
     { path: 'help', component: help_component_1.HelpComponent, canActivate: [login_guard_1.LoginGuard] },
     { path: 'safety', component: safety_component_1.SafetyComponent, canActivate: [login_guard_1.LoginGuard] },
-    { path: 'registration', component: registration_component_1.RegistrationComponent, canActivate: [login_guard_1.LoginGuard] },
+    { path: 'registration', component: registration_component_1.RegistrationComponent },
     { path: 'requestride', component: request_ride_component_1.RequestRideComponent, canActivate: [login_guard_1.LoginGuard] },
     { path: '**', component: login_component_1.LoginComponent }
 ];

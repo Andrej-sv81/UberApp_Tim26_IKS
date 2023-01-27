@@ -9,12 +9,40 @@ exports.__esModule = true;
 exports.RegistrationComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var match_validator_1 = require("../validator/match-validator");
 var RegistrationComponent = /** @class */ (function () {
-    function RegistrationComponent(router) {
+    function RegistrationComponent(router, regServ) {
         this.router = router;
-        this.registrationForm = new forms_1.FormGroup({});
+        this.regServ = regServ;
+        this.registrationForm = new forms_1.FormGroup({
+            email: new forms_1.FormControl('', [forms_1.Validators.required]),
+            password: new forms_1.FormControl('', [forms_1.Validators.required]),
+            confirmPassword: new forms_1.FormControl('', [forms_1.Validators.required]),
+            name: new forms_1.FormControl('', [forms_1.Validators.required]),
+            surname: new forms_1.FormControl('', [forms_1.Validators.required]),
+            phone: new forms_1.FormControl('', [forms_1.Validators.required]),
+            address: new forms_1.FormControl('', [forms_1.Validators.required])
+        }, [match_validator_1.CustomValidators.MatchValidator('password', 'confirmPassword')]);
+        this.hasError = false;
     }
     RegistrationComponent.prototype.register = function () {
+        var passenger = {
+            name: this.registrationForm.value.name,
+            surname: this.registrationForm.value.surname,
+            profilePicture: '',
+            telephoneNumber: this.registrationForm.value.phone,
+            email: this.registrationForm.value.email,
+            address: this.registrationForm.value.address,
+            password: this.registrationForm.value.password
+        };
+        this.regServ.signUp(passenger).subscribe({
+            next: function (result) {
+                console.log(result);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
     };
     RegistrationComponent = __decorate([
         core_1.Component({

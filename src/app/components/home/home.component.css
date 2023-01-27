@@ -91,6 +91,7 @@
     cursor: pointer;
     padding: 0px;
     margin-left: 15px;
+    box-shadow: 0 5px #666 ;
 }
 
 .ride-request-container .btn-container .sign.up{
@@ -99,6 +100,12 @@
     margin-left: 50px;;
 
 }
+.ride-request-container .btn-container .sign:hover {background-color: #222522}
+.ride-request-container .btn-container .sign:active {
+    background-color: #222522;
+    box-shadow: 0 1px #666;
+    transform: translateY(4px);
+  }
 
 
 .ride-request-container .btn-container .sign.in{

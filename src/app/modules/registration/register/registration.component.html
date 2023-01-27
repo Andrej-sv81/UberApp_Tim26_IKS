@@ -3,27 +3,31 @@
     <form [formGroup]="registrationForm" (ngSubmit)="register()">
         <div class="form-group">
             <input class="register-field" type="text" name="username" placeholder="Please enter your email"
-            formControlName=""/>
+            formControlName="email"/>
         </div>
         <div class="form-group">
             <input class="register-field" type="password" name="password" placeholder="Please enter your password"
-            formControlName=""/>
+            formControlName="password"/>
         </div>
         <div class="form-group">
             <input class="register-field" type="password" name="password" placeholder="Please confirm your password"
-            formControlName=""/>
+            formControlName="confirmPassword"/>
         </div>
         <div class="form-group">
             <input class="register-field" type="text" name="first-name" placeholder="Please enter your first name"
-            formControlName=""/>
+            formControlName="name"/>
         </div>
         <div class="form-group">
             <input class="register-field" type="text" name="last-name" placeholder="Please enter your last name"
-            formControlName=""/>
+            formControlName="surname"/>
         </div>
         <div class="form-group">
             <input class="register-field" type="text" name="phone" placeholder="Please enter your phone number"
-            formControlName=""/>
+            formControlName="phone"/>
+        </div>
+        <div class="form-group">
+            <input class="register-field" type="text" name="phone" placeholder="Please enter your address"
+            formControlName="address"/>
         </div>
         <div class="btn-container">
             <button class="btn black" type="submit">Continue</button>
