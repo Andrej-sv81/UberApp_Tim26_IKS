@@ -11,18 +11,19 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var app_routing_module_1 = require("./app-routing.module");
 var app_component_1 = require("./app.component");
-var login_component_1 = require("./components/login/login.component");
+var login_component_1 = require("./modules/auth/login/login.component");
 var toolbar_component_1 = require("./components/toolbar/toolbar.component");
 var home_component_1 = require("./components/home/home.component");
 var safety_component_1 = require("./components/safety/safety.component");
 var help_component_1 = require("./components/help/help.component");
-var registration_component_1 = require("./components/registration/registration.component");
+var registration_component_1 = require("./modules/registration/registration.component");
 var request_ride_component_1 = require("./components/request-ride/request-ride.component");
 var map_module_1 = require("./components/map/map.module");
 var common_1 = require("@angular/common");
 var http_1 = require("@angular/common/http");
 var forms_1 = require("@angular/forms");
-//import {HTTP_INTERCEPTORS} from "@angular/common/http"
+var interceptor_service_1 = require("./modules/auth/interceptor/interceptor.service");
+var http_2 = require("@angular/common/http");
 //import { MapComponent } from './components/map/map.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -45,9 +46,14 @@ var AppModule = /** @class */ (function () {
                 map_module_1.MapModule,
                 common_1.CommonModule,
                 http_1.HttpClientModule,
-                forms_1.FormsModule
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule
             ],
-            providers: [],
+            providers: [{
+                    provide: http_2.HTTP_INTERCEPTORS,
+                    useClass: interceptor_service_1.Interceptor,
+                    multi: true
+                },],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
