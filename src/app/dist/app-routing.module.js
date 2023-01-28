@@ -16,6 +16,7 @@ var registration_component_1 = require("./modules/registration/register/registra
 var safety_component_1 = require("./components/safety/safety.component");
 var request_ride_component_1 = require("./components/request-ride/request-ride.component");
 var login_guard_1 = require("./modules/auth/guard/login.guard");
+var activation_component_1 = require("./modules/account-activation/activation/activation/activation.component");
 var routes = [
     { path: '', redirectTo: "login", pathMatch: 'full' },
     { path: 'login', component: login_component_1.LoginComponent },
@@ -24,6 +25,7 @@ var routes = [
     { path: 'safety', component: safety_component_1.SafetyComponent, canActivate: [login_guard_1.LoginGuard] },
     { path: 'registration', component: registration_component_1.RegistrationComponent },
     { path: 'requestride', component: request_ride_component_1.RequestRideComponent, canActivate: [login_guard_1.LoginGuard] },
+    { path: 'activate', component: activation_component_1.ActivationComponent },
     { path: '**', component: login_component_1.LoginComponent }
 ];
 var AppRoutingModule = /** @class */ (function () {

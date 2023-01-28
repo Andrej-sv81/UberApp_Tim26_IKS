@@ -1,0 +1,13 @@
+<div class="activation-container">
+    <form id="activationForm" [formGroup]="idForm" (ngSubmit)="activate()">
+        <h1 class="activation-title">Please enter your activation id</h1>
+        <div class="form-group">
+          <input class="activation-field" type="number" name="id" placeholder="Activation id"
+          formControlName = "id">
+        </div>
+        <div class="btn-container">
+          <button class="btn black" type="submit">Activate</button>
+        </div>
+    </form>
+</div>
+

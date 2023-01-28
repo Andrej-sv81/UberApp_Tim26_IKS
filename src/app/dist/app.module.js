@@ -23,6 +23,7 @@ var interceptor_service_1 = require("./modules/auth/interceptor/interceptor.serv
 var http_2 = require("@angular/common/http");
 var registration_module_1 = require("./modules/registration/registration.module");
 var auth_module_1 = require("./modules/auth/auth.module");
+var activation_module_1 = require("./modules/account-activation/activation/activation.module");
 //import { MapComponent } from './components/map/map.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -44,7 +45,8 @@ var AppModule = /** @class */ (function () {
                 common_1.CommonModule,
                 http_1.HttpClientModule,
                 registration_module_1.RegistrationModule,
-                auth_module_1.SecurityModule
+                auth_module_1.SecurityModule,
+                activation_module_1.ActivationModule
             ],
             providers: [{
                     provide: http_2.HTTP_INTERCEPTORS,

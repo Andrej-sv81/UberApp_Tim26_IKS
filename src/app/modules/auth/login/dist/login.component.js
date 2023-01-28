@@ -45,6 +45,9 @@ var LoginComponent = /** @class */ (function () {
                 }
             });
         }
+        else {
+            this.hasError = true;
+        }
     };
     LoginComponent = __decorate([
         core_1.Component({

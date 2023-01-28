@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 exports.__esModule = true;
 exports.RegistrationComponent = void 0;
+var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var match_validator_1 = require("../validator/match-validator");
@@ -26,23 +27,31 @@ var RegistrationComponent = /** @class */ (function () {
         this.hasError = false;
     }
     RegistrationComponent.prototype.register = function () {
-        var passenger = {
-            name: this.registrationForm.value.name,
-            surname: this.registrationForm.value.surname,
-            profilePicture: '',
-            telephoneNumber: this.registrationForm.value.phone,
-            email: this.registrationForm.value.email,
-            address: this.registrationForm.value.address,
-            password: this.registrationForm.value.password
-        };
-        this.regServ.signUp(passenger).subscribe({
-            next: function (result) {
-                console.log(result);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        var _this = this;
+        if (this.registrationForm.valid) {
+            var passenger = {
+                name: this.registrationForm.value.name,
+                surname: this.registrationForm.value.surname,
+                profilePicture: '',
+                telephoneNumber: this.registrationForm.value.phone,
+                email: this.registrationForm.value.email,
+                address: this.registrationForm.value.address,
+                password: this.registrationForm.value.password
+            };
+            this.regServ.signUp(passenger).subscribe({
+                next: function (result) {
+                    _this.router.navigate(['activate']);
+                },
+                error: function (error) {
+                    if (error instanceof http_1.HttpErrorResponse) {
+                        _this.hasError = true;
+                    }
+                }
+            });
+        }
+        else {
+            this.hasError = true;
+        }
     };
     RegistrationComponent = __decorate([
         core_1.Component({
