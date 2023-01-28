@@ -45,6 +45,8 @@ export class LoginComponent {
           }
         },
       });
+    }else{
+      this.hasError = true;
     }
   }
 

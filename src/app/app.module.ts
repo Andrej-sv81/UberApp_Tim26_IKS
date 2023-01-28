@@ -14,6 +14,7 @@ import { Interceptor } from './modules/auth/interceptor/interceptor.service';
 import { HTTP_INTERCEPTORS } from "@angular/common/http"
 import { RegistrationModule } from './modules/registration/registration.module';
 import { SecurityModule } from './modules/auth/auth.module';
+import { ActivationModule } from './modules/account-activation/activation.module';
 //import { MapComponent } from './components/map/map.component';
 
 @NgModule({
@@ -33,7 +34,8 @@ import { SecurityModule } from './modules/auth/auth.module';
     CommonModule,
     HttpClientModule,
     RegistrationModule,
-    SecurityModule
+    SecurityModule,
+    ActivationModule
   ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,

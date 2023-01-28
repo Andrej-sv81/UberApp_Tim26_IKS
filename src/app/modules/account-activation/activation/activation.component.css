@@ -1,0 +1,55 @@
+.activation-container{
+    position: relative;
+    width: 50%;
+    padding-left: 25%;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Poppins';
+    margin-top: 200px;
+
+}
+.activation-container .activation-title{
+    font-size: 35px;
+    font-display: semi-bold;
+}
+.activation-container .form-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.activation-container .activation-field{
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+    height: 55px;
+    align-self: center;
+    margin-bottom: 30px;
+    text-indent: 10px;
+    font-size: 18px;
+    color: 757575;
+    padding: 0px;
+}
+
+.activation-container .btn-container .btn.black{
+    background-color: black;
+    color: white;
+    width: 200px;
+    height: 55px;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    font-size: 18px;
+    font-display: semi-bold;
+    border: none;
+    cursor: pointer;
+    padding: 0px;
+    box-shadow: 0 5px #666;
+}
+.activation-container .btn-container .btn.black:hover {background-color: #222522}
+.activation-container .btn-container .btn.black:active {
+    background-color: #222522;
+    box-shadow: 0 1px #666;
+    transform: translateY(4px);
+  }

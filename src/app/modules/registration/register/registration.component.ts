@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,6 +29,7 @@ export class RegistrationComponent {
   }
 
   register(){
+    if(this.registrationForm.valid){
     const passenger: Passenger = {
       name: this.registrationForm.value.name,
       surname: this.registrationForm.value.surname,
@@ -40,13 +42,17 @@ export class RegistrationComponent {
 
     this.regServ.signUp(passenger).subscribe({
       next: (result) =>{
-        console.log(result);
+        this.router.navigate(['activate'])
       },
       error: (error)=>{
-          console.log(error)
-      }
-    })
-
+          if(error instanceof HttpErrorResponse){
+            this.hasError = true;
+          }
+        }
+      })
+    }else{
+      this.hasError = true;
+    }
   }
 
 }
