@@ -15,6 +15,8 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http"
 import { RegistrationModule } from './modules/registration/registration.module';
 import { SecurityModule } from './modules/auth/auth.module';
 import { ActivationModule } from './modules/account-activation/activation.module';
+import { ProfileModule } from './modules/user-profile/profile/profile.module';
+
 //import { MapComponent } from './components/map/map.component';
 
 @NgModule({
@@ -35,7 +37,8 @@ import { ActivationModule } from './modules/account-activation/activation.module
     HttpClientModule,
     RegistrationModule,
     SecurityModule,
-    ActivationModule
+    ActivationModule,
+    ProfileModule
   ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,

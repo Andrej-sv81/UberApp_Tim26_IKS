@@ -37,7 +37,6 @@ export class LoginComponent {
           this.tokenService.saveUser(result);
           this.tokenService.saveToken(result.accessToken);
           this.tokenService.saveRefreshToken(result.refreshToken);
-          //this.authService.setUser();
           this.router.navigate(['home']);
         },
         error: (error) => {
