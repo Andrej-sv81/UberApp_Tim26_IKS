@@ -9,10 +9,11 @@
            <input class="login-field2" type="password" name="password" placeholder="Please enter your password"
           formControlName = "password"/>
         </div>
-        <h3 *ngIf="hasError == true">Test</h3>
+        
         <div class="forgot-password">
           <div class="pos-forgot-pass"><p class="forgot-pass-text">Forgot password?</p></div>
         </div>
+        <p class="form-error" *ngIf="hasError == true">{{errorMsg}}</p>
         <div class="btn-container">
           <button class="btn black" type="submit">Continue</button>
         </div>

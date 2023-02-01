@@ -35,7 +35,8 @@
     </form>
 </div>
 <div>
-    <p class="reminder">Please check your email for account activation link</p>
+    <p class="reminder" *ngIf="hasError === false">{{message}}</p>
+    <p class="reminder" *ngIf="hasError === true">{{message}}</p>
     <hr class="horizontal-line">
 </div>
 
