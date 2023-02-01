@@ -19,6 +19,7 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required]),
   });
   hasError: boolean = false;
+  errorMsg: string = "";
   constructor(private router: Router,
               private authService: AuthService,
               private tokenService: TokenService){}
@@ -41,11 +42,17 @@ export class LoginComponent {
         },
         error: (error) => {
           if (error instanceof HttpErrorResponse) {
+            if(error.status === 400){
+              this.errorMsg = "Account is not activated or the provided email and password are incorrect!";
+            }else if(error.status === 404){
+              this.errorMsg = "User does not exist!";
+            }
             this.hasError = true;
           }
         },
       });
     }else{
+      this.errorMsg = "Email and password fields can't be empty!";
       this.hasError = true;
     }
   }

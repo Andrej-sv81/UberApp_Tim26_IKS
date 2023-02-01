@@ -23,7 +23,7 @@ export class RegistrationComponent {
   [CustomValidators.MatchValidator('password', 'confirmPassword')]);
 
   hasError: boolean = false;
-
+  message: string = "Please check your email for account activation link";
   constructor(private router: Router, private regServ: RegistrationService){
 
   }
@@ -46,11 +46,13 @@ export class RegistrationComponent {
       },
       error: (error)=>{
           if(error instanceof HttpErrorResponse){
+            this.message = "The provided user information is not valid!"
             this.hasError = true;
           }
         }
       })
     }else{
+      this.message = "All fileds are required and passwords must match!"
       this.hasError = true;
     }
   }
