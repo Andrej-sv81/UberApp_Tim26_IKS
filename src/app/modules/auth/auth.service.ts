@@ -5,6 +5,7 @@ import { Token } from './model/token';
 import { environment } from 'src/app/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt'; 
 import { TokenService } from './token/token.service';
+import { User } from './model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -29,15 +30,29 @@ export class AuthService {
     });
   }
 
-  // getRole(): any {
-  //   if (this.isLoggedIn()) {
-  //     const accessToken: any = localStorage.getItem('user');
-  //     const helper = new JwtHelperService();
-  //     const role = helper.decodeToken(accessToken).role[0].authority; //TODO  
-  //     return role;
-  //   }
-  //   return null;
-  // }
+  getRole(): any {
+    if (this.isLoggedIn()) {
+      const user: User = this.tokenService.getUser();
+      return user.role;
+    }
+    return null;
+  }
+
+  getMail(): any {
+    if (this.isLoggedIn()) {
+      const user: User = this.tokenService.getUser();
+      return user.email;
+    }
+    return null;
+  }
+
+  getId(): any {
+    if (this.isLoggedIn()) {
+      const user: User = this.tokenService.getUser();
+      return user.id;
+    }
+    return null;
+  }
 
   isLoggedIn(): boolean {
     if (this.tokenService.getUser() != null) {

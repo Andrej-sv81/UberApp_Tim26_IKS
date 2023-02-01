@@ -1,0 +1,49 @@
+.page{
+    display: flex;
+    flex-direction: row;
+}
+.button-container{
+    position: left;
+    width: 20%;
+    height: 100%;
+    margin-top: 15px;
+    background-color: white;
+    justify-content: right;
+    align-items: right;
+    text-align: center;
+    font-family: 'Poppins';
+}
+.vertical-line{
+    position: relative;
+    border-left: 2px solid black;
+    height: 600px;
+    width: 15px;
+    margin-top: 30px;
+}
+
+.content-container{
+    background-color: white;
+    width: 75%;
+    margin-top: 30px;
+    height: 600px;
+}
+
+.profile-button{
+    position: right;
+    background-color: rgb(254, 254, 254);
+    color: rgb(0, 0, 0);
+    width: 240px;
+    height: 50px;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    font-size: 18px;
+    font-display: semi-bold;
+    margin-top: 15px;
+    cursor: pointer;
+    border: none;
+}
+.profile-button:hover {background-color: #e1e3e1}
+.profile-button:focus {
+    background-color: #e1e3e1;
+    box-shadow: -10px 0px 3px 0px #636262;
+}

@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../model/user';
 
 const TOKEN_KEY = 'auth-token';
 const REFRESHTOKEN_KEY = 'auth-refreshtoken';
@@ -18,11 +20,6 @@ export class TokenService {
   public saveToken(token: string): void {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
-
-    const user = this.getUser();
-    if (user) {
-      this.saveUser({ ...user, accessToken: token });
-    }
   }
 
   public getToken(): string | null {
@@ -39,8 +36,15 @@ export class TokenService {
   }
 
   public saveUser(user: any): void {
+    const helper = new JwtHelperService();
+    const decoded = helper.decodeToken(user.accessToken);
+    const userDecoded: User = {
+      email: decoded.sub,
+      id: decoded.id,
+      role: decoded.role
+    }
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    window.sessionStorage.setItem(USER_KEY, JSON.stringify(userDecoded));
   }
 
   public getUser(): any {

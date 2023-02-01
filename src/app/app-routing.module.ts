@@ -9,6 +9,10 @@ import {MapComponent} from "./components/map/map.component";
 import {RequestRideComponent} from "./components/request-ride/request-ride.component";
 import { LoginGuard } from './modules/auth/guard/login.guard';
 import { ActivationComponent } from './modules/account-activation/activation/activation.component';
+import { ProfileComponent } from './modules/user-profile/profile/profile.component';
+import { InfoComponent } from './modules/user-profile/profile/info/info.component';
+import { HistoryComponent } from './modules/user-profile/profile/history/history.component';
+import { FavoritesComponent } from './modules/user-profile/profile/favorites/favorites.component';
 const routes: Routes = [
   {path: '', redirectTo: "home", pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
@@ -18,6 +22,11 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
   {path: 'requestride', component: RequestRideComponent, canActivate:[LoginGuard]},
   {path: 'activate', component: ActivationComponent},
+  {path: 'profile', component: ProfileComponent, children:[
+      {path: 'info', component: InfoComponent},
+      {path: 'history', component: HistoryComponent},
+      {path: 'favorites', component: FavoritesComponent}
+  ]},
   {path: '**', component: LoginComponent}
 ];
 
