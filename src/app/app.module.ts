@@ -16,6 +16,7 @@ import { RegistrationModule } from './modules/registration/registration.module';
 import { SecurityModule } from './modules/auth/auth.module';
 import { ActivationModule } from './modules/account-activation/activation.module';
 import { ProfileModule } from './modules/user-profile/profile/profile.module';
+import { AcceptDeclineRideComponent } from './modules/accept-decline-ride/accept-decline-ride.component';
 
 //import { MapComponent } from './components/map/map.component';
 
@@ -27,6 +28,7 @@ import { ProfileModule } from './modules/user-profile/profile/profile.module';
     SafetyComponent,
     HelpComponent,
     RequestRideComponent,
+    AcceptDeclineRideComponent,
     //MapComponent
   ],
   imports: [
