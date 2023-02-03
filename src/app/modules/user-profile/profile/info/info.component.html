@@ -1,1 +1,19 @@
-<p>info works!</p>
+<div class="content" *ngIf="!hasError">
+    <div class="cont1">
+        <div class="pic"></div>
+        <div class="name-number">
+            <div class="name">{{name}} {{surname}}</div>
+            <div class="number">{{phone}}</div>
+        </div>
+        <div class="square" (click)="openDialog()"></div>
+    </div>
+    <h3>Address</h3>
+    <div class="mail">{{address}}</div>
+    <h3>Email</h3>
+    <div class="mail">{{email}}</div>
+    <a href="profile/change-password">Change password?</a>
+    <button (click)="logut()">Log out</button>
+</div>
+<div class="error" *ngIf="hasError">
+    <h3>Error while loading user page!</h3>
+</div>
