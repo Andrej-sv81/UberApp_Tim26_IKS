@@ -15,6 +15,8 @@ import { HistoryComponent } from './modules/user-profile/profile/history/history
 import { FavoritesComponent } from './modules/user-profile/profile/favorites/favorites.component';
 import { UpdateComponent } from './modules/user-profile/profile/update/update.component';
 import { ChangePasswordComponent } from './modules/user-profile/profile/change-password/change-password.component';
+import {AcceptDeclineRideComponent} from "./modules/accept-decline-ride/accept-decline-ride.component";
+
 const routes: Routes = [
   {path: '', redirectTo: "home", pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
@@ -22,9 +24,11 @@ const routes: Routes = [
   {path: 'help', component: HelpComponent},
   {path: 'safety', component: SafetyComponent},
   {path: 'registration', component: RegistrationComponent},
-  {path: 'requestride', component: RequestRideComponent, canActivate:[LoginGuard]},
+  {path: 'request-ride', component: RequestRideComponent, canActivate:[LoginGuard]},
   {path: 'activate', component: ActivationComponent},
+  {path: 'accept-decline-ride', component: AcceptDeclineRideComponent},
   {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
+  {path: 'profile', component: ProfileComponent, children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
       {path: 'favorites', component: FavoritesComponent},
