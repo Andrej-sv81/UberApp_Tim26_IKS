@@ -6,12 +6,15 @@ import { HistoryComponent } from './history/history.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { InfoComponent } from './info/info.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { UpdateComponent } from './update/update.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 
 
 @NgModule({
-  declarations: [ProfileComponent, HistoryComponent, FavoritesComponent, InfoComponent],
+  declarations: [ProfileComponent, HistoryComponent, FavoritesComponent, InfoComponent, UpdateComponent, ChangePasswordComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -41,9 +41,10 @@
     margin-top: 15px;
     cursor: pointer;
     border: none;
+    outline: none;
 }
-.profile-button:hover {background-color: #e1e3e1}
+.profile-button:hover {background-color: #f1f5f1}
 .profile-button:focus {
-    background-color: #e1e3e1;
-    box-shadow: -10px 0px 3px 0px #636262;
+    background-color: #f1f5f1;
+    box-shadow: -10px 0px 3px 0px #9f9e9e;
 }

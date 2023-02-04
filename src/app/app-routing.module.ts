@@ -13,10 +13,14 @@ import { ProfileComponent } from './modules/user-profile/profile/profile.compone
 import { InfoComponent } from './modules/user-profile/profile/info/info.component';
 import { HistoryComponent } from './modules/user-profile/profile/history/history.component';
 import { FavoritesComponent } from './modules/user-profile/profile/favorites/favorites.component';
+import { UpdateComponent } from './modules/user-profile/profile/update/update.component';
+import { ChangePasswordComponent } from './modules/user-profile/profile/change-password/change-password.component';
 import {AcceptDeclineRideComponent} from "./modules/accept-decline-ride/accept-decline-ride.component";
 import {CurrentRidePassengerComponent} from "./modules/current-ride-passenger/current-ride-passenger.component";
 import {CurrentRideDriverComponent} from "./modules/current-ride-driver/current-ride-driver.component";
 import {UnregisteredComponent} from "./modules/unregistered/unregistered.component";
+
+
 const routes: Routes = [
   {path: '', redirectTo: "unregistered", pathMatch: 'full'},
   {path: 'unregistered', component: UnregisteredComponent},
@@ -30,10 +34,15 @@ const routes: Routes = [
   {path: 'accept-decline-ride', component: AcceptDeclineRideComponent},
   {path:'current-ride-passenger', component: CurrentRidePassengerComponent},
   {path:'current-ride-driver', component: CurrentRideDriverComponent},
+  {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
   {path: 'profile', component: ProfileComponent, children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
-      {path: 'favorites', component: FavoritesComponent}
+      {path: 'favorites', component: FavoritesComponent},
+      {path: 'update', component: UpdateComponent},
+      {path: 'change-password', component: ChangePasswordComponent},
+      {path: '', redirectTo: 'info', pathMatch: 'full'},
+      {path: '**', component: InfoComponent}
   ]},
   {path: '**', component: UnregisteredComponent}
 ];
