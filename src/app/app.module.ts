@@ -17,6 +17,9 @@ import { SecurityModule } from './modules/auth/auth.module';
 import { ActivationModule } from './modules/account-activation/activation.module';
 import { ProfileModule } from './modules/user-profile/profile/profile.module';
 import { AcceptDeclineRideComponent } from './modules/accept-decline-ride/accept-decline-ride.component';
+import { CurrentRideDriverComponent } from './modules/current-ride-driver/current-ride-driver.component';
+import { CurrentRidePassengerComponent } from './modules/current-ride-passenger/current-ride-passenger.component';
+import { UnregisteredComponent } from './modules/unregistered/unregistered.component';
 
 //import { MapComponent } from './components/map/map.component';
 
@@ -29,6 +32,9 @@ import { AcceptDeclineRideComponent } from './modules/accept-decline-ride/accept
     HelpComponent,
     RequestRideComponent,
     AcceptDeclineRideComponent,
+    CurrentRideDriverComponent,
+    CurrentRidePassengerComponent,
+    UnregisteredComponent,
     //MapComponent
   ],
   imports: [

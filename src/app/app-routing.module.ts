@@ -14,8 +14,12 @@ import { InfoComponent } from './modules/user-profile/profile/info/info.componen
 import { HistoryComponent } from './modules/user-profile/profile/history/history.component';
 import { FavoritesComponent } from './modules/user-profile/profile/favorites/favorites.component';
 import {AcceptDeclineRideComponent} from "./modules/accept-decline-ride/accept-decline-ride.component";
+import {CurrentRidePassengerComponent} from "./modules/current-ride-passenger/current-ride-passenger.component";
+import {CurrentRideDriverComponent} from "./modules/current-ride-driver/current-ride-driver.component";
+import {UnregisteredComponent} from "./modules/unregistered/unregistered.component";
 const routes: Routes = [
-  {path: '', redirectTo: "home", pathMatch: 'full'},
+  {path: '', redirectTo: "unregistered", pathMatch: 'full'},
+  {path: 'unregistered', component: UnregisteredComponent},
   {path: 'login', component: LoginComponent},
   {path: 'home', component: HomeComponent, },
   {path: 'help', component: HelpComponent},
@@ -24,12 +28,14 @@ const routes: Routes = [
   {path: 'request-ride', component: RequestRideComponent, canActivate:[LoginGuard]},
   {path: 'activate', component: ActivationComponent},
   {path: 'accept-decline-ride', component: AcceptDeclineRideComponent},
+  {path:'current-ride-passenger', component: CurrentRidePassengerComponent},
+  {path:'current-ride-driver', component: CurrentRideDriverComponent},
   {path: 'profile', component: ProfileComponent, children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
       {path: 'favorites', component: FavoritesComponent}
   ]},
-  {path: '**', component: LoginComponent}
+  {path: '**', component: UnregisteredComponent}
 ];
 
 @NgModule({
