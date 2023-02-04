@@ -28,7 +28,6 @@ const routes: Routes = [
   {path: 'activate', component: ActivationComponent},
   {path: 'accept-decline-ride', component: AcceptDeclineRideComponent},
   {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
-  {path: 'profile', component: ProfileComponent, children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
       {path: 'favorites', component: FavoritesComponent},
