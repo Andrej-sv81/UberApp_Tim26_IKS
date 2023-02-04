@@ -42,13 +42,13 @@ const routes: Routes = [
       {path: 'update', component: UpdateComponent},
       {path: 'change-password', component: ChangePasswordComponent},
       {path: '', redirectTo: 'info', pathMatch: 'full'},
-      {path: '**', component: InfoComponent}
+      {path: '**', component: InfoComponent},
   ]},
-  {path: '**', component: UnregisteredComponent}
-];
+  {path: '**', component: UnregisteredComponent},
+]}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
