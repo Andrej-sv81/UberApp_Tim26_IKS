@@ -17,6 +17,7 @@ import { SecurityModule } from './modules/auth/auth.module';
 import { ActivationModule } from './modules/account-activation/activation.module';
 import { ProfileModule } from './modules/user-profile/profile/profile.module';
 import { AcceptDeclineRideComponent } from './modules/accept-decline-ride/accept-decline-ride.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 //import { MapComponent } from './components/map/map.component';
 
@@ -40,7 +41,8 @@ import { AcceptDeclineRideComponent } from './modules/accept-decline-ride/accept
     RegistrationModule,
     SecurityModule,
     ActivationModule,
-    ProfileModule
+    ProfileModule,
+    NoopAnimationsModule
   ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,

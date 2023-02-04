@@ -9,6 +9,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { UpdateComponent } from './update/update.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { MaterialModule } from 'src/app/material/material/material.module';
 
 
 
@@ -19,7 +20,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterialModule,
   ]
 })
 export class ProfileModule { }
