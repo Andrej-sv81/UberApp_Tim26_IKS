@@ -31,12 +31,11 @@ export class ChangePasswordComponent {
         oldPassword: this.passwordForm.value.newPassword
       }
       this.profile.changePassword(changePassword).subscribe({
-        // NE OVAKO!
-        next: (result)=>{
-          if(!this.hasError){
+        next: ()=>{
+          if(this.hasError){
             this.hasError = false;
-            this.router.navigate(['profile/info'])
           }
+          this.router.navigate(['profile/info'])
         },
         error: (error)=>{
           this.errorMessage= this.messageServer;

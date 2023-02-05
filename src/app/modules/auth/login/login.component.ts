@@ -37,7 +37,12 @@ export class LoginComponent {
           this.tokenService.saveUser(result);
           this.tokenService.saveToken(result.accessToken);
           this.tokenService.saveRefreshToken(result.refreshToken);
-          this.router.navigate(['home']);
+          if(this.tokenService.getUser().role === "ROLE_PASSENGER"){
+            this.router.navigate(['home']);
+          }else{
+            this.router.navigate(['home']);
+          }
+          
         },
         error: (error) => {
           if (error instanceof HttpErrorResponse) {

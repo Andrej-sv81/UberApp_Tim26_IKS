@@ -9,17 +9,27 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { UpdateComponent } from './update/update.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-
-
-
+import { MaterialModule } from 'src/app/material/material/material.module';
+import { DirectivesModule } from '../directives/directives.module';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
-  declarations: [ProfileComponent, HistoryComponent, FavoritesComponent, InfoComponent, UpdateComponent, ChangePasswordComponent],
+  declarations: [
+    ProfileComponent,
+    HistoryComponent,
+    FavoritesComponent,
+    InfoComponent,
+    UpdateComponent,
+    ChangePasswordComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterialModule,
+    DirectivesModule,
+    MatSortModule
   ]
 })
-export class ProfileModule { }
+export class ProfileModule {}

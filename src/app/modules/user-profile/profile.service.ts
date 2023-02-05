@@ -6,6 +6,8 @@ import { TokenService } from '../auth/token/token.service';
 import { PassengerDetails } from './model/passenger-data-res';
 import { PassengerUpdate } from './model/passanger-update-req'
 import { ChangePassword } from './model/change-password';
+import { FavoriteRide } from './model/favorite-ride';
+import { Rides } from './model/rides';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,8 @@ export class ProfileService {
   constructor(private http: HttpClient, private token: TokenService) { }
 
   loadPassenger(): Observable<PassengerDetails>{
-    return this.http.get<PassengerDetails>(environment.apiHost + 'api/passenger/' + this.token.getUser().id, {
+    return this.http.get<PassengerDetails>(environment.apiHost + 'api/passenger/' + this.token.getUser().id,
+     {
       headers: this.headers
     });
   }
@@ -39,6 +42,27 @@ export class ProfileService {
       {
         headers: this.headersJSON
       })
+  }
+
+  getFavorites(): Observable<FavoriteRide[]>{
+      return this.http.get<FavoriteRide[]>(environment.apiHost + 'api/ride/favorites',
+      {
+        headers: this.headersJSON
+      })
+  }
+
+  deleteFavorite(id: number): Observable<any>{
+    return this.http.delete<any>(environment.apiHost + 'api/ride/favorites/' + id, 
+    {
+      headers: this.headersJSON
+    })
+  }
+
+  getRides():Observable<Rides>{
+    return this.http.get<Rides>(environment.apiHost + 'api/user/' + this.token.getUser().id + '/ride', 
+    {
+      headers: this.headersJSON
+    })
   }
     
 }

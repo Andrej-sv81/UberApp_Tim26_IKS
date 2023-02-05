@@ -37,7 +37,6 @@ const routes: Routes = [
   {path:'current-ride-passenger', component: CurrentRidePassengerComponent},
   {path:'current-ride-driver', component: CurrentRideDriverComponent},
   {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
-  {path: 'profile', component: ProfileComponent, children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
       {path: 'favorites', component: FavoritesComponent},

@@ -13,9 +13,9 @@ export class ProfileComponent {
     if (buttonNum === 1) {
       this.router.navigate(['profile/info'])
     } else if (buttonNum === 2) {
-      this.router.navigate(['profile/history'])
-    } else if (buttonNum === 3) {
       this.router.navigate(['profile/favorites'])
+    } else if (buttonNum === 3) {
+      this.router.navigate(['profile/history'])
     }
   }
 }

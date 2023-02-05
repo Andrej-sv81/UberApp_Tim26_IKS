@@ -34,7 +34,7 @@ export class Interceptor implements HttpInterceptor {
 
       return next.handle(cloned).pipe(catchError((error: HttpErrorResponse) =>{
 
-            if(error.status === 401){
+            if(error.status === 401 || error.status === 403){
 
               if(refreshToken){
                 const refreshCloned = req.clone({
@@ -43,7 +43,7 @@ export class Interceptor implements HttpInterceptor {
 
                 return next.handle(refreshCloned).pipe(catchError((error2: HttpErrorResponse) => {
 
-                  if(error2.status === 401){
+                  if(error2.status === 401 || error2.status === 403){
                      this.tokenService.signOut();
                      this.router.navigate(['login']);
                   }
