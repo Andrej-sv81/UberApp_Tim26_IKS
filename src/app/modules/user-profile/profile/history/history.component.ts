@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { FavoriteRide } from '../../model/favorite-ride';
 import { Favorite } from '../../model/favorites-row';
+import { Ride } from '../../model/ride';
+import { RideHistory } from '../../model/ride-history';
 import { ProfileService } from '../../profile.service';
 
 @Component({
@@ -13,49 +16,43 @@ import { ProfileService } from '../../profile.service';
 })
 export class HistoryComponent implements OnInit{
   displayedColumns: string[] = [
-    'name',
     'departure',
     'destination',
-    'vehicle_type',
-    'baby',
-    'pet',
-    'delete'
+    'cost',
+    'time',
+    'details'
   ];
-  dataSource!: MatTableDataSource<Favorite>;
-  rides: FavoriteRide[] = [];
-  favorites: Favorite[] = [];
+  dataSource!: MatTableDataSource<RideHistory>;
+  ridesResult: Ride[] = [];
+  ridesTable: RideHistory[] = [];
   condition: boolean = true;
 
   @ViewChild(MatSort) sort!: any;
+  @ViewChild(MatPaginator) paginator!: any;
 
   constructor(private profile: ProfileService, private router: Router) {}
 
   ngOnInit(): void {
-    this.profile.getFavorites().subscribe({
+    this.profile.getRides().subscribe({
       next: (result) => {
-        this.rides = result;
-        for(let ride of this.rides){
-          let rideTemp: Favorite = {
+        this.ridesResult = result.results;
+        for(let ride of this.ridesResult){
+          let rideTemp: RideHistory = {
             id: undefined,
-            name: undefined,
             departure: undefined,
             destination: undefined,
-            vehicle_type: undefined,
-            baby: undefined,
-            pet: undefined
+            cost: undefined,
+            time: undefined
           }
-          rideTemp.id  = ride.id;
-          rideTemp.name = ride.favoriteName;
           rideTemp.departure = ride.locations[0].departure.address;
           rideTemp.destination = ride.locations[0].destination.address;
-          rideTemp.vehicle_type = ride.vehicleType;
-          rideTemp.baby = ride.babyTransport;
-          rideTemp.pet = ride.petTransport;
-
-          this.favorites.push(rideTemp);
+          rideTemp.cost = ride.totalCost;
+          rideTemp.time = ride.estimatedTimeInMinutes;
+          this.ridesTable.push(rideTemp);
         }
-        this.dataSource = new MatTableDataSource<Favorite>(this.favorites);
-        console.log(this.favorites);
+
+        this.dataSource = new MatTableDataSource<RideHistory>(this.ridesTable);
+       
       },
       error: (error) => {},
     });
@@ -65,11 +62,7 @@ export class HistoryComponent implements OnInit{
     this.dataSource.sort = this.sort;
   }
 
-  test(){
-    this.profile.getRides().subscribe({
-      next: (result) =>{
-        console.log(result);
-      }
-    })
+  details(){
+    this.condition = !this.condition;
   }
 }
