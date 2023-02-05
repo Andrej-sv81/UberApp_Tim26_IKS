@@ -46,7 +46,7 @@ const routes: Routes = [
       {path: '**', component: InfoComponent},
   ]},
   {path: '**', component: UnregisteredComponent},
-]}];
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
