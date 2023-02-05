@@ -1,5 +1,5 @@
 export interface Favorite{
-    id: any
+    id: any;
     name: any;
     departure: any;
     destination: any;

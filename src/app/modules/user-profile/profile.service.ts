@@ -7,6 +7,7 @@ import { PassengerDetails } from './model/passenger-data-res';
 import { PassengerUpdate } from './model/passanger-update-req'
 import { ChangePassword } from './model/change-password';
 import { FavoriteRide } from './model/favorite-ride';
+import { Rides } from './model/rides';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,13 @@ export class ProfileService {
 
   deleteFavorite(id: number): Observable<any>{
     return this.http.delete<any>(environment.apiHost + 'api/ride/favorites/' + id, 
+    {
+      headers: this.headersJSON
+    })
+  }
+
+  getRides():Observable<Rides>{
+    return this.http.get<Rides>(environment.apiHost + 'api/user/' + this.token.getUser().id + '/ride', 
     {
       headers: this.headersJSON
     })
