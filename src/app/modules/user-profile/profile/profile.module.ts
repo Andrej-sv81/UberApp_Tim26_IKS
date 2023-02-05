@@ -11,6 +11,7 @@ import { UpdateComponent } from './update/update.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MaterialModule } from 'src/app/material/material/material.module';
 import { DirectivesModule } from '../directives/directives.module';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DirectivesModule } from '../directives/directives.module';
     ReactiveFormsModule,
     AppRoutingModule,
     MaterialModule,
-    DirectivesModule
+    DirectivesModule,
+    MatSortModule
   ]
 })
 export class ProfileModule {}
