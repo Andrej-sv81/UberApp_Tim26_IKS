@@ -49,5 +49,12 @@ export class ProfileService {
         headers: this.headersJSON
       })
   }
+
+  deleteFavorite(id: number): Observable<any>{
+    return this.http.delete<any>(environment.apiHost + 'api/ride/favorites/' + id, 
+    {
+      headers: this.headersJSON
+    })
+  }
     
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { FavoriteRide } from '../../model/favorite-ride';
 import { Favorite } from '../../model/favorites-row';
 import { ProfileService } from '../../profile.service';
@@ -18,6 +19,7 @@ export class FavoritesComponent implements OnInit {
     'vehicle_type',
     'baby',
     'pet',
+    'delete'
   ];
   dataSource!: MatTableDataSource<Favorite>;
   rides: FavoriteRide[] = [];
@@ -26,21 +28,23 @@ export class FavoritesComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: any;
 
-  constructor(private profile: ProfileService) {}
+  constructor(private profile: ProfileService, private router: Router) {}
 
   ngOnInit(): void {
     this.profile.getFavorites().subscribe({
       next: (result) => {
         this.rides = result;
-        let rideTemp: Favorite = {
-          name: undefined,
-          departure: undefined,
-          destination: undefined,
-          vehicle_type: undefined,
-          baby: undefined,
-          pet: undefined
-        }
         for(let ride of this.rides){
+          let rideTemp: Favorite = {
+            id: undefined,
+            name: undefined,
+            departure: undefined,
+            destination: undefined,
+            vehicle_type: undefined,
+            baby: undefined,
+            pet: undefined
+          }
+          rideTemp.id  = ride.id;
           rideTemp.name = ride.favoriteName;
           rideTemp.departure = ride.locations[0].departure.address;
           rideTemp.destination = ride.locations[0].destination.address;
@@ -59,5 +63,17 @@ export class FavoritesComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+  delete(id: number):void{
+     this.profile.deleteFavorite(id).subscribe({
+      next: ()=>{
+        this.favorites = [];
+        this.ngOnInit();
+      },
+      error: (error)=>{
+          console.log(error);
+      }
+     })
   }
 }

@@ -22,12 +22,19 @@
 
   <ng-container matColumnDef="baby">
     <th mat-header-cell *matHeaderCellDef>Baby</th>
-    <td mat-cell *matCellDef="let element">{{ element.baby }}</td>
+    <td mat-cell *matCellDef="let element" [appBool] = "element.baby"></td>
   </ng-container>
 
   <ng-container matColumnDef="pet">
     <th mat-header-cell *matHeaderCellDef>Pet</th>
-    <td mat-cell *matCellDef="let element">{{ element.pet }}</td>
+    <td mat-cell *matCellDef="let element" [appBool] = "element.pet"></td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" >
+      <button class="deleteBtn" (click)="delete(element.id)">&#x274C;</button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
