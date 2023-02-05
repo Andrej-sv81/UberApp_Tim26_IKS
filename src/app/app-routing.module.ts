@@ -19,6 +19,7 @@ import {AcceptDeclineRideComponent} from "./modules/accept-decline-ride/accept-d
 import {CurrentRidePassengerComponent} from "./modules/current-ride-passenger/current-ride-passenger.component";
 import {CurrentRideDriverComponent} from "./modules/current-ride-driver/current-ride-driver.component";
 import {UnregisteredComponent} from "./modules/unregistered/unregistered.component";
+import {DriverHomeComponent} from "./modules/driver-home/driver-home.component";
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'unregistered', component: UnregisteredComponent},
   {path: 'login', component: LoginComponent},
   {path: 'home', component: HomeComponent, },
+  {path:'driver-home', component:DriverHomeComponent},
   {path: 'help', component: HelpComponent},
   {path: 'safety', component: SafetyComponent},
   {path: 'registration', component: RegistrationComponent},

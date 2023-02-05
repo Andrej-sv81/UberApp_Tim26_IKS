@@ -1,17 +1,17 @@
 <!--<p>unregistered works!</p>-->
-<app-map></app-map>
+<app-map #mapChild [from]="startLocation.value" [to]="endLocation.value" (data)="startLocation.value=$event.fromMap;endLocation.value=$event.toMap"></app-map>
 <div class="home-container" id="form">
   <div class="form-container">
     <div class="ride-request-container">
       <h2 class="ride-request-header">Request a ride now</h2>
       <div class="form-group">
-        <input class="address-field" type="text" name="start-location" placeholder="Enter pickup location"/>
+        <input class="address-field" type="text" name="start-location" placeholder="Enter pickup location" #startLocation/>
       </div>
       <div class="form-group">
-        <input class="address-field" type="text" name="destination" placeholder="Enter destination"/>
+        <input class="address-field" type="text" name="destination" placeholder="Enter destination" #endLocation/>
       </div>
       <div id="estimated-time">
-        <button id="calculate">Estimated time</button>
+        <button id="calculate" (click)="mapChild.route()">Estimated time</button>
       </div>
       <div class="btn-container" id="btn-container">
         <button class="sign-up" [routerLink]="['/registration']">Sign up first</button>

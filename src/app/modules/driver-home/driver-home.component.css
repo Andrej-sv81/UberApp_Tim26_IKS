@@ -1,0 +1,59 @@
+app-map{
+  z-index: -1;
+}
+
+#active{
+  position: relative;
+  z-index: 999;
+  background-color: white;
+  font-family: Poppins;
+  width: 400px;
+  height: 150px;
+  margin-left: 20px;
+  margin-top: 80px;
+  border-radius: 8px;
+}
+
+#active h2{
+  padding-left: 10px;
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+#nextride{
+  position: relative;
+  z-index: 999;
+  background-color: white;
+  font-family: Poppins;
+  width: 400px;
+  height: 75px;
+  margin-left: 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+#nextride h3{
+  margin: 0;
+  padding-top: 5px;
+  /*padding-bottom: 5px;*/
+  padding-left: 10px;
+  font-size: 25px;
+}
+
+#nextride p{
+  margin: 0;
+  font-size: 18px;
+  padding-left: 10px;
+
+}
+
+#activeToggle{
+  width: fit-content;
+  height: fit-content;
+}
+
+mat-slide-toggle{
+  transform: scale(2.5);
+  margin-left: 170px;
+  margin-bottom: 20px;
+}

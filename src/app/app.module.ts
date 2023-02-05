@@ -20,6 +20,10 @@ import { AcceptDeclineRideComponent } from './modules/accept-decline-ride/accept
 import { CurrentRideDriverComponent } from './modules/current-ride-driver/current-ride-driver.component';
 import { CurrentRidePassengerComponent } from './modules/current-ride-passenger/current-ride-passenger.component';
 import { UnregisteredComponent } from './modules/unregistered/unregistered.component';
+import { DriverHomeComponent } from './modules/driver-home/driver-home.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {FormsModule} from "@angular/forms";
 
 //import { MapComponent } from './components/map/map.component';
 
@@ -35,6 +39,7 @@ import { UnregisteredComponent } from './modules/unregistered/unregistered.compo
     CurrentRideDriverComponent,
     CurrentRidePassengerComponent,
     UnregisteredComponent,
+    DriverHomeComponent,
     //MapComponent
   ],
   imports: [
@@ -46,7 +51,10 @@ import { UnregisteredComponent } from './modules/unregistered/unregistered.compo
     RegistrationModule,
     SecurityModule,
     ActivationModule,
-    ProfileModule
+    ProfileModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule,
+    FormsModule
   ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,
