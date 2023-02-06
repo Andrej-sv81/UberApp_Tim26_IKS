@@ -1,8 +1,8 @@
 <div class="page">
     <div class="button-container">
-        <button class="profile-button" autofocus (click)="redirect(1)">Profile</button>
-        <button class="profile-button" (click)="redirect(2)">Favorite Routes</button>
-        <button class="profile-button" (click)="redirect(3)">Ride History</button>
+        <button class="profile-button" autofocus [routerLink]="['/profile/info']">Profile</button>
+        <button class="profile-button" [routerLink]="['/profile/favorites']">Favorite Routes</button>
+        <button class="profile-button" [routerLink]="['/profile/history']">Ride History</button>
     </div>
     <div class="vertical-line"></div>
     <div class="content-container"> <p>

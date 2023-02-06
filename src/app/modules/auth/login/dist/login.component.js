@@ -21,6 +21,7 @@ var LoginComponent = /** @class */ (function () {
             password: new forms_1.FormControl('', [forms_2.Validators.required])
         });
         this.hasError = false;
+        this.errorMsg = "";
     }
     LoginComponent.prototype.login = function () {
         var _this = this;
@@ -35,17 +36,28 @@ var LoginComponent = /** @class */ (function () {
                     _this.tokenService.saveUser(result);
                     _this.tokenService.saveToken(result.accessToken);
                     _this.tokenService.saveRefreshToken(result.refreshToken);
-                    //this.authService.setUser();
-                    _this.router.navigate(['home']);
+                    if (_this.tokenService.getUser().role === "ROLE_PASSENGER") {
+                        _this.router.navigate(['request-ride']);
+                    }
+                    else {
+                        _this.router.navigate(['driver-home']);
+                    }
                 },
                 error: function (error) {
                     if (error instanceof http_1.HttpErrorResponse) {
+                        if (error.status === 400) {
+                            _this.errorMsg = "Account is not activated or the provided email and password are incorrect!";
+                        }
+                        else if (error.status === 404) {
+                            _this.errorMsg = "User does not exist!";
+                        }
                         _this.hasError = true;
                     }
                 }
             });
         }
         else {
+            this.errorMsg = "Email and password fields can't be empty!";
             this.hasError = true;
         }
     };

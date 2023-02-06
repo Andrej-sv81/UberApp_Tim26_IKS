@@ -1,14 +1,14 @@
-<app-map></app-map>
+<app-map #mapChild [from]="startLocation.value" [to]="endLocation.value"></app-map>
 <div class="request-form">
   <h2 class="request-form-header">Where can we pick you up?</h2>
   <div class="form-group">
-    <input class="address-field" type="search" name="start-location" placeholder="Enter pickup location">
+    <input class="address-field" type="search" name="start-location" placeholder="Enter pickup location" #startLocation>
   </div>
   <div class="form-group">
-    <input class="address-field" type="search" name="destination" placeholder="Enter destination">
+    <input class="address-field" type="search" name="destination" placeholder="Enter destination" #endLocation>
   </div>
   <div>
-    <select name="" id="vehicle-types">
+    <select name="" id="vehicle-types" #selectInput [(ngModel)]="vehicle">
       <option value="" disabled selected>Please select vehicle type</option>
       <option value="STANDARD">Standard</option>
       <option value="VAN">Van</option>
@@ -17,12 +17,14 @@
   </div>
   <div id="checkboxes">
       <label for="baby">Baby</label>
-      <input type="checkbox" id="baby">
+      <input type="checkbox" id="baby" #babyFlagBox [checked]="babyFlag"
+      (change)="saveBFlag(babyFlagBox.checked)">
       <label for="pet">Pet</label>
-      <input type="checkbox" id="pet">
+      <input type="checkbox" id="pet" name="petFlag" #petFlagBox [checked]="petFlag"
+      (change)="savePFlag(petFlagBox.checked)"> 
   </div>
   <div class="btn-container">
     <button id="add-friends">+Add friends</button>
-    <button class="confirm">Confirm</button>
+    <button class="confirm" (click)="mapChild.createRide()">Confirm</button>
   </div>
 </div>
