@@ -6,7 +6,7 @@ app-map{
   z-index: 9999;
   background-color: white;
   width: 530px;
-  height: 365px;
+  height: 395px;
   position: relative;
   margin-left: 40px;
   margin-top: 150px;
@@ -37,6 +37,7 @@ app-map{
 #estimated-time{
   margin-top: 5px;
   margin-left: 15px;
+
 }
 
 #btn-container{
@@ -72,4 +73,27 @@ app-map{
   border: none;
   text-align: center;
   padding: 0;
+}
+
+.estimated{
+  font-family: 'Poppins';
+  font-weight: 500px;
+  font-size: 15px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 40px;
+ 
+}
+
+samp{
+  margin-left: 10px;
+}
+
+p{
+  margin-left: 40px;
+}
+
+
+hr{
+  width: 90%;
 }

@@ -23,7 +23,17 @@ var interceptor_service_1 = require("./modules/auth/interceptor/interceptor.serv
 var http_2 = require("@angular/common/http");
 var registration_module_1 = require("./modules/registration/registration.module");
 var auth_module_1 = require("./modules/auth/auth.module");
-var activation_module_1 = require("./modules/account-activation/activation/activation.module");
+var activation_module_1 = require("./modules/account-activation/activation.module");
+var profile_module_1 = require("./modules/user-profile/profile/profile.module");
+var accept_decline_ride_component_1 = require("./modules/accept-decline-ride/accept-decline-ride.component");
+var animations_1 = require("@angular/platform-browser/animations");
+var current_ride_driver_component_1 = require("./modules/current-ride-driver/current-ride-driver.component");
+var current_ride_passenger_component_1 = require("./modules/current-ride-passenger/current-ride-passenger.component");
+var unregistered_component_1 = require("./modules/unregistered/unregistered.component");
+var driver_home_component_1 = require("./modules/driver-home/driver-home.component");
+var button_toggle_1 = require("@angular/material/button-toggle");
+var slide_toggle_1 = require("@angular/material/slide-toggle");
+var forms_1 = require("@angular/forms");
 //import { MapComponent } from './components/map/map.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -37,6 +47,11 @@ var AppModule = /** @class */ (function () {
                 safety_component_1.SafetyComponent,
                 help_component_1.HelpComponent,
                 request_ride_component_1.RequestRideComponent,
+                accept_decline_ride_component_1.AcceptDeclineRideComponent,
+                current_ride_driver_component_1.CurrentRideDriverComponent,
+                current_ride_passenger_component_1.CurrentRidePassengerComponent,
+                unregistered_component_1.UnregisteredComponent,
+                driver_home_component_1.DriverHomeComponent,
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -46,7 +61,12 @@ var AppModule = /** @class */ (function () {
                 http_1.HttpClientModule,
                 registration_module_1.RegistrationModule,
                 auth_module_1.SecurityModule,
-                activation_module_1.ActivationModule
+                activation_module_1.ActivationModule,
+                profile_module_1.ProfileModule,
+                animations_1.NoopAnimationsModule,
+                button_toggle_1.MatButtonToggleModule,
+                slide_toggle_1.MatSlideToggleModule,
+                forms_1.FormsModule,
             ],
             providers: [{
                     provide: http_2.HTTP_INTERCEPTORS,
