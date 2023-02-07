@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../modules/auth/auth.service';
+import { TokenService } from 'src/app/modules/auth/token/token.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,8 +10,10 @@ import { Router } from '@angular/router';
 })
 export class ToolbarComponent {
 
-  constructor(){}
-
-  ngOnInit(): void {}
+  constructor(private auth: AuthService){}
+  public logged!: boolean;
+  ngOnInit(): void {
+    this.logged = this.auth.isLoggedIn();
+  }
 
 }

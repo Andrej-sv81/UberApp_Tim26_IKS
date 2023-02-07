@@ -1,6 +1,5 @@
 <div class="toolbar-container">
     <div class="logo" [routerLink]="['/login']">GariGo</div>
-    <div class="help" [routerLink]="['/help']">Help</div>
-    <div class="help safety" [routerLink]="['/safety']">Safety</div>
+    <div *ngIf="logged" class="help" [routerLink]="['/profile/info']">Profile</div>
     <div class="logo home" [routerLink]="['/home']">Home</div>
 </div>

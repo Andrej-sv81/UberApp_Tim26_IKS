@@ -8,6 +8,7 @@ import { PassengerUpdate } from './model/passanger-update-req'
 import { ChangePassword } from './model/change-password';
 import { FavoriteRide } from './model/favorite-ride';
 import { Rides } from './model/rides';
+import { FavoriteRequestOne } from './model/favorite-request';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,14 @@ export class ProfileService {
 
   getRides():Observable<Rides>{
     return this.http.get<Rides>(environment.apiHost + 'api/user/' + this.token.getUser().id + '/ride', 
+    {
+      headers: this.headersJSON
+    })
+  }
+
+  addFavorite(body: FavoriteRequestOne): Observable<FavoriteRide>{
+    return this.http.post<FavoriteRide>(environment.apiHost + 'api/ride/favorites',
+    body,
     {
       headers: this.headersJSON
     })

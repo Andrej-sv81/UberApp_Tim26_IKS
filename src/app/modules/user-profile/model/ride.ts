@@ -36,7 +36,7 @@ export interface Ride{
             destination: {
               address: any;
               latitude: any;
-              ongitude: any;
+              longitude: any;
             }
           }
         ]

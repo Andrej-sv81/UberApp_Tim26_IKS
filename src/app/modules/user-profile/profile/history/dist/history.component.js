@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.HistoryComponent = void 0;
 var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
 var sort_1 = require("@angular/material/sort");
 var table_1 = require("@angular/material/table");
 var HistoryComponent = /** @class */ (function () {
@@ -25,6 +26,11 @@ var HistoryComponent = /** @class */ (function () {
         this.ridesTable = [];
         this.condition = true;
         this.passengers = [];
+        this.passengersReq = [];
+        this.favForm = new forms_1.FormGroup({
+            favNameField: new forms_1.FormControl('', [forms_1.Validators.required])
+        });
+        this.hasError = false;
     }
     Object.defineProperty(HistoryComponent.prototype, "matSort", {
         set: function (sort) {
@@ -67,7 +73,11 @@ var HistoryComponent = /** @class */ (function () {
             var ride = _a[_i];
             if (ride.id === id) {
                 this.departure = ride.locations[0].departure.address;
+                this.latDep = ride.locations[0].departure.latitude;
+                this.lonDep = ride.locations[0].departure.longitude;
                 this.destination = ride.locations[0].destination.address;
+                this.latDes = ride.locations[0].destination.latitude;
+                this.lonDes = ride.locations[0].destination.longitude;
                 this.stime = ride.startTime;
                 this.etime = ride.endTime;
                 this.cost = ride.totalCost;
@@ -79,7 +89,9 @@ var HistoryComponent = /** @class */ (function () {
                 for (var _b = 0, _c = ride.passengers; _b < _c.length; _b++) {
                     var passenger = _c[_b];
                     this.passengers.push(passenger.email);
+                    this.passengersReq.push({ id: passenger.id, email: passenger.email });
                 }
+                this.vehicle = ride.vehicleType;
                 break;
             }
         }
@@ -87,6 +99,40 @@ var HistoryComponent = /** @class */ (function () {
     };
     HistoryComponent.prototype.back = function () {
         this.condition = !this.condition;
+    };
+    HistoryComponent.prototype.favorite = function () {
+        if (this.favForm.valid) {
+            var favReq = {
+                favoriteName: this.favForm.value.favNameField,
+                locations: [
+                    {
+                        departure: {
+                            address: this.departure,
+                            latitude: this.latDep,
+                            longitude: this.lonDep
+                        },
+                        destination: {
+                            address: this.destination,
+                            latitude: this.latDes,
+                            longitude: this.lonDes
+                        }
+                    }
+                ],
+                passengers: this.passengersReq,
+                vehicleType: this.vehicle,
+                babyTransport: this.baby,
+                petTransport: this.pet
+            };
+            this.profile.addFavorite(favReq).subscribe({
+                next: function (result) {
+                },
+                error: function (error) {
+                }
+            });
+        }
+        else {
+            this.hasError = true;
+        }
     };
     __decorate([
         core_1.ViewChild('paginator')
