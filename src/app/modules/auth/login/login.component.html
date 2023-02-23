@@ -11,7 +11,7 @@
         </div>
         
         <div class="forgot-password">
-          <div class="pos-forgot-pass"><p class="forgot-pass-text">Forgot password?</p></div>
+          <div class="pos-forgot-pass"><p class="forgot-pass-text" [routerLink]="['/reset']">Forgot password?</p></div>
         </div>
         <p class="form-error" *ngIf="hasError == true">{{errorMsg}}</p>
         <div class="btn-container">

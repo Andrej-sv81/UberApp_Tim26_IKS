@@ -28,16 +28,18 @@ var current_ride_passenger_component_1 = require("./modules/current-ride-passeng
 var current_ride_driver_component_1 = require("./modules/current-ride-driver/current-ride-driver.component");
 var unregistered_component_1 = require("./modules/unregistered/unregistered.component");
 var driver_home_component_1 = require("./modules/driver-home/driver-home.component");
+var password_reset_component_1 = require("./modules/password-reset/password-reset.component");
 var routes = [
     { path: '', redirectTo: "unregistered", pathMatch: 'full' },
     { path: 'unregistered', component: unregistered_component_1.UnregisteredComponent },
     { path: 'login', component: login_component_1.LoginComponent },
+    { path: 'reset', component: password_reset_component_1.PasswordResetComponent },
     { path: 'home', component: home_component_1.HomeComponent },
     { path: 'driver-home', component: driver_home_component_1.DriverHomeComponent },
     { path: 'help', component: help_component_1.HelpComponent },
     { path: 'safety', component: safety_component_1.SafetyComponent },
     { path: 'registration', component: registration_component_1.RegistrationComponent },
-    { path: 'request-ride', component: request_ride_component_1.RequestRideComponent, canActivate: [login_guard_1.LoginGuard] },
+    { path: 'request-ride', component: request_ride_component_1.RequestRideComponent },
     { path: 'activate', component: activation_component_1.ActivationComponent },
     { path: 'accept-decline-ride', component: accept_decline_ride_component_1.AcceptDeclineRideComponent },
     { path: 'current-ride-passenger', component: current_ride_passenger_component_1.CurrentRidePassengerComponent },

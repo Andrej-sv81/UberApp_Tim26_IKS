@@ -34,6 +34,7 @@ var driver_home_component_1 = require("./modules/driver-home/driver-home.compone
 var button_toggle_1 = require("@angular/material/button-toggle");
 var slide_toggle_1 = require("@angular/material/slide-toggle");
 var forms_1 = require("@angular/forms");
+var password_reset_component_1 = require("./modules/password-reset/password-reset.component");
 //import { MapComponent } from './components/map/map.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -52,6 +53,7 @@ var AppModule = /** @class */ (function () {
                 current_ride_passenger_component_1.CurrentRidePassengerComponent,
                 unregistered_component_1.UnregisteredComponent,
                 driver_home_component_1.DriverHomeComponent,
+                password_reset_component_1.PasswordResetComponent,
             ],
             imports: [
                 platform_browser_1.BrowserModule,

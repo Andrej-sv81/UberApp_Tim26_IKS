@@ -25,6 +25,7 @@ import { DriverHomeComponent } from './modules/driver-home/driver-home.component
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {FormsModule} from "@angular/forms";
+import { PasswordResetComponent } from './modules/password-reset/password-reset.component';
 
 
 //import { MapComponent } from './components/map/map.component';
@@ -42,6 +43,7 @@ import {FormsModule} from "@angular/forms";
     CurrentRidePassengerComponent,
     UnregisteredComponent,
     DriverHomeComponent,
+    PasswordResetComponent,
     //MapComponent
   ],
   imports: [

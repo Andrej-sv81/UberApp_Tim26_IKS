@@ -20,22 +20,24 @@ import {CurrentRidePassengerComponent} from "./modules/current-ride-passenger/cu
 import {CurrentRideDriverComponent} from "./modules/current-ride-driver/current-ride-driver.component";
 import {UnregisteredComponent} from "./modules/unregistered/unregistered.component";
 import {DriverHomeComponent} from "./modules/driver-home/driver-home.component";
+import { PasswordResetComponent } from './modules/password-reset/password-reset.component';
 
 
 const routes: Routes = [
   {path: '', redirectTo: "unregistered", pathMatch: 'full'},
   {path: 'unregistered', component: UnregisteredComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'reset', component: PasswordResetComponent},
   {path: 'home', component: HomeComponent, },
-  {path:'driver-home', component:DriverHomeComponent},
+  {path: 'driver-home', component:DriverHomeComponent},
   {path: 'help', component: HelpComponent},
   {path: 'safety', component: SafetyComponent},
   {path: 'registration', component: RegistrationComponent},
-  {path: 'request-ride', component: RequestRideComponent, canActivate:[LoginGuard]},
+  {path: 'request-ride', component: RequestRideComponent},
   {path: 'activate', component: ActivationComponent},
   {path: 'accept-decline-ride', component: AcceptDeclineRideComponent},
-  {path:'current-ride-passenger', component: CurrentRidePassengerComponent},
-  {path:'current-ride-driver', component: CurrentRideDriverComponent},
+  {path: 'current-ride-passenger', component: CurrentRidePassengerComponent},
+  {path: 'current-ride-driver', component: CurrentRideDriverComponent},
   {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
