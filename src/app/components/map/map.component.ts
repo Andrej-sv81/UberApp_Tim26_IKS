@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, AfterViewInit, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import  * as L from 'leaflet';
 import 'leaflet-routing-machine'
 import { TokenService } from 'src/app/modules/auth/token/token.service';
@@ -7,6 +7,8 @@ import { UnregisteredService } from 'src/app/modules/unregistered/unregistered.s
 import { RideRequest } from '../request-ride/request-ride-model/ride-request';
 import { RequestRideService } from '../request-ride/request-ride.service';
 import {MapService} from "./map.service";
+import {LocationDTO} from "../request-ride/request-ride-model/locationDTO";
+import {PassengerDTO} from "../request-ride/request-ride-model/passengerDTO";
 
 
 @Component({
@@ -14,7 +16,7 @@ import {MapService} from "./map.service";
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements AfterViewInit{
+export class MapComponent implements AfterViewInit, OnInit{
   private map:any;
   private clickedFrom = '';
   private clickedTo = ''
@@ -34,6 +36,14 @@ export class MapComponent implements AfterViewInit{
 
 
   @Output() data = new EventEmitter<{fromMap:string,toMap:string}>();
+
+  ngOnInit() {
+    this.unregService.selectedRoute$.subscribe({
+      next: (value) => {
+        this.estimateTimeAndCost(value[0], value[1])
+      }
+    })
+  }
 
   sendData(){
     this.data.emit({fromMap:this.clickedFrom,toMap:this.clickedTo})
@@ -84,16 +94,6 @@ export class MapComponent implements AfterViewInit{
       const lng = coord.lng.float;
       this.mapService.reverseSearch(parseFloat(lat), parseFloat(lng)).subscribe((res) => {
         console.log(res.toString());
-        // TODO PROVERI ZASTO NE RADI IZBACUJE DA OCEKUJE FLOAT SVAKI PUT
-        // if (this.clickedFrom=''){
-        //   this.clickedFrom = res.toString();
-        //   const mp = new L.Marker([lat, lng]).addTo(this.map);
-        // }else if (this.clickedTo=''){
-        //   this.clickedTo = res.toString();
-        //   const mp = new L.Marker([lat, lng]).addTo(this.map);
-        // }else {
-        //   console.log("Refresh page.");
-        // }
         console.log("FROM PROBA:" + this.clickedFrom);
         console.log("TO PROBA:" + this.clickedTo);
       });
@@ -109,69 +109,79 @@ export class MapComponent implements AfterViewInit{
       L.Routing.control({
       waypoints: [L.latLng(lat1, lon1), L.latLng(lat2, lon2)],
     }).addTo(this.map);
-    
+
   }
 
-  estimateTimeAndCost(){
-
-
+  estimateTimeAndCost(fromLoc: string, toLoc: string){
+    this.from = fromLoc;
+    this.to = toLoc;
+    console.log(this.from)
+    console.log(this.to)
     this.mapService.search(this.from).subscribe({
       next: (result) => {
         this.latDeparture = result[0].lat;
         this.lonDeparture = result[0].lon;
+        console.log(this.latDeparture, this.lonDeparture)
+
+        this.mapService.search(this.to).subscribe({
+          next: (result) => {
+            this.latDestination = result[0].lat;
+            this.lonDestination = result[0].lon;
+            console.log(this.latDestination, this.lonDestination)
+
+            const from:LocationDTO = {
+              address:this.from,
+              latitude:this.latDeparture,
+              longitude:this.latDeparture,
+            }
+            const to:LocationDTO = {
+              address:this.to,
+              latitude:this.latDestination,
+              longitude:this.lonDestination,
+            }
+            let ride = {
+              departure: from,
+              destination: to,
+            }
+            const estim: Estimated = {
+              locations:[],
+              vehicleType:'STANDARD',
+              babyTransport:true,
+              petTransport:true,
+            }
+
+            estim.locations.push(ride);
+
+            this.unregService.getEstimated(estim).subscribe({
+              next: (result)=>{
+                this.price = result.estimatedCost;
+                this.time = result.estimatedTimeInMinutes;
+              }
+            })
+
+
+            this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture),
+              parseFloat(this.latDestination), parseFloat(this.lonDestination));
+          },
+          error: (error)=>{
+            console.log(error);
+          }
+        });
+
+
       },
       error: (error)=>{
           console.log(error);
       }
     });
 
-    this.mapService.search(this.to).subscribe({
-      next: (result) => {
-        this.latDestination = result[0].lat;
-        this.lonDestination = result[0].lon;
-      },
-      error: (error)=>{
-        console.log(error);
-      }
-    });
-    
-    const estim: Estimated = {
-      locations: [
-        {
-          departure: {
-            address: this.from,
-            latitude: this.latDeparture,
-            longitude: this.lonDeparture,
-          },
-          destination: {
-            address: this.to,
-            latitude: this.latDestination,
-            longitude: this.lonDestination,
-          }
-        }
-    
-      ],
-      vehicleType: 'STANDARD',
-      babyTransport: true,
-      petTransport: true
-    }
-    this.unregService.getEstimated(estim).subscribe({
-      next: (result)=>{
-        this.price = result.estimatedCost;
-        this.time = result.estimatedTimeInMinutes;
-      }
-    })
-    this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture),
-    parseFloat(this.latDestination), parseFloat(this.lonDestination));
+
+
+
   }
   private addMarker(): void {
     const lat: number = 45.25;
     const lon: number = 19.8228;
-
-    // L.marker([lat, lon])
-    //   .addTo(this.map)
-    //   .bindPopup('Trenutno se nalazite ovde.')
-    //   .openPopup();
   }
 
   ngAfterViewInit(): void {
@@ -206,37 +216,39 @@ export class MapComponent implements AfterViewInit{
       }
     });
 
+    const fromRide:LocationDTO = {
+      address:this.from,
+      latitude:this.latDeparture,
+      longitude:this.latDeparture,
+    }
+    const toRide:LocationDTO = {
+      address:this.from,
+      latitude:this.latDestination,
+      longitude:this.lonDestination,
+    }
+
+    const passenger:PassengerDTO = {
+      id: this.token.getUser().id,
+      email: this.token.getUser().email,
+    }
+
     const req: RideRequest = {
-      locations: [
-        {
-          departure: {
-            address: this.from,
-            latitude: this.latDeparture,
-            longitude: this.lonDeparture,
-          },
-          destinatio: {
-            address: this.to,
-            latitude: this.latDestination,
-            longitude: this.lonDestination,
-          }
-        }
-      ],
-      passengers: [
-        {
-          id: this.token.getUser().id,
-          email: this.token.getUser().email,
-        }
-      ],
+      locations: [],
+      passengers: [],
       vehicleType: this.vehicle,
       babyTransport: this.baby,
       petTransport: this.pet,
       scheduledTime: undefined
     }
 
+    req.locations.push(fromRide);
+    req.locations.push(toRide);
+    req.passengers.push(passenger);
+
     this.request.createRide(req).subscribe({
       next: (result)=>{
       },
-      error: (error)=>{     
+      error: (error)=>{
 
             }
     })

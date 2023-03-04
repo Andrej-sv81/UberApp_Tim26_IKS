@@ -1,42 +1,22 @@
+import {LocationDTO} from "./locationDTO";
+import {RejectionDTO} from "./rejectionDTO";
+import {PassengerDTO} from "./passengerDTO";
+import {DriverDTO} from "./driverDTO";
+
 export interface RideResponse{
-    
         id: any;
         startTime: any;
         endTime: any;
         totalCost: any;
-        driver: {
-          id: any;
-          email: any;
-        },
-        passengers: [
-          {
-            id: any;
-            email: any;
-          }
-        ],
+        driver: DriverDTO;
+        passengers: PassengerDTO[];
         estimatedTimeInMinutes: any;
         vehicleType: any;
         babyTransport: any;
         petTransport: any;
-        rejection: {
-          reason: any;
-          timeOfRejection: any;
-        },
-        locations: [
-          {
-            departure: {
-              address: any;
-              latitude: any;
-              longitude: any;
-            },
-            destination: {
-              address: any;
-              latitude: any;
-              longitude: any;
-            }
-          }
-        ],
+        rejection: RejectionDTO;
+        locations: LocationDTO[];
         status: any;
         scheduledTime: any;
-      
+
 }

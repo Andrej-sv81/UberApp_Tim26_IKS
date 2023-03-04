@@ -1,20 +1,9 @@
+import {LocationDTO} from "../../../components/request-ride/request-ride-model/locationDTO";
+
 export interface Estimated{
-    locations:[
-          {
-            departure: {
-              address: any;
-              latitude: any;
-              longitude: any;
-            },
-            destination: {
-              address: any;
-              latitude: any;
-              longitude: any;
-            }
-          }
-        ],
-        vehicleType: "STANDARD",
-        babyTransport: true,
-        petTransport: true,
-      
+  locations: any[];
+  vehicleType: "STANDARD";
+  babyTransport: true;
+  petTransport: true;
+
 }
