@@ -5,6 +5,6 @@ export interface RideDTO{
   destination: LocationDTO;
   vehicleType : string;
   babyTransport: boolean;
-  peetTransport: boolean;
+  petTransport: boolean;
   scheduledTime: string;
 }
