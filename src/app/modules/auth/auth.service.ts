@@ -16,12 +16,11 @@ export class AuthService {
      skip: 'true',
   });
 
-  // user$ = new BehaviorSubject(null);
-  // userState$ = this.user$.asObservable();
+  user$ = new BehaviorSubject<boolean>(false);
+  userState$ = this.user$.asObservable();
 
   constructor(private http: HttpClient,
               private tokenService: TokenService) {
-    //this.user$.next(this.getRole());
   }
 
   login(auth: any): Observable<Token> {
@@ -54,7 +53,7 @@ export class AuthService {
     return null;
   }
 
-  isLoggedIn(): boolean {
+  isLoggedIn(): any {
     if (this.tokenService.getUser() != null) {
       return true;
     }

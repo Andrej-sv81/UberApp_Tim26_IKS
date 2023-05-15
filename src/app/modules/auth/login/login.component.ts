@@ -37,6 +37,7 @@ export class LoginComponent {
           this.tokenService.saveUser(result);
           this.tokenService.saveToken(result.accessToken);
           this.tokenService.saveRefreshToken(result.refreshToken);
+          this.authService.user$.next(true);
           if(this.tokenService.getUser().role === "ROLE_PASSENGER"){
             this.router.navigate(['request-ride']);
           }else{

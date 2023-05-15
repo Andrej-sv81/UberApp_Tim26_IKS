@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../modules/auth/auth.service';
 import { TokenService } from 'src/app/modules/auth/token/token.service';
@@ -8,12 +8,14 @@ import { TokenService } from 'src/app/modules/auth/token/token.service';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit{
 
   constructor(private auth: AuthService){}
-  public logged!: boolean;
+  public logged: boolean = false;
   ngOnInit(): void {
-    this.logged = this.auth.isLoggedIn();
+    this.auth.userState$.subscribe( (result) =>{
+      this.logged = result;
+    })
   }
 
 }
