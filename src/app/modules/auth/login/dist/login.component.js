@@ -36,6 +36,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.tokenService.saveUser(result);
                     _this.tokenService.saveToken(result.accessToken);
                     _this.tokenService.saveRefreshToken(result.refreshToken);
+                    _this.authService.user$.next(true);
                     if (_this.tokenService.getUser().role === "ROLE_PASSENGER") {
                         _this.router.navigate(['request-ride']);
                     }

@@ -9,10 +9,9 @@ exports.__esModule = true;
 exports.AuthService = void 0;
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
+var rxjs_1 = require("rxjs");
 var environment_1 = require("src/app/environments/environment");
 var AuthService = /** @class */ (function () {
-    // user$ = new BehaviorSubject(null);
-    // userState$ = this.user$.asObservable();
     function AuthService(http, tokenService) {
         this.http = http;
         this.tokenService = tokenService;
@@ -20,22 +19,35 @@ var AuthService = /** @class */ (function () {
             'Content-Type': 'application/json',
             skip: 'true'
         });
-        //this.user$.next(this.getRole());
+        this.user$ = new rxjs_1.BehaviorSubject(false);
+        this.userState$ = this.user$.asObservable();
     }
     AuthService.prototype.login = function (auth) {
         return this.http.post(environment_1.environment.apiHost + 'api/user/login', auth, {
             headers: this.headers
         });
     };
-    // getRole(): any {
-    //   if (this.isLoggedIn()) {
-    //     const accessToken: any = localStorage.getItem('user');
-    //     const helper = new JwtHelperService();
-    //     const role = helper.decodeToken(accessToken).role[0].authority; //TODO  
-    //     return role;
-    //   }
-    //   return null;
-    // }
+    AuthService.prototype.getRole = function () {
+        if (this.isLoggedIn()) {
+            var user = this.tokenService.getUser();
+            return user.role;
+        }
+        return null;
+    };
+    AuthService.prototype.getMail = function () {
+        if (this.isLoggedIn()) {
+            var user = this.tokenService.getUser();
+            return user.email;
+        }
+        return null;
+    };
+    AuthService.prototype.getId = function () {
+        if (this.isLoggedIn()) {
+            var user = this.tokenService.getUser();
+            return user.id;
+        }
+        return null;
+    };
     AuthService.prototype.isLoggedIn = function () {
         if (this.tokenService.getUser() != null) {
             return true;

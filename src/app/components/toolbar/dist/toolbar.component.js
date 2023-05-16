@@ -11,9 +11,13 @@ var core_1 = require("@angular/core");
 var ToolbarComponent = /** @class */ (function () {
     function ToolbarComponent(auth) {
         this.auth = auth;
+        this.logged = false;
     }
     ToolbarComponent.prototype.ngOnInit = function () {
-        this.logged = this.auth.isLoggedIn();
+        var _this = this;
+        this.auth.userState$.subscribe(function (result) {
+            _this.logged = result;
+        });
     };
     ToolbarComponent = __decorate([
         core_1.Component({

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 import { TokenService } from 'src/app/modules/auth/token/token.service';
 import { ProfileService } from '../../profile.service';
 
@@ -16,8 +17,10 @@ export class InfoComponent implements OnInit{
   address: string = ''
   
   hasError: boolean =  false;
+  imglink: any;
 
-  constructor(private token: TokenService, private router: Router, private profile: ProfileService) {}
+  constructor(private token: TokenService, private router: Router,
+              private profile: ProfileService, private auth: AuthService) {}
   ngOnInit(): void
   {
     this.profile.loadPassenger().subscribe({
@@ -37,6 +40,7 @@ export class InfoComponent implements OnInit{
 
   logut() {
     this.token.signOut();
+    this.auth.user$.next(false);
     this.router.navigate(['login']);
   }
 
