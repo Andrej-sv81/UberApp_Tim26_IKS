@@ -7,7 +7,7 @@ table {
     background-color: black;
     color: white;
     font-family: 'Poppins';
-    margin-top: 20px;
+    /* margin-top: 20px; */
     width: 60px;
     height: 30px;;
     border: none;
@@ -92,3 +92,7 @@ table {
   hr{
     width: 85%;
   }
+
+.mat-elevation-z8{
+  margin-bottom: 15px;
+}
