@@ -5,14 +5,14 @@
             <div class="name">{{name}} {{surname}}</div>
             <div class="number">{{phone}}</div>
         </div>
-        <div class="square" (click)="openDialog()"></div>
+        <i class="edit-button" (click)="openDialog()"></i>
     </div>
     <h3>Address</h3>
     <div class="mail">{{address}}</div>
     <h3>Email</h3>
     <div class="mail">{{email}}</div>
     <a href="profile/change-password">Change password?</a>
-    <button (click)="logut()">Log out</button>
+    <button class="log-out-button" (click)="logut()">Log out</button>
 </div>
 <div class="error" *ngIf="hasError">
     <h3>Error while loading user page!</h3>
