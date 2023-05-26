@@ -24,7 +24,7 @@ export class InfoComponent implements OnInit{
               private profile: ProfileService, private auth: AuthService) {}
   ngOnInit(): void
   {
-    this.profile.loadPassenger().subscribe({
+    this.profile.loadPassenger().subscribe({ // load driver or passenger unutar metode
       next: (result) => {
           this.name = result.name;
           this.surname = result.surname;

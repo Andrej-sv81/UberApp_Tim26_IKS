@@ -29,7 +29,7 @@ export class UpdateComponent {
 
   onFileSelected($event: any): void {
       this.selectedFile = $event.target.files[0];
-      this.uploading = true;
+      this.uploading = true; //sakrivanje dugmeta u slucaju sporog upload-a
       this.readData();
       this.uploading = false;
   }

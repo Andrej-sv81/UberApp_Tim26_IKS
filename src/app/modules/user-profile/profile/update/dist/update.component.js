@@ -28,7 +28,7 @@ var UpdateComponent = /** @class */ (function () {
     }
     UpdateComponent.prototype.onFileSelected = function ($event) {
         this.selectedFile = $event.target.files[0];
-        this.uploading = true;
+        this.uploading = true; //sakrivanje dugmeta u slucaju sporog upload-a
         this.readData();
         this.uploading = false;
     };
