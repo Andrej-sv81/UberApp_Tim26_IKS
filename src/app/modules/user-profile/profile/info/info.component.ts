@@ -14,7 +14,8 @@ export class InfoComponent implements OnInit{
   surname: string = '';
   phone: string = '';
   email: string = '';
-  address: string = ''
+  address: string = '';
+  imageData: string = '';
   
   hasError: boolean =  false;
   imglink: any;
@@ -30,6 +31,7 @@ export class InfoComponent implements OnInit{
           this.phone = result.telephoneNumber;
           this.email =result.email;
           this.address = result.address;
+          this.imageData = result.profilePicture;
       },
       error: (error)=>{
           this.hasError = true;

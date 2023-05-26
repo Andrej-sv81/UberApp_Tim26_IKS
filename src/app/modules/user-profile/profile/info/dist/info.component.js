@@ -19,6 +19,7 @@ var InfoComponent = /** @class */ (function () {
         this.phone = '';
         this.email = '';
         this.address = '';
+        this.imageData = '';
         this.hasError = false;
     }
     InfoComponent.prototype.ngOnInit = function () {
@@ -30,6 +31,7 @@ var InfoComponent = /** @class */ (function () {
                 _this.phone = result.telephoneNumber;
                 _this.email = result.email;
                 _this.address = result.address;
+                _this.imageData = result.profilePicture;
             },
             error: function (error) {
                 _this.hasError = true;
