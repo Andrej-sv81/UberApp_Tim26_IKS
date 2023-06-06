@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PassengerUpdate } from '../../model/passanger-update-req';
+import { UserUpdate } from '../../model/user-update';
 import { ProfileService } from '../../profile.service';
 
 @Component({
@@ -48,7 +48,7 @@ export class UpdateComponent {
 
   update():void{
 
-    const passenger: PassengerUpdate = {
+    const user: UserUpdate = {
       name: this.updateForm.value.name === null ? '': this.updateForm.value.name,
       surname: this.updateForm.value.surname  === null ? '': this.updateForm.value.surname,
       profilePicture: this.fileData  === null ? '': this.fileData,
@@ -56,7 +56,7 @@ export class UpdateComponent {
       email: this.updateForm.value.email  === null ? '': this.updateForm.value.email,
       address: this.updateForm.value.address  === null ? '': this.updateForm.value.address,
     }
-    this.profile.updatePassenger(passenger).subscribe({
+    this.profile.updateUser(user).subscribe({
       next: (result)=>{
           this.router.navigate(['profile/info']);
       },

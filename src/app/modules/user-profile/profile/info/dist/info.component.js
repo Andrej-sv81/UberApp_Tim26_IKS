@@ -24,7 +24,7 @@ var InfoComponent = /** @class */ (function () {
     }
     InfoComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.profile.loadPassenger().subscribe({
+        this.profile.loadUser().subscribe({
             next: function (result) {
                 _this.name = result.name;
                 _this.surname = result.surname;

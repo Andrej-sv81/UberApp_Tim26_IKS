@@ -1,7 +1,7 @@
 <div class="page">
     <div class="button-container">
         <button class="profile-button" autofocus [routerLink]="['/profile/info']">Profile</button>
-        <button class="profile-button" [routerLink]="['/profile/favorites']">Favorite Routes</button>
+        <button *ngIf="passenger"  class="profile-button" [routerLink]="['/profile/favorites']">Favorite Routes</button>
         <button class="profile-button" [routerLink]="['/profile/history']">Ride History</button>
     </div>
     <div class="vertical-line"></div>

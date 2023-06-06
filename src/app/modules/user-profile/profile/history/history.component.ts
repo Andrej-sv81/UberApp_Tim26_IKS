@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,6 +9,7 @@ import { Passenger } from '../../model/passenger';
 import { Ride } from '../../model/ride';
 import { RideHistory } from '../../model/ride-history';
 import { ProfileService } from '../../profile.service';
+import { TokenService } from 'src/app/modules/auth/token/token.service';
 
 @Component({
   selector: 'app-history',
@@ -54,16 +55,22 @@ export class HistoryComponent implements OnInit{
   @ViewChild(MatSort) set matSort(sort: MatSort) {
     this.dataSource.sort = sort;
 }
+  
 
 favForm = new FormGroup({
   favNameField: new FormControl('', [Validators.required]),
 });
 
 hasError: boolean = false;
+passenger: boolean = false;
 
-  constructor(private profile: ProfileService, private router: Router) {}
+  constructor(private profile: ProfileService, private router: Router, private token: TokenService) {}
 
   ngOnInit(): void {
+    if(this.token.getUser().role === 'ROLE_PASSENGER'){
+      this.passenger = true;
+     }
+
     this.profile.getRides().subscribe({
       next: (result) => {
         this.ridesResult = result.results;
@@ -90,6 +97,10 @@ hasError: boolean = false;
       },
       error: (error) => {},
     });
+  }
+
+  leaveReview(){
+  
   }
 
   ngAfterViewInit() {
@@ -164,4 +175,6 @@ hasError: boolean = false;
     this.hasError = true;
   }
 }
+
+
 }

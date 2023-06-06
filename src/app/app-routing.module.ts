@@ -21,6 +21,7 @@ import {CurrentRideDriverComponent} from "./modules/current-ride-driver/current-
 import {UnregisteredComponent} from "./modules/unregistered/unregistered.component";
 import {DriverHomeComponent} from "./modules/driver-home/driver-home.component";
 import { PasswordResetComponent } from './modules/password-reset/password-reset.component';
+import { ReviewComponent } from './modules/user-profile/profile/review/review.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,7 @@ const routes: Routes = [
       {path: 'favorites', component: FavoritesComponent},
       {path: 'update', component: UpdateComponent},
       {path: 'change-password', component: ChangePasswordComponent},
+      {path: 'review', component: ReviewComponent},
       {path: '', redirectTo: 'info', pathMatch: 'full'},
       {path: '**', component: InfoComponent},
   ]},

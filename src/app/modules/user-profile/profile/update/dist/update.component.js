@@ -46,7 +46,7 @@ var UpdateComponent = /** @class */ (function () {
     };
     UpdateComponent.prototype.update = function () {
         var _this = this;
-        var passenger = {
+        var user = {
             name: this.updateForm.value.name === null ? '' : this.updateForm.value.name,
             surname: this.updateForm.value.surname === null ? '' : this.updateForm.value.surname,
             profilePicture: this.fileData === null ? '' : this.fileData,
@@ -54,7 +54,7 @@ var UpdateComponent = /** @class */ (function () {
             email: this.updateForm.value.email === null ? '' : this.updateForm.value.email,
             address: this.updateForm.value.address === null ? '' : this.updateForm.value.address
         };
-        this.profile.updatePassenger(passenger).subscribe({
+        this.profile.updateUser(user).subscribe({
             next: function (result) {
                 _this.router.navigate(['profile/info']);
             },

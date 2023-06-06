@@ -19,15 +19,29 @@ var ProfileService = /** @class */ (function () {
             'Content-Type': 'application/json'
         });
     }
-    ProfileService.prototype.loadPassenger = function () {
-        return this.http.get(environment_1.environment.apiHost + 'api/passenger/' + this.token.getUser().id, {
-            headers: this.headers
-        });
+    ProfileService.prototype.loadUser = function () {
+        if (this.token.getUser().role === 'ROLE_PASSENGER') {
+            return this.http.get(environment_1.environment.apiHost + 'api/passenger/' + this.token.getUser().id, {
+                headers: this.headers
+            });
+        }
+        else {
+            return this.http.get(environment_1.environment.apiHost + 'api/driver/' + this.token.getUser().id, {
+                headers: this.headers
+            });
+        }
     };
-    ProfileService.prototype.updatePassenger = function (body) {
-        return this.http.put(environment_1.environment.apiHost + 'api/passenger/' + this.token.getUser().id, body, {
-            headers: this.headersJSON
-        });
+    ProfileService.prototype.updateUser = function (body) {
+        if (this.token.getUser().role === 'ROLE_PASSENGER') {
+            return this.http.put(environment_1.environment.apiHost + 'api/passenger/' + this.token.getUser().id, body, {
+                headers: this.headersJSON
+            });
+        }
+        else {
+            return this.http.put(environment_1.environment.apiHost + 'api/driver/' + this.token.getUser().id, body, {
+                headers: this.headersJSON
+            });
+        }
     };
     ProfileService.prototype.changePassword = function (body) {
         return this.http.put(environment_1.environment.apiHost + 'api/user/' + this.token.getUser().id + '/changePassword', body, {

@@ -1,4 +1,5 @@
-export interface PassengerUpdate{
+export interface UserDetails{
+    id: any;
     name: any;
     surname: any;
     profilePicture: any;

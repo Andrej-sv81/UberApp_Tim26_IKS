@@ -3,6 +3,9 @@ import {Stomp} from '@stomp/stompjs';
 import * as sockJS from 'sockjs-client';
 import {environment} from "../../environments/environment";
 import {Router} from "@angular/router";
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { FormGroup, FormControl } from '@angular/forms';
+
 @Component({
   selector: 'app-driver-home',
   templateUrl: './driver-home.component.html',
@@ -14,7 +17,6 @@ export class DriverHomeComponent implements OnInit{
   private driverId:number = 2;
 
   constructor(private router: Router) {
-
   }
 
 
@@ -22,6 +24,11 @@ export class DriverHomeComponent implements OnInit{
     this.createWebSocket();
   }
 
+  handleToggle(event: MatSlideToggleChange){
+    const value = event.checked;
+    console.log(value);
+  }
+  
   createWebSocket(){
     let that = this;
     this.stompClient = Stomp.over(function (){return new sockJS(environment.apiHost+"socket")});

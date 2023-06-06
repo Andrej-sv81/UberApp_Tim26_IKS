@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/app/environments/environment';
 import { TokenService } from '../auth/token/token.service';
-import { PassengerDetails } from './model/passenger-data-res';
-import { PassengerUpdate } from './model/passanger-update-req'
+import { UserDetails } from './model/user-data-res';
+import { UserUpdate } from './model/user-update'
 import { ChangePassword } from './model/change-password';
 import { FavoriteRide } from './model/favorite-ride';
 import { Rides } from './model/rides';
@@ -22,19 +22,39 @@ export class ProfileService {
 
   constructor(private http: HttpClient, private token: TokenService) { }
 
-  loadPassenger(): Observable<PassengerDetails>{
-    return this.http.get<PassengerDetails>(environment.apiHost + 'api/passenger/' + this.token.getUser().id,
-     {
-      headers: this.headers
-    });
+  loadUser(): Observable<UserDetails>{
+    if(this.token.getUser().role === 'ROLE_PASSENGER'){
+
+      return this.http.get<UserDetails>(environment.apiHost + 'api/passenger/' + this.token.getUser().id,
+      {
+        headers: this.headers
+      });
+
+    }else{
+
+      return this.http.get<UserDetails>(environment.apiHost + 'api/driver/' + this.token.getUser().id,
+      {
+        headers: this.headers
+      });
+
+    }
+
   }
 
-  updatePassenger(body: PassengerUpdate): Observable<PassengerDetails>{
-      return this.http.put<PassengerDetails>(environment.apiHost + 'api/passenger/' + this.token.getUser().id,
+  updateUser(body: UserUpdate): Observable<UserDetails>{
+    if(this.token.getUser().role === 'ROLE_PASSENGER'){
+      return this.http.put<UserDetails>(environment.apiHost + 'api/passenger/' + this.token.getUser().id,
       body,
       {
         headers: this.headersJSON
       })
+    }else{
+      return this.http.put<UserDetails>(environment.apiHost + 'api/driver/' + this.token.getUser().id,
+      body,
+      {
+        headers: this.headersJSON
+      })
+    }
   }
 
   changePassword(body: ChangePassword): Observable<any>{

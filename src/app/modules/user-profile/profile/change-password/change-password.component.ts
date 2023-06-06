@@ -27,8 +27,8 @@ export class ChangePasswordComponent {
   change():void{
     if(this.passwordForm.valid){
       const changePassword: ChangePassword ={
-        newPassword: this.passwordForm.value.oldPassword,
-        oldPassword: this.passwordForm.value.newPassword
+        newPassword: this.passwordForm.value.newPassword,
+        oldPassword: this.passwordForm.value.oldPassword
       }
       this.profile.changePassword(changePassword).subscribe({
         next: ()=>{

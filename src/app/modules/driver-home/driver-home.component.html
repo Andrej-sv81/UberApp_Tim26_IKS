@@ -3,7 +3,7 @@
 <div id="active">
   <h2>Welcome back</h2>
   <div id="activeToggle">
-    <mat-slide-toggle size="small" [checked]="true"></mat-slide-toggle>
+    <mat-slide-toggle size="small" (change)="handleToggle($event)" [checked]="false"></mat-slide-toggle>
   </div>
 </div>
 <div id="nextride">

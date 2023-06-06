@@ -12,9 +12,10 @@ var forms_1 = require("@angular/forms");
 var sort_1 = require("@angular/material/sort");
 var table_1 = require("@angular/material/table");
 var HistoryComponent = /** @class */ (function () {
-    function HistoryComponent(profile, router) {
+    function HistoryComponent(profile, router, token) {
         this.profile = profile;
         this.router = router;
+        this.token = token;
         this.displayedColumns = [
             'departure',
             'destination',
@@ -31,6 +32,7 @@ var HistoryComponent = /** @class */ (function () {
             favNameField: new forms_1.FormControl('', [forms_1.Validators.required])
         });
         this.hasError = false;
+        this.passenger = false;
     }
     Object.defineProperty(HistoryComponent.prototype, "matSort", {
         set: function (sort) {
@@ -41,6 +43,9 @@ var HistoryComponent = /** @class */ (function () {
     });
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
+        if (this.token.getUser().role === 'ROLE_PASSENGER') {
+            this.passenger = true;
+        }
         this.profile.getRides().subscribe({
             next: function (result) {
                 _this.ridesResult = result.results;
@@ -65,6 +70,8 @@ var HistoryComponent = /** @class */ (function () {
             },
             error: function (error) { }
         });
+    };
+    HistoryComponent.prototype.leaveReview = function () {
     };
     HistoryComponent.prototype.ngAfterViewInit = function () {
     };
