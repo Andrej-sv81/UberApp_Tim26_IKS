@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="card-container">
+      <mat-card>
+        <mat-card-content>
+            <div class="labels-container">
+
+                <div class="label">
+                    <div class="labels-container2">
+                        <div class="label2">
+                            <h2>Driver:</h2>
+                        </div>
+                        <div class="label2">
+                            <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick1(i+1)" >
+                                <mat-icon>
+                                    {{showIcon1(i)}}
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-form-field style="width: 400px;">
+                        <textarea  matInput placeholder="Leave a comment about the driver!" [(ngModel)]="review1"></textarea>
+                    </mat-form-field>
+                </div>
+
+                <div class="label">
+                    <div class="labels-container2">
+                        <div class="label2">
+                            <h2>Vehicle:</h2>
+                        </div>
+                        <div class="label2">
+                            <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick2(i+1)" >
+                                <mat-icon>
+                                    {{showIcon2(i)}}
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <mat-form-field style="width: 400px;">
+                        <textarea  matInput placeholder="Leave a comment about the vehicle!" [(ngModel)]="review2"></textarea>
+                    </mat-form-field>
+                </div>
+
+            </div>
+          <button mat-raised-button style="background-color: black; color: white;" (click)="sendReviews()">Submit Review</button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

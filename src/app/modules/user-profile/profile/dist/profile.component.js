@@ -9,9 +9,16 @@ exports.__esModule = true;
 exports.ProfileComponent = void 0;
 var core_1 = require("@angular/core");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(router) {
+    function ProfileComponent(router, token) {
         this.router = router;
+        this.token = token;
+        this.passenger = false;
     }
+    ProfileComponent.prototype.ngOnInit = function () {
+        if (this.token.getUser().role === 'ROLE_PASSENGER') {
+            this.passenger = true;
+        }
+    };
     ProfileComponent = __decorate([
         core_1.Component({
             selector: 'app-profile',

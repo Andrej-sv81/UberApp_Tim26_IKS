@@ -19,7 +19,9 @@ export class FavoritesComponent implements OnInit {
     'vehicle_type',
     'baby',
     'pet',
-    'delete'
+    'call',
+    'delete',
+
   ];
   dataSource!: MatTableDataSource<Favorite>;
   rides: FavoriteRide[] = [];
@@ -75,5 +77,9 @@ export class FavoritesComponent implements OnInit {
           console.log(error);
       }
      })
+  }
+
+  call(id: number): void{
+
   }
 }

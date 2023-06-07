@@ -33,12 +33,16 @@
     </div>
   </mat-card>
 
-  <form id="favName" [formGroup]="favForm" (ngSubmit)="favorite()">
+  <form *ngIf="passenger" id="favName" [formGroup]="favForm" (ngSubmit)="favorite()">
     <button class="addFav" type="submit">Add Favorite</button>
     <input class="favNameField" type="text" name="favName" placeholder="Please enter the favorite ride name!"
     formControlName="favNameField">
   </form>
   <button class="detailsBtn" (click)="back()">Back</button>
+  <div>
+    <button *ngIf="passenger" class="detailsBtn review" (click)="leaveReview()">Leave Review</button>
+  </div>
+  
   <h3 *ngIf="hasError"> Favorite ride name must be filled!</h3>
 </div>
 <table *ngIf="condition" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>

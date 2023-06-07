@@ -29,6 +29,7 @@ var current_ride_driver_component_1 = require("./modules/current-ride-driver/cur
 var unregistered_component_1 = require("./modules/unregistered/unregistered.component");
 var driver_home_component_1 = require("./modules/driver-home/driver-home.component");
 var password_reset_component_1 = require("./modules/password-reset/password-reset.component");
+var review_component_1 = require("./modules/user-profile/profile/review/review.component");
 var routes = [
     { path: '', redirectTo: "unregistered", pathMatch: 'full' },
     { path: 'unregistered', component: unregistered_component_1.UnregisteredComponent },
@@ -50,6 +51,7 @@ var routes = [
             { path: 'favorites', component: favorites_component_1.FavoritesComponent },
             { path: 'update', component: update_component_1.UpdateComponent },
             { path: 'change-password', component: change_password_component_1.ChangePasswordComponent },
+            { path: 'review/:id', component: review_component_1.ReviewComponent },
             { path: '', redirectTo: 'info', pathMatch: 'full' },
             { path: '**', component: info_component_1.InfoComponent },
         ] },

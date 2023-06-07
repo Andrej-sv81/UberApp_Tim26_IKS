@@ -19,17 +19,19 @@ var InfoComponent = /** @class */ (function () {
         this.phone = '';
         this.email = '';
         this.address = '';
+        this.imageData = '';
         this.hasError = false;
     }
     InfoComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.profile.loadPassenger().subscribe({
+        this.profile.loadUser().subscribe({
             next: function (result) {
                 _this.name = result.name;
                 _this.surname = result.surname;
                 _this.phone = result.telephoneNumber;
                 _this.email = result.email;
                 _this.address = result.address;
+                _this.imageData = result.profilePicture;
             },
             error: function (error) {
                 _this.hasError = true;
