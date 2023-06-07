@@ -9,6 +9,7 @@ import { ChangePassword } from './model/change-password';
 import { FavoriteRide } from './model/favorite-ride';
 import { Rides } from './model/rides';
 import { FavoriteRequestOne } from './model/favorite-request';
+import { Review } from './model/review';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,22 @@ export class ProfileService {
 
   addFavorite(body: FavoriteRequestOne): Observable<FavoriteRide>{
     return this.http.post<FavoriteRide>(environment.apiHost + 'api/ride/favorites',
+    body,
+    {
+      headers: this.headersJSON
+    })
+  }
+
+  sendReviewVehicle(body: Review, id: number): Observable<any>{
+    return this.http.post<Review>(environment.apiHost + 'api/review/' + id + '/vehicle',
+    body,
+    {
+      headers: this.headersJSON
+    })
+  }
+
+  sendReviewDriver(body: Review, id: number): Observable<any>{
+    return this.http.post<Review>(environment.apiHost + 'api/review/' + id + '/driver',
     body,
     {
       headers: this.headersJSON

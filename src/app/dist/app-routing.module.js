@@ -51,7 +51,7 @@ var routes = [
             { path: 'favorites', component: favorites_component_1.FavoritesComponent },
             { path: 'update', component: update_component_1.UpdateComponent },
             { path: 'change-password', component: change_password_component_1.ChangePasswordComponent },
-            { path: 'review', component: review_component_1.ReviewComponent },
+            { path: 'review/:id', component: review_component_1.ReviewComponent },
             { path: '', redirectTo: 'info', pathMatch: 'full' },
             { path: '**', component: info_component_1.InfoComponent },
         ] },

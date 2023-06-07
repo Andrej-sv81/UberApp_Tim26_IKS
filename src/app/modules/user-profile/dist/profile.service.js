@@ -68,6 +68,16 @@ var ProfileService = /** @class */ (function () {
             headers: this.headersJSON
         });
     };
+    ProfileService.prototype.sendReviewVehicle = function (body, id) {
+        return this.http.post(environment_1.environment.apiHost + 'api/review/' + id + '/vehicle', body, {
+            headers: this.headersJSON
+        });
+    };
+    ProfileService.prototype.sendReviewDriver = function (body, id) {
+        return this.http.post(environment_1.environment.apiHost + 'api/review/' + id + '/driver', body, {
+            headers: this.headersJSON
+        });
+    };
     ProfileService = __decorate([
         core_1.Injectable({
             providedIn: 'root'

@@ -12,8 +12,9 @@ var stompjs_1 = require("@stomp/stompjs");
 var sockJS = require("sockjs-client");
 var environment_1 = require("../../environments/environment");
 var DriverHomeComponent = /** @class */ (function () {
-    function DriverHomeComponent(router) {
+    function DriverHomeComponent(router, service) {
         this.router = router;
+        this.service = service;
         this.isLoaded = false;
         this.driverId = 2;
     }
@@ -23,6 +24,9 @@ var DriverHomeComponent = /** @class */ (function () {
     DriverHomeComponent.prototype.handleToggle = function (event) {
         var value = event.checked;
         console.log(value);
+        this.service.changeState(value).subscribe(function (result) {
+            console.log(result);
+        });
     };
     DriverHomeComponent.prototype.createWebSocket = function () {
         var that = this;

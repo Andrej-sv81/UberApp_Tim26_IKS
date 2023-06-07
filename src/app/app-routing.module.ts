@@ -45,7 +45,7 @@ const routes: Routes = [
       {path: 'favorites', component: FavoritesComponent},
       {path: 'update', component: UpdateComponent},
       {path: 'change-password', component: ChangePasswordComponent},
-      {path: 'review', component: ReviewComponent},
+      {path: 'review/:id', component: ReviewComponent},
       {path: '', redirectTo: 'info', pathMatch: 'full'},
       {path: '**', component: InfoComponent},
   ]},

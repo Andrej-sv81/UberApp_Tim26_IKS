@@ -11,6 +11,7 @@ import { RideHistory } from '../../model/ride-history';
 import { ProfileService } from '../../profile.service';
 import { TokenService } from 'src/app/modules/auth/token/token.service';
 
+
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -30,7 +31,7 @@ export class HistoryComponent implements OnInit{
   condition: boolean = true;
 
   // <--------Details---------->
-
+  id: any;
   departure: any;
   destination: any;
   stime: any;
@@ -99,9 +100,12 @@ passenger: boolean = false;
     });
   }
 
+
   leaveReview(){
-  
+    this.router.navigate(['profile/review', this.id])
   }
+
+
 
   ngAfterViewInit() {
   
@@ -110,6 +114,7 @@ passenger: boolean = false;
   details(id: number){
     for(let ride of this.ridesResult){
       if(ride.id === id){
+        this.id=id;
         this.departure = ride.locations[0].departure.address;
         this.latDep = ride.locations[0].departure.latitude;
         this.lonDep = ride.locations[0].departure.longitude;

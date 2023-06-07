@@ -72,6 +72,7 @@ var HistoryComponent = /** @class */ (function () {
         });
     };
     HistoryComponent.prototype.leaveReview = function () {
+        this.router.navigate(['profile/review', this.id]);
     };
     HistoryComponent.prototype.ngAfterViewInit = function () {
     };
@@ -79,6 +80,7 @@ var HistoryComponent = /** @class */ (function () {
         for (var _i = 0, _a = this.ridesResult; _i < _a.length; _i++) {
             var ride = _a[_i];
             if (ride.id === id) {
+                this.id = id;
                 this.departure = ride.locations[0].departure.address;
                 this.latDep = ride.locations[0].departure.latitude;
                 this.lonDep = ride.locations[0].departure.longitude;

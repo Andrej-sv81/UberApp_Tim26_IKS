@@ -4,7 +4,7 @@ import * as sockJS from 'sockjs-client';
 import {environment} from "../../environments/environment";
 import {Router} from "@angular/router";
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { FormGroup, FormControl } from '@angular/forms';
+import { DriverService } from './driver.service';
 
 @Component({
   selector: 'app-driver-home',
@@ -16,7 +16,7 @@ export class DriverHomeComponent implements OnInit{
   private isLoaded:boolean = false;
   private driverId:number = 2;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private service: DriverService) {
   }
 
 
@@ -27,6 +27,9 @@ export class DriverHomeComponent implements OnInit{
   handleToggle(event: MatSlideToggleChange){
     const value = event.checked;
     console.log(value);
+    this.service.changeState(value).subscribe((result)=>{
+      console.log(result);
+    })
   }
   
   createWebSocket(){
