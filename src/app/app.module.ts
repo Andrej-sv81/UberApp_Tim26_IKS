@@ -26,6 +26,9 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {FormsModule} from "@angular/forms";
 import { PasswordResetComponent } from './modules/password-reset/password-reset.component';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { MatCard, MatCardContent, MatCardModule } from '@angular/material/card';
+import { MaterialModule } from './material/material/material.module';
 
 
 //import { MapComponent } from './components/map/map.component';
@@ -60,6 +63,9 @@ import { PasswordResetComponent } from './modules/password-reset/password-reset.
     MatButtonToggleModule,
     MatSlideToggleModule,
     FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MaterialModule,
 
   ],
   providers: [    {

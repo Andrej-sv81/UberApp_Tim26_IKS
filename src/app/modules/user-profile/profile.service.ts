@@ -10,6 +10,7 @@ import { FavoriteRide } from './model/favorite-ride';
 import { Rides } from './model/rides';
 import { FavoriteRequestOne } from './model/favorite-request';
 import { Review } from './model/review';
+import { PasswordCode } from './model/password-code';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +106,18 @@ export class ProfileService {
 
   sendReviewDriver(body: Review, id: number): Observable<any>{
     return this.http.post<Review>(environment.apiHost + 'api/review/' + id + '/driver',
+    body,
+    {
+      headers: this.headersJSON
+    })
+  }
+
+  resetEmailRequest(email: string): Observable<any>{
+    return this.http.get(environment.apiHost + 'api/user/resetPassword?email=' + email)
+  }
+
+  resetPassword(email: string, body: PasswordCode): Observable<any>{
+    return this.http.put<PasswordCode>(environment.apiHost + 'api/user/resetPassword?email=' + email,
     body,
     {
       headers: this.headersJSON
