@@ -78,6 +78,14 @@ var ProfileService = /** @class */ (function () {
             headers: this.headersJSON
         });
     };
+    ProfileService.prototype.resetEmailRequest = function (email) {
+        return this.http.get(environment_1.environment.apiHost + 'api/user/resetPassword?email=' + email);
+    };
+    ProfileService.prototype.resetPassword = function (email, body) {
+        return this.http.put(environment_1.environment.apiHost + 'api/user/resetPassword?email=' + email, body, {
+            headers: this.headersJSON
+        });
+    };
     ProfileService = __decorate([
         core_1.Injectable({
             providedIn: 'root'

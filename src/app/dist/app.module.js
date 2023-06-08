@@ -35,6 +35,9 @@ var button_toggle_1 = require("@angular/material/button-toggle");
 var slide_toggle_1 = require("@angular/material/slide-toggle");
 var forms_1 = require("@angular/forms");
 var password_reset_component_1 = require("./modules/password-reset/password-reset.component");
+var form_field_1 = require("@angular/material/form-field");
+var card_1 = require("@angular/material/card");
+var material_module_1 = require("./material/material/material.module");
 //import { MapComponent } from './components/map/map.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -69,6 +72,9 @@ var AppModule = /** @class */ (function () {
                 button_toggle_1.MatButtonToggleModule,
                 slide_toggle_1.MatSlideToggleModule,
                 forms_1.FormsModule,
+                card_1.MatCardModule,
+                form_field_1.MatFormFieldModule,
+                material_module_1.MaterialModule,
             ],
             providers: [{
                     provide: http_2.HTTP_INTERCEPTORS,
