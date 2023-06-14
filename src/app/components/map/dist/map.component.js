@@ -5,11 +5,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 exports.__esModule = true;
 exports.MapComponent = void 0;
 var core_1 = require("@angular/core");
 var L = require("leaflet");
 require("leaflet-routing-machine");
+var Stomp = require("stompjs");
+var SockJS = require("sockjs-client");
+var leaflet_1 = require("leaflet");
 var MapComponent = /** @class */ (function () {
     function MapComponent(mapService, unregService, token, request) {
         this.mapService = mapService;
@@ -29,6 +39,11 @@ var MapComponent = /** @class */ (function () {
         this.lonDestination = '';
         this.price = 0;
         this.time = 0;
+        //simulation___________________________________
+        this.vehicles = {};
+        this.rides = {};
+        this.mainGroup = [];
+        //__________________________________________________
         this.data = new core_1.EventEmitter();
     }
     MapComponent.prototype.ngOnInit = function () {
@@ -40,6 +55,9 @@ var MapComponent = /** @class */ (function () {
                 }
             }
         });
+        //simulation_______________________________________________
+        this.initializeWebSocketConnection();
+        //_______________________________________________________
     };
     MapComponent.prototype.sendData = function () {
         this.data.emit({ fromMap: this.clickedFrom, toMap: this.clickedTo });
@@ -211,6 +229,58 @@ var MapComponent = /** @class */ (function () {
             }
         });
         this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture), parseFloat(this.latDestination), parseFloat(this.lonDestination));
+    };
+    //simulation_______________________________________________________
+    MapComponent.prototype.initializeWebSocketConnection = function () {
+        var ws = new SockJS('http://localhost:8080/socket');
+        this.stompClient = Stomp.over(ws);
+        this.stompClient.debug = null;
+        var that = this;
+        this.stompClient.connect({}, function () {
+            that.openGlobalSocket();
+        });
+    };
+    MapComponent.prototype.openGlobalSocket = function () {
+        var _this = this;
+        this.stompClient.subscribe('/map-updates/update-vehicle-position', function (message) {
+            var vehicle = JSON.parse(message.body);
+            var existingVehicle = _this.vehicles[vehicle.id];
+            existingVehicle.setLatLng([vehicle.longitude, vehicle.latitude]);
+            existingVehicle.update();
+        });
+        this.stompClient.subscribe('/map-updates/new-ride', function (message) {
+            var ride = JSON.parse(message.body);
+            var geoLayerRouteGroup = new leaflet_1.LayerGroup();
+            var color = Math.floor(Math.random() * 16777215).toString(16);
+            for (var _i = 0, _a = JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']; _i < _a.length; _i++) {
+                var step = _a[_i];
+                var routeLayer = leaflet_1.geoJSON(step.geometry);
+                routeLayer.setStyle({ color: "#" + color });
+                routeLayer.addTo(geoLayerRouteGroup);
+                _this.rides[ride.id] = geoLayerRouteGroup;
+            }
+            var markerLayer = leaflet_1.marker([ride.vehicle.longitude, ride.vehicle.latitude], {
+                icon: leaflet_1.icon({
+                    iconUrl: 'assets/car.png',
+                    iconSize: [35, 45],
+                    iconAnchor: [18, 45]
+                })
+            });
+            markerLayer.addTo(geoLayerRouteGroup);
+            _this.vehicles[ride.vehicle.id] = markerLayer;
+            _this.mainGroup = __spreadArrays(_this.mainGroup, [geoLayerRouteGroup]);
+        });
+        this.stompClient.subscribe('/map-updates/ended-ride', function (message) {
+            var ride = JSON.parse(message.body);
+            _this.mainGroup = _this.mainGroup.filter(function (lg) { return lg !== _this.rides[ride.id]; });
+            delete _this.vehicles[ride.vehicle.id];
+            delete _this.rides[ride.id];
+        });
+        this.stompClient.subscribe('/map-updates/delete-all-rides', function (message) {
+            _this.vehicles = {};
+            _this.rides = {};
+            _this.mainGroup = [];
+        });
     };
     __decorate([
         core_1.Input()
