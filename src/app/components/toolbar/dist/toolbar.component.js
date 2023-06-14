@@ -9,15 +9,29 @@ exports.__esModule = true;
 exports.ToolbarComponent = void 0;
 var core_1 = require("@angular/core");
 var ToolbarComponent = /** @class */ (function () {
-    function ToolbarComponent(auth) {
+    function ToolbarComponent(auth, router, token) {
         this.auth = auth;
+        this.router = router;
+        this.token = token;
         this.logged = false;
+        this.role = "";
     }
     ToolbarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.auth.userState$.subscribe(function (result) {
             _this.logged = result;
         });
+    };
+    ToolbarComponent.prototype.homeRoute = function () {
+        if (this.logged) {
+            this.role = this.token.getUser().role;
+            if (this.role === "ROLE_PASSENGER") {
+                this.router.navigate(["/request-ride"]);
+            }
+            else if (this.role === "ROLE_DRIVER") {
+                this.router.navigate(["/driver-home"]);
+            }
+        }
     };
     ToolbarComponent = __decorate([
         core_1.Component({

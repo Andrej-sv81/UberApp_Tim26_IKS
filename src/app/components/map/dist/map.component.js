@@ -31,6 +31,16 @@ var MapComponent = /** @class */ (function () {
         this.time = 0;
         this.data = new core_1.EventEmitter();
     }
+    MapComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.unregService.selectedRoute$.subscribe({
+            next: function (value) {
+                if (value[0] !== "" && value[1] !== "") { //moguc error kod praznih stringova na pocetnom ucitavanju unregistered strane
+                    _this.estimateTimeAndCost(value[0], value[1]);
+                }
+            }
+        });
+    };
     MapComponent.prototype.sendData = function () {
         this.data.emit({ fromMap: this.clickedFrom, toMap: this.clickedTo });
     };
@@ -71,16 +81,6 @@ var MapComponent = /** @class */ (function () {
             var lng = coord.lng.float;
             _this.mapService.reverseSearch(parseFloat(lat), parseFloat(lng)).subscribe(function (res) {
                 console.log(res.toString());
-                // TODO PROVERI ZASTO NE RADI IZBACUJE DA OCEKUJE FLOAT SVAKI PUT
-                // if (this.clickedFrom=''){
-                //   this.clickedFrom = res.toString();
-                //   const mp = new L.Marker([lat, lng]).addTo(this.map);
-                // }else if (this.clickedTo=''){
-                //   this.clickedTo = res.toString();
-                //   const mp = new L.Marker([lat, lng]).addTo(this.map);
-                // }else {
-                //   console.log("Refresh page.");
-                // }
                 console.log("FROM PROBA:" + _this.clickedFrom);
                 console.log("TO PROBA:" + _this.clickedTo);
             });
@@ -93,60 +93,64 @@ var MapComponent = /** @class */ (function () {
             waypoints: [L.latLng(lat1, lon1), L.latLng(lat2, lon2)]
         }).addTo(this.map);
     };
-    MapComponent.prototype.estimateTimeAndCost = function () {
+    MapComponent.prototype.estimateTimeAndCost = function (fromLoc, toLoc) {
         var _this = this;
+        this.from = fromLoc;
+        this.to = toLoc;
+        console.log(this.from);
+        console.log(this.to);
         this.mapService.search(this.from).subscribe({
             next: function (result) {
                 _this.latDeparture = result[0].lat;
                 _this.lonDeparture = result[0].lon;
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-        this.mapService.search(this.to).subscribe({
-            next: function (result) {
-                _this.latDestination = result[0].lat;
-                _this.lonDestination = result[0].lon;
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-        var estim = {
-            locations: [
-                {
-                    departure: {
-                        address: this.from,
-                        latitude: this.latDeparture,
-                        longitude: this.lonDeparture
+                console.log(_this.latDeparture, _this.lonDeparture);
+                _this.mapService.search(_this.to).subscribe({
+                    next: function (result) {
+                        _this.latDestination = result[0].lat;
+                        _this.lonDestination = result[0].lon;
+                        console.log(_this.latDestination, _this.lonDestination);
+                        var from = {
+                            address: _this.from,
+                            latitude: _this.latDeparture,
+                            longitude: _this.latDeparture
+                        };
+                        var to = {
+                            address: _this.to,
+                            latitude: _this.latDestination,
+                            longitude: _this.lonDestination
+                        };
+                        var ride = {
+                            departure: from,
+                            destination: to
+                        };
+                        var estim = {
+                            locations: [],
+                            vehicleType: 'STANDARD',
+                            babyTransport: true,
+                            petTransport: true
+                        };
+                        estim.locations.push(ride);
+                        _this.unregService.getEstimated(estim).subscribe({
+                            next: function (result) {
+                                _this.price = result.estimatedCost;
+                                _this.time = result.estimatedTimeInMinutes;
+                            }
+                        });
+                        _this.route(parseFloat(_this.latDeparture), parseFloat(_this.lonDeparture), parseFloat(_this.latDestination), parseFloat(_this.lonDestination));
                     },
-                    destination: {
-                        address: this.to,
-                        latitude: this.latDestination,
-                        longitude: this.lonDestination
+                    error: function (error) {
+                        console.log(error);
                     }
-                }
-            ],
-            vehicleType: 'STANDARD',
-            babyTransport: true,
-            petTransport: true
-        };
-        this.unregService.getEstimated(estim).subscribe({
-            next: function (result) {
-                _this.price = result.estimatedCost;
-                _this.time = result.estimatedTimeInMinutes;
+                });
+            },
+            error: function (error) {
+                console.log(error);
             }
         });
-        this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture), parseFloat(this.latDestination), parseFloat(this.lonDestination));
     };
     MapComponent.prototype.addMarker = function () {
         var lat = 45.25;
         var lon = 19.8228;
-        // L.marker([lat, lon])
-        //   .addTo(this.map)
-        //   .bindPopup('Trenutno se nalazite ovde.')
-        //   .openPopup();
     };
     MapComponent.prototype.ngAfterViewInit = function () {
         var DefaultIcon = L.icon({
@@ -175,32 +179,31 @@ var MapComponent = /** @class */ (function () {
                 console.log(error);
             }
         });
+        var fromRide = {
+            address: this.from,
+            latitude: this.latDeparture,
+            longitude: this.latDeparture
+        };
+        var toRide = {
+            address: this.from,
+            latitude: this.latDestination,
+            longitude: this.lonDestination
+        };
+        var passenger = {
+            id: this.token.getUser().id,
+            email: this.token.getUser().email
+        };
         var req = {
-            locations: [
-                {
-                    departure: {
-                        address: this.from,
-                        latitude: this.latDeparture,
-                        longitude: this.lonDeparture
-                    },
-                    destinatio: {
-                        address: this.to,
-                        latitude: this.latDestination,
-                        longitude: this.lonDestination
-                    }
-                }
-            ],
-            passengers: [
-                {
-                    id: this.token.getUser().id,
-                    email: this.token.getUser().email
-                }
-            ],
+            locations: [],
+            passengers: [],
             vehicleType: this.vehicle,
             babyTransport: this.baby,
             petTransport: this.pet,
             scheduledTime: undefined
         };
+        req.locations.push(fromRide);
+        req.locations.push(toRide);
+        req.passengers.push(passenger);
         this.request.createRide(req).subscribe({
             next: function (result) {
             },
