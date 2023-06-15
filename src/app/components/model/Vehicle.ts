@@ -1,6 +1,12 @@
-export interface Vehicle {
-  id: number;
-  licensePlateNumber: string;
-  latitude: number;
-  longitude: number;
+export interface Vehicle{
+    id:number;
+    driverId?:number;
+    vehicleType:string;
+    model:string;
+    licenseNumber:string;
+    currentLocation?:Location;
+    passengerSeats:number;
+    babyTransport:boolean;
+    petTransport:boolean;
+
 }

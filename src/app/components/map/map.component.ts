@@ -9,11 +9,12 @@ import { RequestRideService } from '../request-ride/request-ride.service';
 import {MapService} from "./map.service";
 import {LocationDTO} from "../request-ride/request-ride-model/locationDTO";
 import {PassengerDTO} from "../request-ride/request-ride-model/passengerDTO";
-import * as Stomp from 'stompjs';
+import * as stomp from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { latLng, tileLayer, marker, geoJSON, LayerGroup, icon } from 'leaflet';
-import { Ride } from '../model/Ride';
-import { Vehicle } from '../model/Vehicle';
+import { carMarker } from './car-icon';
+import { RideInfo, RideInfoBody, CreateRideDTO, RideSimulationDTO, VehicleSimulationDTO, Ride, FavoriteRide } from 'src/app/components/model/Ride';
+import { Router } from '@angular/router';
 
 
 
@@ -39,15 +40,31 @@ export class MapComponent implements AfterViewInit, OnInit{
 
   public price: number = 0;
   public time: number = 0;
+
+  role: string = '';
+  id: number = 0;
 //simulation___________________________________
 
 vehicles: any = {};
 rides: any = {};
 mainGroup: LayerGroup[] = [];
-private stompClient: any;
+stompClient: any;
+stompSimulation: any;
+rideEnded = false;
 
 //__________________________________________________
   @Output() data = new EventEmitter<{fromMap:string,toMap:string}>();
+  
+  @Input()
+  acceptRide: any;
+  rideService: any;
+  rideAccepted: boolean = false;
+  waitingForRide: boolean = false;
+  rideAssumption: any;
+  acceptNotification: boolean = false;
+  currentRoute: any;
+  rideDeclined: any;
+ 
 
   ngOnInit() {
     this.unregService.selectedRoute$.subscribe({
@@ -58,9 +75,11 @@ private stompClient: any;
       }
     })
 
+    this.id = this.token.getUser().id;
+    this.role = this.token.getUser().role;
     //simulation_______________________________________________
 
-    this.initializeWebSocketConnection();
+    this.initializeSocketSimulationConnection();
 
     //_______________________________________________________
   }
@@ -69,7 +88,7 @@ private stompClient: any;
     this.data.emit({fromMap:this.clickedFrom,toMap:this.clickedTo})
   }
 
-  constructor(private mapService:MapService, private unregService: UnregisteredService, private token: TokenService, private request: RequestRideService) {}
+  constructor(private mapService:MapService, private unregService: UnregisteredService, private token: TokenService, private request: RequestRideService, private router: Router) {}
 
   private initMap(): void {
     this.map = L.map('map',{
@@ -211,59 +230,102 @@ private stompClient: any;
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
+
+    this.rideService.rideEndedValue$.subscribe((value: boolean) =>{
+      this.rideEnded = value;
+    })
+
+
+    this.rideService.isRideStarted$.subscribe((value: boolean) =>{
+      if(value === true){
+
+        if (this.currentRoute != null) {
+          this.map.removeControl(this.currentRoute);
+        }
+
+        const route = L.Routing.control({
+          waypoints: [L.latLng(this.acceptRide.locations[0].departure.latitude, this.acceptRide.locations[0].departure.longitude),
+          L.latLng(this.acceptRide.locations[0].destination.latitude, this.acceptRide.locations[0].destination.longitude)],
+          show: false,
+          routeWhileDragging: true,
+        }).addTo(this.map);
+
+        this.currentRoute = route;
+      }
+    })
+
+    this.rideService.rideStatusChangedValue$.subscribe((value: any) => {
+      this.rideDeclined = value;
+    });
+    
+    this.rideService.rideAcceptedValue$.subscribe((value: boolean) =>{
+      this.rideAccepted = value;
+    })
+
+    this.rideService.activeRideValue$.subscribe((value: boolean) =>{
+      this.rideAccepted = value;
+      if (this.currentRoute != null) {
+        this.map.removeControl(this.currentRoute);
+      }
+      if(this.rideAccepted == true){
+          if (this.currentRoute != null) {
+            this.map.removeControl(this.currentRoute);
+          }
+          const route = L.Routing.control({
+            waypoints: [L.latLng(this.acceptRide.locations[0].departure.latitude, this.acceptRide.locations[0].departure.longitude),
+            L.latLng(this.acceptRide.locations[0].destination.latitude, this.acceptRide.locations[0].destination.longitude)],
+            show: false,
+            routeWhileDragging: true,
+          }).addTo(this.map);
+          this.currentRoute = route;
+      }
+    })
+    
   }
 
 
-  createRide(){
+  async createRide(){
 
-    this.mapService.search(this.from).subscribe({
-      next: (result) => {
-        this.latDeparture = result[0].lat;
-        this.lonDeparture = result[0].lon;
-      },
-      error: (error)=>{
-          console.log(error);
+    try {
+      const fromResult = await this.mapService.search(this.from).toPromise();
+      const toResult = await this.mapService.search(this.to).toPromise();
+  
+      if (fromResult.length === 0 || toResult.length === 0) {
+        // Handle the case where the search results are empty
+        return;
       }
-    });
+    
+      this.latDeparture = fromResult[0].lat;
+      this.lonDeparture = fromResult[0].lon;
+      this.latDestination = toResult[0].lat;
+      this.lonDestination = toResult[0].lon;
 
-    this.mapService.search(this.to).subscribe({
-      next: (result) => {
-        this.latDestination = result[0].lat;
-        this.lonDestination = result[0].lon;
-      },
-      error: (error)=>{
-        console.log(error);
-      }
-    });
-
-    const fromRide:LocationDTO = {
+    let fromRide:LocationDTO = {
       address:this.from,
       latitude:this.latDeparture,
-      longitude:this.latDeparture,
+      longitude:this.lonDeparture,
     }
-    const toRide:LocationDTO = {
+    let toRide:LocationDTO = {
       address:this.from,
       latitude:this.latDestination,
       longitude:this.lonDestination,
     }
 
-    const passenger:PassengerDTO = {
+    let passenger:PassengerDTO = {
       id: this.token.getUser().id,
       email: this.token.getUser().email,
     }
 
-    const req: RideRequest = {
-      locations: [],
-      passengers: [],
+    let req: RideRequest = {
+      locations: [{departure: fromRide, destination: toRide}],
+      passengers: [passenger],
       vehicleType: this.vehicle,
       babyTransport: this.baby,
       petTransport: this.pet,
-      scheduledTime: undefined
+      scheduledTime: ""
     }
+  
 
-    req.locations.push(fromRide);
-    req.locations.push(toRide);
-    req.passengers.push(passenger);
 
     this.request.createRide(req).subscribe({
       next: (result)=>{
@@ -275,7 +337,9 @@ private stompClient: any;
 
     this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture),
     parseFloat(this.latDestination), parseFloat(this.lonDestination));
-  }
+  }catch{}
+
+}
 
 
 
@@ -283,61 +347,237 @@ private stompClient: any;
 
 
 
-  initializeWebSocketConnection() {
-    let ws = new SockJS('http://localhost:8080/socket');
-    this.stompClient = Stomp.over(ws);
-    this.stompClient.debug = null;
-    let that = this;
-    this.stompClient.connect({}, function () {
-      that.openGlobalSocket();
-    });
-  }
-
-
-  openGlobalSocket() {
-    this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
-      let vehicle: Vehicle = JSON.parse(message.body);
-      let existingVehicle = this.vehicles[vehicle.id];
-      existingVehicle.setLatLng([vehicle.longitude, vehicle.latitude]);
-      existingVehicle.update();
-    });
-
-
-    this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
-      let ride: Ride = JSON.parse(message.body);
-      let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-      let color = Math.floor(Math.random() * 16777215).toString(16);
-      for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-        let routeLayer = geoJSON(step.geometry);
-        routeLayer.setStyle({ color: `#${color}` });
-        routeLayer.addTo(geoLayerRouteGroup);
-        this.rides[ride.id] = geoLayerRouteGroup;
-      }
-      let markerLayer = marker([ride.vehicle.longitude, ride.vehicle.latitude], {
-        icon: icon({
-          iconUrl: 'assets/car.png',
-          iconSize: [35, 45],
-          iconAnchor: [18, 45],
-        }),
+  initializeSocketSimulationConnection(){
+      let ws = new SockJS('http://localhost:8080/simulation');
+      this.stompSimulation = stomp.Stomp.over(ws);
+      this.stompSimulation.debug = null;
+      let that = this;
+      this.stompSimulation.connect({}, function () {
+        that.openSimulationSocket();
       });
-      markerLayer.addTo(geoLayerRouteGroup);
-      this.vehicles[ride.vehicle.id] = markerLayer;
-      this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-    });
-
-
-    this.stompClient.subscribe('/map-updates/ended-ride', (message: { body: string }) => {
-      let ride: Ride = JSON.parse(message.body);
-      this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
-      delete this.vehicles[ride.vehicle.id];
-      delete this.rides[ride.id];
-    });
-
-
-    this.stompClient.subscribe('/map-updates/delete-all-rides', (message: { body: string }) => {
-      this.vehicles = {};
-      this.rides = {};
-      this.mainGroup = [];
-    });
   }
-}
+  openSimulationSocket(){
+    this.stompSimulation.subscribe('/map-updates', (message: {body: string}) =>{
+      const newLocation = JSON.parse(message.body);
+      const vehicle = this.vehicles[newLocation.id];
+      vehicle.setIcon(carMarker);
+      vehicle.setLatLng([newLocation.longitude, newLocation.latitude]);
+
+      if (this.role === 'DRIVER') {
+        this.setDriverSockets();
+  
+  
+      } else if (this.role === 'PASSENGER') {
+        this.setPassengerSockets();
+      }
+
+    });
+
+    }
+
+    setPassengerSockets() {
+
+      this.stompClient.subscribe('/passenger/ride/' + this.id, (message: { body: string; }) => {
+        console.log(message);
+        if (message.body === "You have a scheduled ride!") {
+          alert("You have a scheduled ride!");
+        } else if (message.body === "No suitable driver found!") {
+          alert("No suitable driver found!");
+        }
+        else {
+          this.acceptRide = JSON.parse(message.body);
+          if (this.acceptRide.status === "ACCEPTED") {
+            this.rideService.setPanicPressed(null);
+  
+            this.rideService.setRideEnded(false);
+            this.rideAccepted = true;
+            this.acceptRide.estimatedTimeInMinutes = Math.round(this.acceptRide.estimatedTimeInMinutes * 100) / 100;
+            this.waitingForRide = false;
+            this.rideService.setActiveRide(true);
+            this.mapService.simulateRide(this.acceptRide.id).subscribe({
+              next: (result) => {
+              },
+              error: (error) => {
+              }
+            });
+  
+          } else if (this.acceptRide.status === "REJECTED" || this.acceptRide.status == "CANCELED") {
+            alert('Your ride was rejected');
+            this.rideService.setPanicPressed(null);
+  
+            this.clearMap();
+            this.rideAssumption.estimatedCost = 0;
+            this.rideAssumption.estimatedTimeInMinutes = 0;
+            this.waitingForRide = false;
+            this.rideAccepted = false;
+          }
+        }
+      }
+  
+      );
+
+
+      this.stompClient.subscribe('/passenger/start-ride/' + this.id, (message: { body: string; }) => {
+        let ride = JSON.parse(message.body);
+        this.rideService.setRideStarted(true);
+        this.rideService.setRideEnded(false);
+        this.rideService.setPanicPressed(null);
+  
+  
+        this.mapService.simulateRide(ride.id).subscribe({
+          next: (result) => {
+            console.log(result);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+        console.log(message);
+      });
+  
+      this.stompClient.subscribe('/passenger/end-ride/' + this.id, (message: { body: string; }) => {
+        let ride = JSON.parse(message.body);
+        console.log(message.body);
+        this.rideService.setRideEnded(true);
+        this.mapService.get(ride.driver.id).subscribe({
+          next: (result) => {
+            this.vehicles[result.id].setIcon(carMarker);
+            this.rideService.setActiveRide(false);
+            this.rideService.setRideAccepted(false);
+            this.rideService.setRideStarted(false);
+            this.router.navigate(['/profile/review:' + ride.id]);
+  
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+      });
+    }
+
+
+  clearMap()
+  {
+    
+  }
+
+    setDriverSockets(){
+
+
+      this.stompClient.subscribe('/driver/ride/' + this.id, (message: { body: string; }) => {
+        console.log(message);
+        this.rideService.setRideEnded(false);
+        this.rideService.setPanicPressed(null);
+        this.rideService.setRideStatus(false);
+        this.acceptRide = JSON.parse(message.body);
+        this.acceptRide.estimatedTimeInMinutes = Math.round(this.acceptRide.estimatedTimeInMinutes * 100) / 100;
+        this.acceptNotification = true;
+        this.router.navigate(['/accept-decline-ride']);
+      });
+
+      this.stompClient.subscribe('/driver/start-ride/' + this.id, (message: { body: string; }) => {
+        let ride = JSON.parse(message.body);
+        this.rideService.setRideEnded(false);
+        this.rideService.setPanicPressed(null);
+        this.rideService.setRideStarted(true);
+        this.mapService.simulateRide(ride.id).subscribe({
+          next: (result) => {
+            console.log(result);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+        console.log(message);
+      });
+  
+      this.stompClient.subscribe('/driver/end-ride/' + this.id, (message: { body: string; }) => {
+        let ride = JSON.parse(message.body);
+        this.rideService.setRideEnded(true);
+        this.mapService.get(ride.driver.id).subscribe({
+          next: (result) => {
+            this.vehicles[result.id].setIcon(carMarker);
+            this.rideAccepted = false;
+            this.rideService.setActiveRide(false);
+            this.router.navigate(['/driver-home']);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+      });
+    }
+
+    // ngAfterViewInit(): void {
+
+
+    //   if(this.isOnlyMap) {
+    //     if(this.destinationRideInfo !== '' && this.departureRideInfo !== ''){
+    //       this.search(this.departureRideInfo);
+    //       this.search(this.destinationRideInfo, true);
+    //     }
+    //     return;
+    //   }
+  
+  
+    //   this.vehicleService.getVehicleTypes()
+    //     .subscribe(
+    //       (vehicleTypes) => (this.vehicleTypes = vehicleTypes)
+    //     );
+  
+    //   this.rideService.getFavoriteRides()
+    //   .subscribe(
+    //     (rides) => (this.favoriteRides = rides)
+    //   );
+  
+    //   // get all vehicles not in an active ride currently
+    //   // then simulate their pins
+  
+    //   this.rideService.getAllActiveRidesWithIds().subscribe({
+    //     next:(result) =>{
+    //       console.log(result);
+    //         for(const rideLoc of result){
+    //           if(this.vehicles[rideLoc.vehicleId] && this.acceptRide.id !== rideLoc.rideId){
+    //               this.vehicles[rideLoc.vehicleId].setIcon(redCar);
+    //           }
+    //         }
+  
+    //     },
+    //     error:(error) =>{
+  
+    //     }
+    //   })
+    //   this.vehicleService.getAllLocations()
+    //                       .subscribe(
+    //                         (locations) => {
+    //                           this.vehicleLocations = locations;
+    //                           for(const location of this.vehicleLocations){
+  
+    //                             if(location.available === true){
+  
+    //                               const vehicleMarker = L.marker([location.latitude, location.longitude],
+    //                                 {icon:greenCar}).addTo(this.map);
+    //                               this.vehicles[location.id] = vehicleMarker;
+    //                             }else{
+    //                               const vehicleMarker = L.marker([location.latitude, location.longitude], {icon:redCar}).addTo(this.map);
+    //                               this.vehicles[location.id] = vehicleMarker;
+    //                             }
+  
+    //                           }
+    //                         }
+    //                       );
+    //   if(this.destinationRideInfo !== '' && this.departureRideInfo !== ''){
+    //     this.search(this.departureRideInfo);
+    //     this.search(this.destinationRideInfo, true);
+    //   }
+  
+    // }
+  
+
+    
+  }
+
+  
+
+
+

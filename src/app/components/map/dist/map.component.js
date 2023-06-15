@@ -5,27 +5,57 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
 };
 exports.__esModule = true;
 exports.MapComponent = void 0;
 var core_1 = require("@angular/core");
 var L = require("leaflet");
 require("leaflet-routing-machine");
-var Stomp = require("stompjs");
+var stomp = require("@stomp/stompjs");
 var SockJS = require("sockjs-client");
-var leaflet_1 = require("leaflet");
+var car_icon_1 = require("./car-icon");
 var MapComponent = /** @class */ (function () {
-    function MapComponent(mapService, unregService, token, request) {
+    function MapComponent(mapService, unregService, token, request, router) {
         this.mapService = mapService;
         this.unregService = unregService;
         this.token = token;
         this.request = request;
+        this.router = router;
         this.clickedFrom = '';
         this.clickedTo = '';
         this.from = ''; // start location from form
@@ -39,12 +69,18 @@ var MapComponent = /** @class */ (function () {
         this.lonDestination = '';
         this.price = 0;
         this.time = 0;
+        this.role = '';
+        this.id = 0;
         //simulation___________________________________
         this.vehicles = {};
         this.rides = {};
         this.mainGroup = [];
+        this.rideEnded = false;
         //__________________________________________________
         this.data = new core_1.EventEmitter();
+        this.rideAccepted = false;
+        this.waitingForRide = false;
+        this.acceptNotification = false;
     }
     MapComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -55,8 +91,10 @@ var MapComponent = /** @class */ (function () {
                 }
             }
         });
+        this.id = this.token.getUser().id;
+        this.role = this.token.getUser().role;
         //simulation_______________________________________________
-        this.initializeWebSocketConnection();
+        this.initializeSocketSimulationConnection();
         //_______________________________________________________
     };
     MapComponent.prototype.sendData = function () {
@@ -171,115 +209,251 @@ var MapComponent = /** @class */ (function () {
         var lon = 19.8228;
     };
     MapComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
         var DefaultIcon = L.icon({
             iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png'
         });
         L.Marker.prototype.options.icon = DefaultIcon;
         this.initMap();
+        this.rideService.rideEndedValue$.subscribe(function (value) {
+            _this.rideEnded = value;
+        });
+        this.rideService.isRideStarted$.subscribe(function (value) {
+            if (value === true) {
+                if (_this.currentRoute != null) {
+                    _this.map.removeControl(_this.currentRoute);
+                }
+                var route = L.Routing.control({
+                    waypoints: [L.latLng(_this.acceptRide.locations[0].departure.latitude, _this.acceptRide.locations[0].departure.longitude),
+                        L.latLng(_this.acceptRide.locations[0].destination.latitude, _this.acceptRide.locations[0].destination.longitude)],
+                    show: false,
+                    routeWhileDragging: true
+                }).addTo(_this.map);
+                _this.currentRoute = route;
+            }
+        });
+        this.rideService.rideStatusChangedValue$.subscribe(function (value) {
+            _this.rideDeclined = value;
+        });
+        this.rideService.rideAcceptedValue$.subscribe(function (value) {
+            _this.rideAccepted = value;
+        });
+        this.rideService.activeRideValue$.subscribe(function (value) {
+            _this.rideAccepted = value;
+            if (_this.currentRoute != null) {
+                _this.map.removeControl(_this.currentRoute);
+            }
+            if (_this.rideAccepted == true) {
+                if (_this.currentRoute != null) {
+                    _this.map.removeControl(_this.currentRoute);
+                }
+                var route = L.Routing.control({
+                    waypoints: [L.latLng(_this.acceptRide.locations[0].departure.latitude, _this.acceptRide.locations[0].departure.longitude),
+                        L.latLng(_this.acceptRide.locations[0].destination.latitude, _this.acceptRide.locations[0].destination.longitude)],
+                    show: false,
+                    routeWhileDragging: true
+                }).addTo(_this.map);
+                _this.currentRoute = route;
+            }
+        });
     };
     MapComponent.prototype.createRide = function () {
-        var _this = this;
-        this.mapService.search(this.from).subscribe({
-            next: function (result) {
-                _this.latDeparture = result[0].lat;
-                _this.lonDeparture = result[0].lon;
-            },
-            error: function (error) {
-                console.log(error);
-            }
+        return __awaiter(this, void 0, void 0, function () {
+            var fromResult, toResult, fromRide, toRide, passenger, req, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, this.mapService.search(this.from).toPromise()];
+                    case 1:
+                        fromResult = _b.sent();
+                        return [4 /*yield*/, this.mapService.search(this.to).toPromise()];
+                    case 2:
+                        toResult = _b.sent();
+                        if (fromResult.length === 0 || toResult.length === 0) {
+                            // Handle the case where the search results are empty
+                            return [2 /*return*/];
+                        }
+                        this.latDeparture = fromResult[0].lat;
+                        this.lonDeparture = fromResult[0].lon;
+                        this.latDestination = toResult[0].lat;
+                        this.lonDestination = toResult[0].lon;
+                        fromRide = {
+                            address: this.from,
+                            latitude: this.latDeparture,
+                            longitude: this.lonDeparture
+                        };
+                        toRide = {
+                            address: this.from,
+                            latitude: this.latDestination,
+                            longitude: this.lonDestination
+                        };
+                        passenger = {
+                            id: this.token.getUser().id,
+                            email: this.token.getUser().email
+                        };
+                        req = {
+                            locations: [{ departure: fromRide, destination: toRide }],
+                            passengers: [passenger],
+                            vehicleType: this.vehicle,
+                            babyTransport: this.baby,
+                            petTransport: this.pet,
+                            scheduledTime: ""
+                        };
+                        this.request.createRide(req).subscribe({
+                            next: function (result) {
+                            },
+                            error: function (error) {
+                            }
+                        });
+                        this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture), parseFloat(this.latDestination), parseFloat(this.lonDestination));
+                        return [3 /*break*/, 4];
+                    case 3:
+                        _a = _b.sent();
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
         });
-        this.mapService.search(this.to).subscribe({
-            next: function (result) {
-                _this.latDestination = result[0].lat;
-                _this.lonDestination = result[0].lon;
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-        var fromRide = {
-            address: this.from,
-            latitude: this.latDeparture,
-            longitude: this.latDeparture
-        };
-        var toRide = {
-            address: this.from,
-            latitude: this.latDestination,
-            longitude: this.lonDestination
-        };
-        var passenger = {
-            id: this.token.getUser().id,
-            email: this.token.getUser().email
-        };
-        var req = {
-            locations: [],
-            passengers: [],
-            vehicleType: this.vehicle,
-            babyTransport: this.baby,
-            petTransport: this.pet,
-            scheduledTime: undefined
-        };
-        req.locations.push(fromRide);
-        req.locations.push(toRide);
-        req.passengers.push(passenger);
-        this.request.createRide(req).subscribe({
-            next: function (result) {
-            },
-            error: function (error) {
-            }
-        });
-        this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture), parseFloat(this.latDestination), parseFloat(this.lonDestination));
     };
     //simulation_______________________________________________________
-    MapComponent.prototype.initializeWebSocketConnection = function () {
-        var ws = new SockJS('http://localhost:8080/socket');
-        this.stompClient = Stomp.over(ws);
-        this.stompClient.debug = null;
+    MapComponent.prototype.initializeSocketSimulationConnection = function () {
+        var ws = new SockJS('http://localhost:8080/simulation');
+        this.stompSimulation = stomp.Stomp.over(ws);
+        this.stompSimulation.debug = null;
         var that = this;
-        this.stompClient.connect({}, function () {
-            that.openGlobalSocket();
+        this.stompSimulation.connect({}, function () {
+            that.openSimulationSocket();
         });
     };
-    MapComponent.prototype.openGlobalSocket = function () {
+    MapComponent.prototype.openSimulationSocket = function () {
         var _this = this;
-        this.stompClient.subscribe('/map-updates/update-vehicle-position', function (message) {
-            var vehicle = JSON.parse(message.body);
-            var existingVehicle = _this.vehicles[vehicle.id];
-            existingVehicle.setLatLng([vehicle.longitude, vehicle.latitude]);
-            existingVehicle.update();
-        });
-        this.stompClient.subscribe('/map-updates/new-ride', function (message) {
-            var ride = JSON.parse(message.body);
-            var geoLayerRouteGroup = new leaflet_1.LayerGroup();
-            var color = Math.floor(Math.random() * 16777215).toString(16);
-            for (var _i = 0, _a = JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']; _i < _a.length; _i++) {
-                var step = _a[_i];
-                var routeLayer = leaflet_1.geoJSON(step.geometry);
-                routeLayer.setStyle({ color: "#" + color });
-                routeLayer.addTo(geoLayerRouteGroup);
-                _this.rides[ride.id] = geoLayerRouteGroup;
+        this.stompSimulation.subscribe('/map-updates', function (message) {
+            var newLocation = JSON.parse(message.body);
+            var vehicle = _this.vehicles[newLocation.id];
+            vehicle.setIcon(car_icon_1.carMarker);
+            vehicle.setLatLng([newLocation.longitude, newLocation.latitude]);
+            if (_this.role === 'DRIVER') {
+                _this.setDriverSockets();
             }
-            var markerLayer = leaflet_1.marker([ride.vehicle.longitude, ride.vehicle.latitude], {
-                icon: leaflet_1.icon({
-                    iconUrl: 'assets/car.png',
-                    iconSize: [35, 45],
-                    iconAnchor: [18, 45]
-                })
-            });
-            markerLayer.addTo(geoLayerRouteGroup);
-            _this.vehicles[ride.vehicle.id] = markerLayer;
-            _this.mainGroup = __spreadArrays(_this.mainGroup, [geoLayerRouteGroup]);
+            else if (_this.role === 'PASSENGER') {
+                _this.setPassengerSockets();
+            }
         });
-        this.stompClient.subscribe('/map-updates/ended-ride', function (message) {
+    };
+    MapComponent.prototype.setPassengerSockets = function () {
+        var _this = this;
+        this.stompClient.subscribe('/passenger/ride/' + this.id, function (message) {
+            console.log(message);
+            if (message.body === "You have a scheduled ride!") {
+                alert("You have a scheduled ride!");
+            }
+            else if (message.body === "No suitable driver found!") {
+                alert("No suitable driver found!");
+            }
+            else {
+                _this.acceptRide = JSON.parse(message.body);
+                if (_this.acceptRide.status === "ACCEPTED") {
+                    _this.rideService.setPanicPressed(null);
+                    _this.rideService.setRideEnded(false);
+                    _this.rideAccepted = true;
+                    _this.acceptRide.estimatedTimeInMinutes = Math.round(_this.acceptRide.estimatedTimeInMinutes * 100) / 100;
+                    _this.waitingForRide = false;
+                    _this.rideService.setActiveRide(true);
+                    _this.mapService.simulateRide(_this.acceptRide.id).subscribe({
+                        next: function (result) {
+                        },
+                        error: function (error) {
+                        }
+                    });
+                }
+                else if (_this.acceptRide.status === "REJECTED" || _this.acceptRide.status == "CANCELED") {
+                    alert('Your ride was rejected');
+                    _this.rideService.setPanicPressed(null);
+                    _this.clearMap();
+                    _this.rideAssumption.estimatedCost = 0;
+                    _this.rideAssumption.estimatedTimeInMinutes = 0;
+                    _this.waitingForRide = false;
+                    _this.rideAccepted = false;
+                }
+            }
+        });
+        this.stompClient.subscribe('/passenger/start-ride/' + this.id, function (message) {
             var ride = JSON.parse(message.body);
-            _this.mainGroup = _this.mainGroup.filter(function (lg) { return lg !== _this.rides[ride.id]; });
-            delete _this.vehicles[ride.vehicle.id];
-            delete _this.rides[ride.id];
+            _this.rideService.setRideStarted(true);
+            _this.rideService.setRideEnded(false);
+            _this.rideService.setPanicPressed(null);
+            _this.mapService.simulateRide(ride.id).subscribe({
+                next: function (result) {
+                    console.log(result);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            console.log(message);
         });
-        this.stompClient.subscribe('/map-updates/delete-all-rides', function (message) {
-            _this.vehicles = {};
-            _this.rides = {};
-            _this.mainGroup = [];
+        this.stompClient.subscribe('/passenger/end-ride/' + this.id, function (message) {
+            var ride = JSON.parse(message.body);
+            console.log(message.body);
+            _this.rideService.setRideEnded(true);
+            _this.mapService.get(ride.driver.id).subscribe({
+                next: function (result) {
+                    _this.vehicles[result.id].setIcon(car_icon_1.carMarker);
+                    _this.rideService.setActiveRide(false);
+                    _this.rideService.setRideAccepted(false);
+                    _this.rideService.setRideStarted(false);
+                    _this.router.navigate(['/profile/review:' + ride.id]);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    };
+    MapComponent.prototype.clearMap = function () {
+    };
+    MapComponent.prototype.setDriverSockets = function () {
+        var _this = this;
+        this.stompClient.subscribe('/driver/ride/' + this.id, function (message) {
+            console.log(message);
+            _this.rideService.setRideEnded(false);
+            _this.rideService.setPanicPressed(null);
+            _this.rideService.setRideStatus(false);
+            _this.acceptRide = JSON.parse(message.body);
+            _this.acceptRide.estimatedTimeInMinutes = Math.round(_this.acceptRide.estimatedTimeInMinutes * 100) / 100;
+            _this.acceptNotification = true;
+            _this.router.navigate(['/accept-decline-ride']);
+        });
+        this.stompClient.subscribe('/driver/start-ride/' + this.id, function (message) {
+            var ride = JSON.parse(message.body);
+            _this.rideService.setRideEnded(false);
+            _this.rideService.setPanicPressed(null);
+            _this.rideService.setRideStarted(true);
+            _this.mapService.simulateRide(ride.id).subscribe({
+                next: function (result) {
+                    console.log(result);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            console.log(message);
+        });
+        this.stompClient.subscribe('/driver/end-ride/' + this.id, function (message) {
+            var ride = JSON.parse(message.body);
+            _this.rideService.setRideEnded(true);
+            _this.mapService.get(ride.driver.id).subscribe({
+                next: function (result) {
+                    _this.vehicles[result.id].setIcon(car_icon_1.carMarker);
+                    _this.rideAccepted = false;
+                    _this.rideService.setActiveRide(false);
+                    _this.router.navigate(['/driver-home']);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
     };
     __decorate([
@@ -300,6 +474,9 @@ var MapComponent = /** @class */ (function () {
     __decorate([
         core_1.Output()
     ], MapComponent.prototype, "data");
+    __decorate([
+        core_1.Input()
+    ], MapComponent.prototype, "acceptRide");
     MapComponent = __decorate([
         core_1.Component({
             selector: 'app-map',

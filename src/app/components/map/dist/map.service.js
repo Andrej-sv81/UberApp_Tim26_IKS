@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.MapService = void 0;
 var core_1 = require("@angular/core");
+var environment_1 = require("src/app/environments/environment");
 var MapService = /** @class */ (function () {
     function MapService(http) {
         this.http = http;
@@ -18,6 +19,12 @@ var MapService = /** @class */ (function () {
     };
     MapService.prototype.reverseSearch = function (lat, lon) {
         return this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&<params>');
+    };
+    MapService.prototype.get = function (driverId) {
+        return this.http.get(environment_1.environment.apiHost + 'api/driver/' + driverId + '/vehicle');
+    };
+    MapService.prototype.simulateRide = function (rideId) {
+        return this.http.put(environment_1.environment.apiHost + 'api/vehicle/simulation/' + rideId, {});
     };
     MapService = __decorate([
         core_1.Injectable({
