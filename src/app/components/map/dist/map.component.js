@@ -17,7 +17,7 @@ exports.MapComponent = void 0;
 var core_1 = require("@angular/core");
 var L = require("leaflet");
 require("leaflet-routing-machine");
-var stompjs_1 = require("@stomp/stompjs");
+var Stomp = require("stompjs");
 var SockJS = require("sockjs-client");
 var leaflet_1 = require("leaflet");
 var MapComponent = /** @class */ (function () {
@@ -57,34 +57,12 @@ var MapComponent = /** @class */ (function () {
         });
         //simulation_______________________________________________
         this.initializeWebSocketConnection();
-        this.mapService.getRide().subscribe(function (ret) {
-            var color = Math.floor(Math.random() * 16777215).toString(16);
-            var geoLayerRouteGroup = new leaflet_1.LayerGroup();
-            for (var _i = 0, _a = JSON.parse(ret.routeJSON)['routes'][0]['legs'][0]['steps']; _i < _a.length; _i++) {
-                var step = _a[_i];
-                var routeLayer = leaflet_1.geoJSON(step.geometry);
-                routeLayer.setStyle({ color: "#" + color });
-                routeLayer.addTo(geoLayerRouteGroup);
-                _this.rides[ret.id] = geoLayerRouteGroup;
-            }
-            var markerLayer = leaflet_1.marker([ret.vehicle.longitude, ret.vehicle.latitude], {
-                icon: leaflet_1.icon({
-                    iconUrl: 'assets/car.png',
-                    iconSize: [35, 45],
-                    iconAnchor: [18, 45]
-                })
-            });
-            markerLayer.addTo(geoLayerRouteGroup);
-            _this.vehicles[ret.vehicle.id] = markerLayer;
-            _this.mainGroup = __spreadArrays(_this.mainGroup, [geoLayerRouteGroup]);
-        });
         //_______________________________________________________
     };
     MapComponent.prototype.sendData = function () {
         this.data.emit({ fromMap: this.clickedFrom, toMap: this.clickedTo });
     };
     MapComponent.prototype.initMap = function () {
-        var _this = this;
         this.map = L.map('map', {
             center: [45.2396, 19.8227],
             zoom: 14
@@ -95,9 +73,6 @@ var MapComponent = /** @class */ (function () {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         });
         tiles.addTo(this.map);
-        this.mainGroup.forEach(function (layer) {
-            layer.addTo(_this.map); // Add each layer to the map
-        });
         //this.search();
         // this.addMarker();
         // this.registerOnClick();
@@ -258,14 +233,12 @@ var MapComponent = /** @class */ (function () {
     //simulation_______________________________________________________
     MapComponent.prototype.initializeWebSocketConnection = function () {
         var ws = new SockJS('http://localhost:8080/socket');
-        this.stompClient = new stompjs_1.Client();
-        this.stompClient.brokerURL = ws;
+        this.stompClient = Stomp.over(ws);
         this.stompClient.debug = null;
         var that = this;
         this.stompClient.connect({}, function () {
             that.openGlobalSocket();
         });
-        this.stompClient.activate();
     };
     MapComponent.prototype.openGlobalSocket = function () {
         var _this = this;

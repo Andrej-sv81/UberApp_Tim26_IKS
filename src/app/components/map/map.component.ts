@@ -9,7 +9,7 @@ import { RequestRideService } from '../request-ride/request-ride.service';
 import {MapService} from "./map.service";
 import {LocationDTO} from "../request-ride/request-ride-model/locationDTO";
 import {PassengerDTO} from "../request-ride/request-ride-model/passengerDTO";
-import {Client} from '@stomp/stompjs'
+import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { latLng, tileLayer, marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import { Ride } from '../model/Ride';
@@ -62,30 +62,6 @@ private stompClient: any;
 
     this.initializeWebSocketConnection();
 
-    this.mapService.getRide().subscribe((ret: any) => {
-
-        let color = Math.floor(Math.random() * 16777215).toString(16);
-        let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-
-        for (let step of JSON.parse(ret.routeJSON)['routes'][0]['legs'][0]['steps']) {
-          let routeLayer = geoJSON(step.geometry);
-          routeLayer.setStyle({ color: `#${color}` });
-          routeLayer.addTo(geoLayerRouteGroup);
-          this.rides[ret.id] = geoLayerRouteGroup;
-        }
-        let markerLayer = marker([ret.vehicle.longitude, ret.vehicle.latitude], {
-          icon: icon({
-            iconUrl: 'assets/car.png',
-            iconSize: [35, 45],
-            iconAnchor: [18, 45],
-          }),
-        });
-        markerLayer.addTo(geoLayerRouteGroup);
-        this.vehicles[ret.vehicle.id] = markerLayer;
-        this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-      
-    });
-
     //_______________________________________________________
   }
 
@@ -111,9 +87,7 @@ private stompClient: any;
       }
     );
     tiles.addTo(this.map);
-    this.mainGroup.forEach((layer: L.LayerGroup) => {
-      layer.addTo(this.map); // Add each layer to the map
-    });
+
     //this.search();
     // this.addMarker();
     // this.registerOnClick();
@@ -311,15 +285,12 @@ private stompClient: any;
 
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8080/socket');
-    this.stompClient = new Client();
-    this.stompClient.brokerURL = ws;
+    this.stompClient = Stomp.over(ws);
     this.stompClient.debug = null;
     let that = this;
     this.stompClient.connect({}, function () {
       that.openGlobalSocket();
     });
-
-    this.stompClient.activate();
   }
 
 
