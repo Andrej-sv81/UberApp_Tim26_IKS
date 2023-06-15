@@ -7,11 +7,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 exports.__esModule = true;
 exports.MapService = void 0;
+var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
+var environment_1 = require("src/app/environments/environment");
 var MapService = /** @class */ (function () {
     function MapService(http) {
         this.http = http;
+        this.headers = new http_1.HttpHeaders({});
     }
+    MapService.prototype.getRide = function () {
+        return this.http.put(environment_1.environment.apiHost + "api/ride/1/acceptSim", null, {
+            headers: this.headers
+        });
+    };
     //constructor() {}
     MapService.prototype.search = function (street) {
         return this.http.get('https://nominatim.openstreetmap.org/search?format=json&q=' + street);
