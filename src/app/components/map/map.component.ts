@@ -218,18 +218,18 @@ export class MapComponent implements AfterViewInit, OnInit{
       }
     });
 
-    const fromRide:LocationDTO = {
+    let fromRide:LocationDTO = {
       address:this.from,
       latitude:this.latDeparture,
       longitude:this.latDeparture,
     }
-    const toRide:LocationDTO = {
+    let toRide:LocationDTO = {
       address:this.from,
       latitude:this.latDestination,
       longitude:this.lonDestination,
     }
 
-    const passenger:PassengerDTO = {
+    let passenger:PassengerDTO = {
       id: this.token.getUser().id,
       email: this.token.getUser().email,
     }
