@@ -11,20 +11,23 @@ var core_1 = require("@angular/core");
 var chart_js_1 = require("node_modules/chart.js");
 chart_js_1.Chart.register.apply(chart_js_1.Chart, chart_js_1.registerables);
 var ReportComponent = /** @class */ (function () {
-    function ReportComponent() {
+    function ReportComponent(service) {
+        this.service = service;
+        this.labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     }
     ReportComponent.prototype.ngOnInit = function () {
-        this.RenderChart1();
-        this.RenderChart2();
+        var data1 = this.service.ReturnMonthlyRides();
+        var data2 = this.service.ReturnMonthlyEarnings();
+        this.RenderChart1(data1);
+        this.RenderChart2(data2);
     };
-    ReportComponent.prototype.RenderChart1 = function () {
-        var labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    ReportComponent.prototype.RenderChart1 = function (data1) {
         var data = {
-            labels: labels,
+            labels: this.labels,
             datasets: [{
                     axis: 'x',
                     label: 'Number of Rides',
-                    data: [65, 59, 80, 81, 56, 55, 40, 23, 2, 100, 57, 87],
+                    data: data1,
                     fill: false,
                     backgroundColor: [
                         'rgba(0, 0, 0, 0.8)',
@@ -43,14 +46,13 @@ var ReportComponent = /** @class */ (function () {
             }
         });
     };
-    ReportComponent.prototype.RenderChart2 = function () {
-        var labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    ReportComponent.prototype.RenderChart2 = function (data2) {
         var data = {
-            labels: labels,
+            labels: this.labels,
             datasets: [{
                     axis: 'x',
                     label: 'Monthly Earnings',
-                    data: [456, 259, 180, 281, 356, 585, 450, 233, 211, 1020, 537, 87],
+                    data: data2,
                     fill: false,
                     backgroundColor: [
                         'rgba(0, 120, 255, 0.8)',

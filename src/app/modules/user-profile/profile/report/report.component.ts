@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Chart, registerables} from 'node_modules/chart.js';
+import { ReportServiceService } from '../report-service.service';
 
 Chart.register(...registerables);
 
@@ -10,23 +11,26 @@ Chart.register(...registerables);
 })
 export class ReportComponent implements OnInit{
 
-
+  constructor(private service: ReportServiceService){}
+  labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
   ngOnInit(): void
   {
-   this.RenderChart1();
-   this.RenderChart2();
+    const data1 = this.service.ReturnMonthlyRides();
+    const data2 = this.service.ReturnMonthlyEarnings();
+
+    this.RenderChart1(data1);
+    this.RenderChart2(data2);
   }
 
 
 
-  RenderChart1(){
-    const labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+  RenderChart1(data1: number[]){
     const data = {
-      labels: labels,
+      labels: this.labels,
       datasets: [{
         axis: 'x',
         label: 'Number of Rides',
-        data: [65, 59, 80, 81, 56, 55, 40, 23, 2, 100, 57, 87],
+        data: data1,
         fill: false,
         backgroundColor: [
           'rgba(0, 0, 0, 0.8)',
@@ -47,14 +51,14 @@ export class ReportComponent implements OnInit{
       }});
   }
 
-  RenderChart2(){
-    const labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+  RenderChart2(data2: number[]){
+    
     const data = {
-      labels: labels,
+      labels: this.labels,
       datasets: [{
         axis: 'x',
         label: 'Monthly Earnings',
-        data: [456, 259, 180, 281, 356, 585, 450, 233, 211, 1020, 537, 87],
+        data: data2,
         fill: false,
         backgroundColor: [
           'rgba(0, 120, 255, 0.8)',
