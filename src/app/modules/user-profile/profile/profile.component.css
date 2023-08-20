@@ -14,11 +14,13 @@
     font-family: 'Poppins';
 }
 .vertical-line{
-    position: relative;
-    border-left: 2px solid black;
-    height: 600px;
-    width: 15px;
-    margin-top: 30px;
+    position: fixed;
+    background-color: black;
+    height: 80vh;
+    width: 2px;
+    top: 10%;
+    left: 20%;
+    transform: translateX(-50%);
 }
 
 .content-container{

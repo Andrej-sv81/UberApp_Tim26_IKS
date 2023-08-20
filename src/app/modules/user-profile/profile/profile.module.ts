@@ -13,6 +13,7 @@ import { MaterialModule } from 'src/app/material/material/material.module';
 import { DirectivesModule } from '../directives/directives.module';
 import { MatSortModule } from '@angular/material/sort';
 import { ReviewComponent } from './review/review.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ReviewComponent } from './review/review.component';
     UpdateComponent,
     ChangePasswordComponent,
     ReviewComponent,
+    ReportComponent,
   ],
   imports: [
     CommonModule,

@@ -22,6 +22,7 @@ import {UnregisteredComponent} from "./modules/unregistered/unregistered.compone
 import {DriverHomeComponent} from "./modules/driver-home/driver-home.component";
 import { PasswordResetComponent } from './modules/password-reset/password-reset.component';
 import { ReviewComponent } from './modules/user-profile/profile/review/review.component';
+import { ReportComponent } from './modules/user-profile/profile/report/report.component';
 
 
 const routes: Routes = [
@@ -39,13 +40,14 @@ const routes: Routes = [
   {path: 'accept-decline-ride', component: AcceptDeclineRideComponent},
   {path: 'current-ride-passenger', component: CurrentRidePassengerComponent},
   {path: 'current-ride-driver', component: CurrentRideDriverComponent},
-  {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
+  {path: 'profile', component: ProfileComponent,  children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
       {path: 'favorites', component: FavoritesComponent},
       {path: 'update', component: UpdateComponent},
       {path: 'change-password', component: ChangePasswordComponent},
       {path: 'review/:id', component: ReviewComponent},
+      {path: 'report', component: ReportComponent},
       {path: '', redirectTo: 'info', pathMatch: 'full'},
       {path: '**', component: InfoComponent},
   ]},
