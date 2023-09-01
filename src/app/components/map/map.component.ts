@@ -41,7 +41,7 @@ export class MapComponent implements AfterViewInit, OnInit{
     this.unregService.selectedRoute$.subscribe({
       next: (value) => {
         if(value[0] !== "" && value[1] !== ""){  //moguc error kod praznih stringova na pocetnom ucitavanju unregistered strane
-          this.estimateTimeAndCost(value[0], value[1]); 
+          this.estimateTimeAndCost(value[0], value[1]);
         }
       }
     })
