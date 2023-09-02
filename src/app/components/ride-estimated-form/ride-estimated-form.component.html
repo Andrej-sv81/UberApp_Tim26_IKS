@@ -1,0 +1,27 @@
+<div class="home-container" id="form">
+  <form id="estimatedForm" [formGroup]="estimatedForm" (ngSubmit)="submit()">
+    <div class="form-container">
+      <div class="ride-request-container">
+        <h2 class="ride-request-header">Request a ride now</h2>
+        <div class="form-group">
+          <input class="address-field" type="text" name="start-location" formControlName="departure" placeholder="Enter pickup location:" id="startLocation"/>
+        </div>
+        <div class="form-group">
+          <input class="address-field" type="text" name="destination" formControlName="destination"placeholder="Enter destination:" id="endLocation"/>
+        </div>
+        <div id="estimated-time">
+          <button id="calculate" type="submit">Estimated time</button>
+        </div>
+        <div class="btn-container" id="btn-container">
+          <button class="sign-up" [routerLink]="['/registration']">Sign up first</button>
+          <button class="sign in" [routerLink]="['/login']">Sign in first</button>
+        </div>
+        <hr>
+        <div class="estimated">
+          <p>Time: <samp> min</samp></p>
+          <p>Cost: <samp> RSD</samp></p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

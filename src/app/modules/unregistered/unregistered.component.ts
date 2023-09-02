@@ -1,6 +1,6 @@
 import {Component, ViewChild, ViewChildren} from '@angular/core';
 import {MapComponent} from "../../components/map/map.component";
-import {MapService} from "../../components/map/map.service";
+import {MapService} from "../services/map.service";
 import {UnregisteredService} from "./unregistered.service";
 
 @Component({
