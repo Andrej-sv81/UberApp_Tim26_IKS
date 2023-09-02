@@ -17,7 +17,7 @@ export class LoginGuard implements CanActivate {
       | UrlTree>
       | Promise<boolean
       | UrlTree>
-      | boolean 
+      | boolean
       | UrlTree {
       if (this.authService.isLoggedIn()){
         return true;
@@ -25,7 +25,7 @@ export class LoginGuard implements CanActivate {
         this.router.navigate(['login']);
         return false;
       }
-      
+
   }
-  
+
 }

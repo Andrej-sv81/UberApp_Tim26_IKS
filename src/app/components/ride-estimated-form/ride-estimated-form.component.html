@@ -13,13 +13,13 @@
           <button id="calculate" type="submit">Estimated time</button>
         </div>
         <div class="btn-container" id="btn-container">
-          <button class="sign-up" [routerLink]="['/registration']">Sign up first</button>
-          <button class="sign in" [routerLink]="['/login']">Sign in first</button>
+          <button class="sign-up" type="button" >Sign up first</button>
+          <button class="sign in" type="button" >Sign in first</button>
         </div>
         <hr>
         <div class="estimated">
-          <p>Time: <samp> min</samp></p>
-          <p>Cost: <samp> RSD</samp></p>
+          <p>Time: <samp>{{time}} min</samp></p>
+          <p>Cost: <samp>{{price}} RSD</samp></p>
         </div>
       </div>
     </div>

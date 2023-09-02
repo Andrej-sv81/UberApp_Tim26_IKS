@@ -23,9 +23,9 @@ export class UnregisteredComponent {
 
   estimateTimeAndCost() {
     // @ts-ignore
-    this.startLocationAddress = document.getElementById("startLocation").value
+    // this.startLocationAddress = document.getElementById("startLocation").value
     // @ts-ignore
-    this.endLocationAddress = document.getElementById("endLocation").value
-    this.unregisterService.setRoute([this.startLocationAddress, this.endLocationAddress])
+    // this.endLocationAddress = document.getElementById("endLocation").value
+    // this.unregisterService.setRoute([this.startLocationAddress, this.endLocationAddress])
   }
 }

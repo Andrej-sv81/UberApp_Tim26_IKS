@@ -9,8 +9,7 @@ import {Estimated} from "../unregistered/models/request-estimated";
   providedIn: 'root'
 })
 export class EstimatedRideService {
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json',
+  private headers = new HttpHeaders({'Content-Type': 'application/json',
     skip: 'true',
   });
 
@@ -19,9 +18,17 @@ export class EstimatedRideService {
   requestRoute$ = new BehaviorSubject<[string, string]>(["", ""])
   selectedRoute$ = this.requestRoute$.asObservable();
 
+  requestRouteCoords$ = new BehaviorSubject<[any,any,any,any]>([0,0,0,0])
+  selectedRouteCoords$ = this.requestRouteCoords$.asObservable();
+
   setRoute(list: [string, string])
   {
     this.requestRoute$.next(list)
+  }
+
+  setRouteCoords(list: [any,any,any,any])
+  {
+    this.requestRouteCoords$.next(list)
   }
   getEstimatedData(body:Estimated):Observable<EstimatedReturn>{
     return this.http.post<EstimatedReturn>(environment.apiHost + 'api/unregisteredUser/',

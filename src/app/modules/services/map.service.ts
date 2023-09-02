@@ -1,4 +1,4 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 
@@ -6,12 +6,16 @@ import {Observable} from "rxjs";
   providedIn: 'root',
 })
 export class MapService {
+
+  private headers = new HttpHeaders({'Content-Type': 'application/json',
+    skip: 'true',
+  });
   constructor(private http: HttpClient) {}
   //constructor() {}
 
   search(street:string):Observable<any>{
     return this.http.get(
-      'https://nominatim.openstreetmap.org/search?format=json&q=' + street
+      'https://nominatim.openstreetmap.org/search?format=json&q=' + street,{headers:this.headers}
     );
   }
 

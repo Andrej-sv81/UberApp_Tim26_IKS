@@ -9,6 +9,7 @@ import { RequestRideService } from '../request-ride/request-ride.service';
 import {MapService} from "../../modules/services/map.service";
 import {LocationDTO} from "../request-ride/request-ride-model/locationDTO";
 import {PassengerDTO} from "../request-ride/request-ride-model/passengerDTO";
+import {EstimatedRideService} from "../../modules/services/estimated-ride.service";
 
 
 @Component({
@@ -18,13 +19,6 @@ import {PassengerDTO} from "../request-ride/request-ride-model/passengerDTO";
 })
 export class MapComponent implements AfterViewInit, OnInit{
   private map:any;
-  private clickedFrom = '';
-  private clickedTo = ''
-  @Input() from = ''; // start location from form
-  @Input() to = ''; //end location from form
-  @Input() baby = false;
-  @Input() pet = false;
-  @Input() vehicle = 'STANDARD';
 
   private latDeparture: string = '';
   private lonDeparture: string = '';
@@ -38,20 +32,19 @@ export class MapComponent implements AfterViewInit, OnInit{
   @Output() data = new EventEmitter<{fromMap:string,toMap:string}>();
 
   ngOnInit() {
-    this.unregService.selectedRoute$.subscribe({
+    this.estimatedService.selectedRouteCoords$.subscribe({
       next: (value) => {
-        if(value[0] !== "" && value[1] !== ""){  //moguc error kod praznih stringova na pocetnom ucitavanju unregistered strane
-          this.estimateTimeAndCost(value[0], value[1]);
+        console.log("VREDNOST 1:",value[0]);
+        if(value[0] !== 0 && value[1] !== 0 && value[2] !== 0 && value[3] !== 0){  //moguc error kod praznih stringova na pocetnom ucitavanju unregistered strane
+          console.log("USO U IF ")
+          this.route(value[0],value[1],value[2],value[3]);
         }
       }
     })
   }
 
-  sendData(){
-    this.data.emit({fromMap:this.clickedFrom,toMap:this.clickedTo})
-  }
 
-  constructor(private mapService:MapService, private unregService: UnregisteredService, private token: TokenService, private request: RequestRideService) {}
+  constructor(private mapService:MapService, private estimatedService:EstimatedRideService) {}
 
   private initMap(): void {
     this.map = L.map('map',{
@@ -96,8 +89,6 @@ export class MapComponent implements AfterViewInit, OnInit{
       const lng = coord.lng.float;
       this.mapService.reverseSearch(parseFloat(lat), parseFloat(lng)).subscribe((res) => {
         console.log(res.toString());
-        console.log("FROM PROBA:" + this.clickedFrom);
-        console.log("TO PROBA:" + this.clickedTo);
       });
       console.log(
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
@@ -107,80 +98,16 @@ export class MapComponent implements AfterViewInit, OnInit{
     });
   }
 
-  route(lat1: number, lon1: number, lat2: number, lon2: number ): void {
-      L.Routing.control({
-      waypoints: [L.latLng(lat1, lon1), L.latLng(lat2, lon2)],
-    }).addTo(this.map);
+  route(lat1: any, lon1: any, lat2: any, lon2: any ): void {
+    console.log(lat1);
+    console.log(lon1);
+    console.log(lat2);
+    console.log(lon2);
+    L.Routing.control({waypoints: [L.latLng(lat1, lon1), L.latLng(lat2, lon2)]}).addTo(this.map);
+    console.log("NESTO POSLE")
 
   }
 
-  estimateTimeAndCost(fromLoc: string, toLoc: string){
-    this.from = fromLoc;
-    this.to = toLoc;
-    console.log(this.from)
-    console.log(this.to)
-    this.mapService.search(this.from).subscribe({
-      next: (result) => {
-        this.latDeparture = result[0].lat;
-        this.lonDeparture = result[0].lon;
-        console.log(this.latDeparture, this.lonDeparture)
-
-        this.mapService.search(this.to).subscribe({
-          next: (result) => {
-            this.latDestination = result[0].lat;
-            this.lonDestination = result[0].lon;
-            console.log(this.latDestination, this.lonDestination)
-
-            const from:LocationDTO = {
-              address:this.from,
-              latitude:this.latDeparture,
-              longitude:this.latDeparture,
-            }
-            const to:LocationDTO = {
-              address:this.to,
-              latitude:this.latDestination,
-              longitude:this.lonDestination,
-            }
-            let ride = {
-              departure: from,
-              destination: to,
-            }
-            const estim: Estimated = {
-              locations:[],
-              vehicleType:'STANDARD',
-              babyTransport:true,
-              petTransport:true,
-            }
-
-            estim.locations.push(ride);
-
-            this.unregService.getEstimated(estim).subscribe({
-              next: (result)=>{
-                this.price = result.estimatedCost;
-                this.time = result.estimatedTimeInMinutes;
-              }
-            })
-
-
-            this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture),
-              parseFloat(this.latDestination), parseFloat(this.lonDestination));
-          },
-          error: (error)=>{
-            console.log(error);
-          }
-        });
-
-
-      },
-      error: (error)=>{
-          console.log(error);
-      }
-    });
-
-
-
-
-  }
   private addMarker(): void {
     const lat: number = 45.25;
     const lon: number = 19.8228;
@@ -196,66 +123,4 @@ export class MapComponent implements AfterViewInit, OnInit{
   }
 
 
-  createRide(){
-
-    this.mapService.search(this.from).subscribe({
-      next: (result) => {
-        this.latDeparture = result[0].lat;
-        this.lonDeparture = result[0].lon;
-      },
-      error: (error)=>{
-          console.log(error);
-      }
-    });
-
-    this.mapService.search(this.to).subscribe({
-      next: (result) => {
-        this.latDestination = result[0].lat;
-        this.lonDestination = result[0].lon;
-      },
-      error: (error)=>{
-        console.log(error);
-      }
-    });
-
-    let fromRide:LocationDTO = {
-      address:this.from,
-      latitude:this.latDeparture,
-      longitude:this.latDeparture,
-    }
-    let toRide:LocationDTO = {
-      address:this.from,
-      latitude:this.latDestination,
-      longitude:this.lonDestination,
-    }
-
-    let passenger:PassengerDTO = {
-      id: this.token.getUser().id,
-      email: this.token.getUser().email,
-    }
-
-    const req: RideRequest = {
-      locations: [],
-      passengers: [],
-      vehicleType: this.vehicle,
-      babyTransport: this.baby,
-      petTransport: this.pet,
-      scheduledTime: undefined
-    }
-
-    req.locations.push(fromRide);
-    req.locations.push(toRide);
-    req.passengers.push(passenger);
-
-    this.request.createRide(req).subscribe({
-      next: (result)=>{
-      },
-      error: (error)=>{
-
-            }
-    })
-
-    this.route(parseFloat(this.latDeparture), parseFloat(this.lonDeparture),
-    parseFloat(this.latDestination), parseFloat(this.lonDestination));
-  }
 }
