@@ -24,11 +24,13 @@ import { UnregisteredComponent } from './modules/unregistered/unregistered.compo
 import { DriverHomeComponent } from './modules/driver/driver-home/driver-home.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PasswordResetComponent } from './modules/passenger/password-reset/password-reset.component';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatCard, MatCardContent, MatCardModule } from '@angular/material/card';
 import { MaterialModule } from './material/material/material.module';
+import { RideEstimatedFormComponent } from './components/ride-estimated-form/ride-estimated-form.component';
+import { RideRequestFormComponent } from './components/ride-request-form/ride-request-form.component';
 
 
 //import { MapComponent } from './components/map/map.component';
@@ -47,27 +49,30 @@ import { MaterialModule } from './material/material/material.module';
     UnregisteredComponent,
     DriverHomeComponent,
     PasswordResetComponent,
+    RideEstimatedFormComponent,
+    RideRequestFormComponent,
     //MapComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MapModule,
-    CommonModule,
-    HttpClientModule,
-    RegistrationModule,
-    SecurityModule,
-    ActivationModule,
-    ProfileModule,
-    NoopAnimationsModule,
-    MatButtonToggleModule,
-    MatSlideToggleModule,
-    FormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MaterialModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MapModule,
+        CommonModule,
+        HttpClientModule,
+        RegistrationModule,
+        SecurityModule,
+        ActivationModule,
+        ProfileModule,
+        NoopAnimationsModule,
+        MatButtonToggleModule,
+        MatSlideToggleModule,
+        FormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MaterialModule,
+        ReactiveFormsModule,
 
-  ],
+    ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,
     useClass: Interceptor,

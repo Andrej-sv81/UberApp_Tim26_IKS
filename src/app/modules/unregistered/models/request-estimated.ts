@@ -2,8 +2,8 @@ import {LocationDTO} from "../../../components/request-ride/request-ride-model/l
 
 export interface Estimated{
   locations: any[];
-  vehicleType: "STANDARD";
-  babyTransport: true;
-  petTransport: true;
+  vehicleType: string;
+  babyTransport: boolean;
+  petTransport: boolean;
 
 }

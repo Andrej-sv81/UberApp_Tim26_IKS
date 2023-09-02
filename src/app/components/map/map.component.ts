@@ -6,7 +6,7 @@ import { Estimated } from 'src/app/modules/unregistered/models/request-estimated
 import { UnregisteredService } from 'src/app/modules/unregistered/unregistered.service';
 import { RideRequest } from '../request-ride/request-ride-model/ride-request';
 import { RequestRideService } from '../request-ride/request-ride.service';
-import {MapService} from "./map.service";
+import {MapService} from "../../modules/services/map.service";
 import {LocationDTO} from "../request-ride/request-ride-model/locationDTO";
 import {PassengerDTO} from "../request-ride/request-ride-model/passengerDTO";
 
