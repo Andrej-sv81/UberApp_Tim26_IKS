@@ -18,11 +18,17 @@ export class UnregisteredService {
   constructor(private http: HttpClient) { }
 
   requestRoute$ = new BehaviorSubject<[string, string]>(["", ""])
+  requestRouteCoords$ = new BehaviorSubject<[any,any,any,any]>(["","","",""])
   selectedRoute$ = this.requestRoute$.asObservable();
+  selectedCoords$ = this.requestRouteCoords$.asObservable();
 
   setRoute(list: [string, string])
   {
     this.requestRoute$.next(list)
+  }
+
+  setCoords(list:[any,any,any,any]){
+    this.requestRouteCoords$.next(list)
   }
 
   getEstimated(body: Estimated): Observable<EstimatedReturn>{

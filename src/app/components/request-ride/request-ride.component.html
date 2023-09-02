@@ -1,4 +1,4 @@
-<app-map #mapChild [from]="startLocation.value" [to]="endLocation.value"></app-map>
+<app-map></app-map>
 <div class="request-form">
   <h2 class="request-form-header">Where can we pick you up?</h2>
   <div class="form-group">
@@ -21,10 +21,10 @@
       (change)="saveBFlag(babyFlagBox.checked)">
       <label for="pet">Pet</label>
       <input type="checkbox" id="pet" name="petFlag" #petFlagBox [checked]="petFlag"
-      (change)="savePFlag(petFlagBox.checked)"> 
+      (change)="savePFlag(petFlagBox.checked)">
   </div>
   <div class="btn-container">
     <button id="add-friends">+Add friends</button>
-    <button class="confirm" (click)="mapChild.createRide()">Confirm</button>
+    <button class="confirm">Confirm</button>
   </div>
 </div>

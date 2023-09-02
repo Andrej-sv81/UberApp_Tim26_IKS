@@ -1,99 +1,12 @@
 app-map{
-  z-index: -1;
+  z-index: -10000000000;
 }
 
-#form{
-  z-index: 9999;
-  background-color: white;
+app-ride-estimated-form{
+  z-index: 10000000000;
   width: 530px;
   height: 395px;
   position: relative;
-  margin-left: 40px;
-  margin-top: 150px;
   font-family: Poppins;
-  border-radius: 8px;
 }
 
-#form h2{
-  padding-left: 15px;
-  padding-top: 5px;
-  font-size: 48px;
-  margin-bottom: 20px;
-}
-
-#form input{
-  margin-left: 15px;
-  margin-bottom: 10px;
-  width: 480px;
-  height: 40px;
-  font-size: 18px;
-  font-family: Poppins;
-  border-radius: 8px;
-  background-color: #f0f0f0;
-  border: none;
-  text-indent: 10px;
-}
-
-#estimated-time{
-  margin-top: 5px;
-  margin-left: 15px;
-
-}
-
-#btn-container{
-  margin-top: 5px;
-  margin-left: 15px;
-}
-
-#btn-container button{
-  margin-top: 8px;
-  margin-right: 8px;
-  width: 190px;
-  height: 50px;
-  border-radius: 8px;
-  font-family: Poppins;
-  font-size: 18px;
-  font-weight: 550;
-  border: none;
-  text-align: center;
-  padding: 0;
-}
-
-.sign-up{
-  background-color: #222522;
-  color: white;
-}
-
-#calculate{
-  width: 385px;
-  height: 50px;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: 500;
-  border: none;
-  text-align: center;
-  padding: 0;
-}
-
-.estimated{
-  font-family: 'Poppins';
-  font-weight: 500px;
-  font-size: 15px;
-  display: flex;
-  flex-direction: row;
-  margin-left: 40px;
- 
-}
-
-samp{
-  margin-left: 10px;
-}
-
-p{
-  margin-left: 40px;
-}
-
-
-hr{
-  width: 90%;
-}
