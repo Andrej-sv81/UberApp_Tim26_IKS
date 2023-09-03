@@ -6,7 +6,7 @@ import { LoginComponent } from './modules/auth/login/login.component';
 import { RegistrationComponent } from './modules/passenger/registration/register/registration.component';
 import { SafetyComponent } from './components/safety/safety.component';
 import {MapComponent} from "./components/map/map.component";
-import {RequestRideComponent} from "./components/request-ride/request-ride.component";
+import {RequestRideComponent} from "./modules/passenger/request-ride/request-ride.component";
 import { LoginGuard } from './modules/auth/guard/login.guard';
 import { ActivationComponent } from './modules/passenger/account-activation/activation/activation.component';
 import { ProfileComponent } from './modules/passenger/user-profile/profile/profile.component';

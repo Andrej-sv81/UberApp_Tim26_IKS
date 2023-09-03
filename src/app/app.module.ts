@@ -6,7 +6,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SafetyComponent } from './components/safety/safety.component';
 import { HelpComponent } from './components/help/help.component';
-import { RequestRideComponent } from './components/request-ride/request-ride.component';
+import { RequestRideComponent } from './modules/passenger/request-ride/request-ride.component';
 import { MapModule } from "./components/map/map.module";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
@@ -31,6 +31,7 @@ import { MatCard, MatCardContent, MatCardModule } from '@angular/material/card';
 import { MaterialModule } from './material/material/material.module';
 import { RideEstimatedFormComponent } from './components/ride-estimated-form/ride-estimated-form.component';
 import { RideRequestFormComponent } from './components/ride-request-form/ride-request-form.component';
+import { AcceptDeclineRideFormComponent } from './components/accept-decline-ride-form/accept-decline-ride-form.component';
 
 
 //import { MapComponent } from './components/map/map.component';
@@ -51,6 +52,7 @@ import { RideRequestFormComponent } from './components/ride-request-form/ride-re
     PasswordResetComponent,
     RideEstimatedFormComponent,
     RideRequestFormComponent,
+    AcceptDeclineRideFormComponent,
     //MapComponent
   ],
     imports: [

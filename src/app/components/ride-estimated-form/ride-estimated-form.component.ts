@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {EstimatedRideService} from "../../modules/services/estimated-ride.service";
 import {MapService} from "../../modules/services/map.service";
-import {LocationDTO} from "../request-ride/request-ride-model/locationDTO";
+import {LocationDTO} from "../../modules/passenger/request-ride/request-ride-model/locationDTO";
 import {Estimated} from "../../modules/unregistered/models/request-estimated";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 
@@ -28,7 +28,6 @@ export class RideEstimatedFormComponent implements OnInit{
       departure: [''],
       destination: [''],
     });
-
   }
 
   submit(){

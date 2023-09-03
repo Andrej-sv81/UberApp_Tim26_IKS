@@ -1,7 +1,7 @@
-import {RejectionDTO} from "../../components/request-ride/request-ride-model/rejectionDTO";
-import {DriverDTO} from "../../components/request-ride/request-ride-model/driverDTO";
-import {PassengerDTO} from "../../components/request-ride/request-ride-model/passengerDTO";
-import {LocationDTO} from "../../components/request-ride/request-ride-model/locationDTO";
+import {RejectionDTO} from "../passenger/request-ride/request-ride-model/rejectionDTO";
+import {DriverDTO} from "../passenger/request-ride/request-ride-model/driverDTO";
+import {PassengerDTO} from "../passenger/request-ride/request-ride-model/passengerDTO";
+import {LocationDTO} from "../passenger/request-ride/request-ride-model/locationDTO";
 
 export interface RideResponseDTO {
 
