@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
-import {RideResponse} from "../components/request-ride/request-ride-model/ride-response";
-import {LocationDTO} from "../components/request-ride/request-ride-model/locationDTO";
+import {RideResponse} from "../modules/passenger/request-ride/request-ride-model/ride-response";
+import {LocationDTO} from "../modules/passenger/request-ride/request-ride-model/locationDTO";
 import {RideResponseDTO} from "../modules/DTO/RideResponseDTO";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";

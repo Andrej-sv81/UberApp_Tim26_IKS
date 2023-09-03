@@ -1,0 +1,132 @@
+#description {
+  margin-left: 20px;
+}
+
+#test {
+  margin-left: 20px;
+}
+
+#value {
+  margin-left: 20px;
+}
+
+app-map{
+  z-index: -1;
+}
+
+.request-form{
+  border-radius: 10px;
+  left: 100px;
+  top: 20px;
+  z-index: 9999;
+  background-color: white;
+  width: 530px;
+  height: 480px;
+  position: relative;
+}
+
+.address-field{
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 10px;
+  width: 500px;
+  height: 50px;
+  align-self: center;
+  margin-bottom: 20px;
+  text-indent: 10px;
+  font-size: 20px;
+  font-family: Poppins;
+  padding: 0px;
+  /*color: 757575;*/
+}
+
+.confirm{
+  border: 0px;
+  width: 190px;
+  height: 50px;
+  padding: 0px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  font-family: Poppins;
+  color: white;
+  font-weight: 600;
+  background-color: black;
+}
+
+.btn-container{
+  padding-left: 15px;
+  padding-bottom: 20px;
+}
+
+.form-group{
+  padding-left: 15px;
+}
+
+.form-group p{
+  font-family: Poppins;
+  font-size: 36px;
+  margin: 0px;
+  text-decoration: underline;
+  text-underline-offset: 9px;
+  text-decoration-thickness: 1px;
+}
+
+.request-form-header{
+  font-size: 48px;
+  font-weight: 600;
+  font-family: 'Poppins';
+  font-weight: 600;
+  align-self: center;
+  padding-left: 15px;
+  padding-top: 15px;
+  margin-bottom: 15px;
+
+}
+
+#checkboxes{
+  display: inline-block;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  margin-left: 0px;
+}
+
+#checkboxes input{
+  margin-left: 0px;
+  margin-right: 10px;
+}
+
+#checkboxes label{
+  font-size: 20px;
+  font-weight: 400;
+  font-family: Poppins;
+}
+
+
+#add-friends{
+  border: 0px;
+  width: 190px;
+  height: 50px;
+  padding: 0px;
+  text-align: center;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  font-family: Poppins;
+  color: black;
+  margin-right: 10px;
+  font-weight: 600;
+  background-color: #f0f0f0;
+}
+
+#vehicle-types{
+  margin-left: 15px;
+  margin-bottom: 10px;
+  height: 45px;
+  width: 300px;
+  font-family: Poppins;
+  font-size: 18px;
+  border-radius: 8px;
+}
+
+

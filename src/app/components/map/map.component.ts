@@ -3,12 +3,11 @@ import  * as L from 'leaflet';
 import 'leaflet-routing-machine'
 import { TokenService } from 'src/app/modules/auth/token/token.service';
 import { Estimated } from 'src/app/modules/unregistered/models/request-estimated';
-import { UnregisteredService } from 'src/app/modules/unregistered/unregistered.service';
-import { RideRequest } from '../request-ride/request-ride-model/ride-request';
-import { RequestRideService } from '../request-ride/request-ride.service';
+import { RideRequest } from '../../modules/passenger/request-ride/request-ride-model/ride-request';
+import { RequestRideService } from '../../modules/services/request-ride.service';
 import {MapService} from "../../modules/services/map.service";
-import {LocationDTO} from "../request-ride/request-ride-model/locationDTO";
-import {PassengerDTO} from "../request-ride/request-ride-model/passengerDTO";
+import {LocationDTO} from "../../modules/passenger/request-ride/request-ride-model/locationDTO";
+import {PassengerDTO} from "../../modules/passenger/request-ride/request-ride-model/passengerDTO";
 import {EstimatedRideService} from "../../modules/services/estimated-ride.service";
 
 
@@ -20,23 +19,20 @@ import {EstimatedRideService} from "../../modules/services/estimated-ride.servic
 export class MapComponent implements AfterViewInit, OnInit{
   private map:any;
 
-  private latDeparture: string = '';
-  private lonDeparture: string = '';
-  private latDestination: string = '';
-  private lonDestination: string = '';
-
-  public price: number = 0;
-  public time: number = 0;
-
 
   @Output() data = new EventEmitter<{fromMap:string,toMap:string}>();
 
   ngOnInit() {
     this.estimatedService.selectedRouteCoords$.subscribe({
       next: (value) => {
-        console.log("VREDNOST 1:",value[0]);
         if(value[0] !== 0 && value[1] !== 0 && value[2] !== 0 && value[3] !== 0){  //moguc error kod praznih stringova na pocetnom ucitavanju unregistered strane
-          console.log("USO U IF ")
+          this.route(value[0],value[1],value[2],value[3]);
+        }
+      }
+    })
+    this.requestRideService.selectedRouteCoords$.subscribe({
+      next: (value) => {
+        if(value[0] !== 0 && value[1] !== 0 && value[2] !== 0 && value[3] !== 0){
           this.route(value[0],value[1],value[2],value[3]);
         }
       }
@@ -44,7 +40,7 @@ export class MapComponent implements AfterViewInit, OnInit{
   }
 
 
-  constructor(private mapService:MapService, private estimatedService:EstimatedRideService) {}
+  constructor(private mapService:MapService, private estimatedService:EstimatedRideService, private requestRideService:RequestRideService) {}
 
   private initMap(): void {
     this.map = L.map('map',{

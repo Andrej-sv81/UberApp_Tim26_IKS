@@ -1,0 +1,69 @@
+#ride-info{
+  position: relative;
+  z-index: 999;
+  background-color: white;
+  align-content: center;
+  box-shadow: #636262;
+  width: 430px;
+  height: 220px;
+  margin-left: 20px;
+  top: 60px;
+  font-family: Poppins;
+  border-radius: 5px;
+}
+#ride-info p{
+  margin-top: 0px;
+  margin-bottom: 5px;
+  padding-left: 15px;
+  font-size: 18px;
+}
+
+#ride-info h2{
+  font-size: 48px;
+  padding-left: 15px;
+  padding-top: 5px;
+  font-weight: 600;
+  padding-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+/*#start-info{*/
+/*  position: relative;*/
+/*  z-index: 1000;*/
+/*}*/
+
+#buttons{
+  font-family: Poppins;
+  position: relative;
+  z-index: 999;
+  /*background-color: white;*/
+  width: 430px;
+  font-size: 18px;
+  border-radius: 5px;
+  height: 50px;
+  margin-left: 20px;
+  margin-top: 75px;
+}
+
+#accept{
+  width: 208px;
+  height: 50px;
+  font-size: 18px;
+  font-family: Poppins;
+  margin-right: 14px;
+  font-weight: 600;
+  color: white;
+  background-color: forestgreen;
+  border-radius: 8px;
+}
+
+#reject{
+  width: 208px;
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 600;
+  height: 50px;
+  color: white;
+  background-color: crimson;
+  border-radius: 8px;
+}
