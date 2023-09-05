@@ -36,9 +36,9 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
   {path: 'request-ride', component: RequestRideComponent},
   {path: 'activate', component: ActivationComponent},
-  {path: 'accept-decline-ride', component: AcceptDeclineRideComponent},
+  {path: 'accept-decline-ride/:rideId', component: AcceptDeclineRideComponent},
   {path: 'current-ride-passenger', component: CurrentRidePassengerComponent},
-  {path: 'current-ride-driver', component: CurrentRideDriverComponent},
+  {path: 'current-ride-driver/:rideId', component: CurrentRideDriverComponent},
   {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},

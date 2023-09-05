@@ -3,7 +3,7 @@ import {RejectionDTO} from "./rejectionDTO";
 import {PassengerDTO} from "./passengerDTO";
 import {DriverDTO} from "./driverDTO";
 
-export interface RideResponse{
+export interface  RideResponse{
         id: any;
         startTime: any;
         endTime: any;
