@@ -1,11 +1,13 @@
 <div id="ride-info">
   <h2 id="title">Ride request</h2>
-  <p>Start location:</p>
-  <p>Scheduled time:</p>
-  <p>Estimated time:</p>
-  <p>Estimated price:</p>
+  <p>From:{{departure}}</p>
+  <p>To:{{destination}}</p>
+  <p>Scheduled time:{{scheduled}}</p>
+  <p>Estimated time: <samp>{{time}} min</samp></p>
+  <p>Estimated price: {{price}}RSD</p>
+  <input class="reject-field" type="text" name="reject-reason" formControlName="rejectReason" placeholder="Enter rejection reason:"/>
 </div>
 <div id="buttons">
-  <button id="accept">Accept</button>
-  <button id="reject">Reject</button>
+  <button id="accept" type="button" (click)="onAccept()">Accept</button>
+  <button id="reject" type="button" (click)="onReject()">Reject</button>
 </div>
