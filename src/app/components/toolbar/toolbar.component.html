@@ -1,5 +1,5 @@
 <div class="toolbar-container">
-    <div class="logo" [routerLink]="['/unregistered']">GariGo</div>
+    <div class="logo" (click)="homeRoute()">GariGo</div>
     <div *ngIf="logged" class="help" [routerLink]="['/profile/info']">Profile</div>
     <div *ngIf="logged" class="logo home" (click)="homeRoute()">Home</div>
 </div>

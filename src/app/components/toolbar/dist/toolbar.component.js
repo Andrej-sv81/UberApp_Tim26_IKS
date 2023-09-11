@@ -32,6 +32,9 @@ var ToolbarComponent = /** @class */ (function () {
                 this.router.navigate(["/driver-home"]);
             }
         }
+        else {
+            this.router.navigate(["/unregistered"]);
+        }
     };
     ToolbarComponent = __decorate([
         core_1.Component({

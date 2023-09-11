@@ -83,12 +83,16 @@ passenger: boolean = false;
             cost: undefined,
             time: undefined
           }
-          rideTemp.id = ride.id;
-          rideTemp.departure = ride.locations[0].departure.address;
-          rideTemp.destination = ride.locations[0].destination.address;
-          rideTemp.cost = ride.totalCost;
-          rideTemp.time = ride.estimatedTimeInMinutes;
-          this.ridesTable.push(rideTemp);
+          try{
+            rideTemp.id = ride.id;
+            rideTemp.departure = ride.locations[0].departure.address;
+            rideTemp.destination = ride.locations[0].destination.address;
+            rideTemp.cost = ride.totalCost;
+            rideTemp.time = ride.estimatedTimeInMinutes;
+            this.ridesTable.push(rideTemp);
+          }catch{
+            continue;
+          }
         }
 
         this.dataSource = new MatTableDataSource<RideHistory>(this.ridesTable);

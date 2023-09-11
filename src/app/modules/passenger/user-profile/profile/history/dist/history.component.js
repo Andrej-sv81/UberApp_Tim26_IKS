@@ -58,12 +58,17 @@ var HistoryComponent = /** @class */ (function () {
                         cost: undefined,
                         time: undefined
                     };
-                    rideTemp.id = ride.id;
-                    rideTemp.departure = ride.locations[0].departure.address;
-                    rideTemp.destination = ride.locations[0].destination.address;
-                    rideTemp.cost = ride.totalCost;
-                    rideTemp.time = ride.estimatedTimeInMinutes;
-                    _this.ridesTable.push(rideTemp);
+                    try {
+                        rideTemp.id = ride.id;
+                        rideTemp.departure = ride.locations[0].departure.address;
+                        rideTemp.destination = ride.locations[0].destination.address;
+                        rideTemp.cost = ride.totalCost;
+                        rideTemp.time = ride.estimatedTimeInMinutes;
+                        _this.ridesTable.push(rideTemp);
+                    }
+                    catch (_b) {
+                        continue;
+                    }
                 }
                 _this.dataSource = new table_1.MatTableDataSource(_this.ridesTable);
                 _this.dataSource.paginator = _this.paginator;
@@ -152,8 +157,8 @@ var HistoryComponent = /** @class */ (function () {
     HistoryComponent = __decorate([
         core_1.Component({
             selector: 'app-history',
-            templateUrl: '../history.component.html',
-            styleUrls: ['../history.component.css']
+            templateUrl: './history.component.html',
+            styleUrls: ['./history.component.css']
         })
     ], HistoryComponent);
     return HistoryComponent;
