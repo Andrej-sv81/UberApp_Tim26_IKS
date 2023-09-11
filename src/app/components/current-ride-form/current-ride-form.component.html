@@ -1,0 +1,14 @@
+<div id="ride-info">
+  <h2 id="title">Current Ride</h2>
+  <p>From:{{departure}}</p>
+  <p>To:{{destination}}</p>
+  <p>Scheduled time:{{scheduled}}</p>
+  <p>Estimated time: <samp>{{time}} min</samp></p>
+  <p>Estimated price: {{price}}RSD</p>
+  <input class="reject-field" name="reject-reason" type="text" placeholder="Enter panic reason:"/>
+</div>
+<div id="buttons">
+  <button id="accept" type="button" (click)="onEnd()">End ride</button>
+  <button id="reject" type="button">Panic</button>
+</div>
+

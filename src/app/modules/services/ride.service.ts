@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {RideResponse} from "../passenger/request-ride/request-ride-model/ride-response";
 import {environment} from "../../environments/environment";
+import {RideResponseDTO} from "../DTO/RideResponseDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,43 @@ export class RideService {
   });
   constructor(private http: HttpClient) { }
 
-  rideDetails(id: number): Observable<RideResponse>{
-    return this.http.get<RideResponse>(environment.apiHost + `api/${id}/accept`,
+  rideDetails(id: number): Observable<RideResponseDTO>{
+    return this.http.get<RideResponseDTO>(environment.apiHost + `api/ride/${id}`,
+      {
+        headers: this.headers
+      });
+  }
+
+  startRide(id:number): Observable<RideResponseDTO>{
+    return this.http.put<RideResponseDTO>(environment.apiHost + `api/ride/${id}/start`,
+      {
+        headers: this.headers
+      });
+  }
+
+  endRide(id:number): Observable<RideResponseDTO>{
+    return this.http.put<RideResponseDTO>(environment.apiHost + `api/ride/${id}/end`,
+      {
+        headers: this.headers
+      });
+  }
+
+  simulateRide(id:number): Observable<string>{
+    return this.http.put<string>(environment.apiHost + `api/simulate/${id}`,
+      {
+        headers: this.headers
+      });
+  }
+
+  activeRidePassenger(id:number): Observable<RideResponseDTO>{
+    return this.http.get<RideResponseDTO>(environment.apiHost + `api/ride/passenger/${id}/active`,
+      {
+        headers: this.headers
+      });
+  }
+
+  activeRideDriver(id:number): Observable<RideResponseDTO>{
+    return this.http.get<RideResponseDTO>(environment.apiHost + `api/ride/driver/${id}/active`,
       {
         headers: this.headers
       });

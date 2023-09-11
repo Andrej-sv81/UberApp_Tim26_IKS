@@ -1,13 +1,14 @@
 <div id="ride-info">
-  <h2 id="title">Ride request</h2>
+  <h2 id="title">Current ride</h2>
   <p>From:{{departure}}</p>
   <p>To:{{destination}}</p>
   <p>Scheduled time:{{scheduled}}</p>
   <p>Estimated time: <samp>{{time}} min</samp></p>
   <p>Estimated price: {{price}}RSD</p>
-  <input id="rejectmsg" class="reject-field" name="reject-reason" type="text" [(ngModel)]="rejectInput"  placeholder="Enter rejection reason:"/>
+  <input class="reject-field" type="text" name="reject-reason" placeholder="Enter rejection reason:"/>
 </div>
 <div id="buttons">
-  <button id="accept" type="button" (click)="onAccept()">Accept</button>
+  <button id="start" type="button" (click)="onStart()">Start</button>
   <button id="reject" type="button" (click)="onReject()">Reject</button>
 </div>
+

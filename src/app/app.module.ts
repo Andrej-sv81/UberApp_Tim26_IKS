@@ -32,6 +32,10 @@ import { MaterialModule } from './material/material/material.module';
 import { RideEstimatedFormComponent } from './components/ride-estimated-form/ride-estimated-form.component';
 import { RideRequestFormComponent } from './components/ride-request-form/ride-request-form.component';
 import { AcceptDeclineRideFormComponent } from './components/accept-decline-ride-form/accept-decline-ride-form.component';
+import { DriverStartRideComponent } from './modules/driver/driver-start-ride/driver-start-ride.component';
+import { StartRideFormComponent } from './components/start-ride-form/start-ride-form.component';
+import { CurrentRideFormComponent } from './components/current-ride-form/current-ride-form.component';
+import { CurrentRidePassengerFormComponent } from './components/current-ride-passenger-form/current-ride-passenger-form.component';
 
 
 //import { MapComponent } from './components/map/map.component';
@@ -53,6 +57,10 @@ import { AcceptDeclineRideFormComponent } from './components/accept-decline-ride
     RideEstimatedFormComponent,
     RideRequestFormComponent,
     AcceptDeclineRideFormComponent,
+    DriverStartRideComponent,
+    StartRideFormComponent,
+    CurrentRideFormComponent,
+    CurrentRidePassengerFormComponent,
     //MapComponent
   ],
     imports: [

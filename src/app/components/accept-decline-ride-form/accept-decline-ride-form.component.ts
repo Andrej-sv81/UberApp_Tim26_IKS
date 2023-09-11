@@ -7,6 +7,7 @@ import {ExplanationDTO} from "../../modules/DTO/ExplanationDTO";
 import {ActivatedRoute, Router} from "@angular/router";
 import {RideService} from "../../modules/services/ride.service";
 import {PassRideDataService} from "../../modules/services/pass-ride-data.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-accept-decline-ride-form',
@@ -16,13 +17,16 @@ import {PassRideDataService} from "../../modules/services/pass-ride-data.service
 export class AcceptDeclineRideFormComponent implements OnInit{
   @Input() rideData:any;
   rideDetails!:RideResponseDTO;
-  rejectionReason !: ExplanationDTO;
+  rejectInput:string='';
+  rejectionReason : ExplanationDTO = {reason:""};
   id:any;
   departure:any;
   destination:any;
   scheduled:any;
   time:any;
   price:any;
+
+
 
   ngOnInit(): void {
     this.rideDataService.selectedRideData$.subscribe({
@@ -45,29 +49,40 @@ export class AcceptDeclineRideFormComponent implements OnInit{
     this.scheduled = "NOW";
   }
 
-  constructor(private acceptDeclineService:AcceptDeclineService, private route:ActivatedRoute, private rideService:RideService,private router:Router,private rideDataService:PassRideDataService) {
+  constructor(private acceptDeclineService:AcceptDeclineService, private route:ActivatedRoute, private rideService:RideService,private router:Router,private rideDataService:PassRideDataService,private snackBar:MatSnackBar) {
   }
 
   onAccept(){
     this.acceptDeclineService.acceptRide(this.rideDetails.id).subscribe({
       next:(result) =>{
-        // RUTIRAJ NA CURRENT RIDE
-        console.log("PRIHVACENA VOZNJA")
-        if (result.status==200){
-          this.router.navigateByUrl("/current-ride-driver/"+this.rideDetails.id);
-        }
+        this.router.navigateByUrl("/start-ride-driver");
       }
     });
   }
 
   onReject(){
-    this.acceptDeclineService.declineRide(this.rideDetails.id,this.rejectionReason).subscribe({
-      next:(result) =>{
-        console.log("USPESNO ODBIJENA VOZNJA")
-        if (result.status==200){
+    const inputElement = document.getElementById('rejectmsg');
+    // @ts-ignore
+    const inputValue = inputElement.value;
+    if (inputValue!=''){
+      const rejection:ExplanationDTO={reason:inputValue}
+      this.acceptDeclineService.declineRide(this.rideDetails.id,rejection).subscribe({
+        next:(result) =>{
+          console.log("USPESNO ODBIJENA VOZNJA")
           this.router.navigateByUrl("/driver-home")
         }
-      }
+      });
+    }else {
+      this.openSnackbar("Rejection reason input field is empty.");
+    }
+
+  }
+
+  openSnackbar(message:string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
     });
   }
 

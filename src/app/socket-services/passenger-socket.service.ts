@@ -6,13 +6,14 @@ import {LocationDTO} from "../modules/passenger/request-ride/request-ride-model/
 import {RideResponseDTO} from "../modules/DTO/RideResponseDTO";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
+import {MapService} from "../modules/services/map.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PassengerSocketService {
 
-  constructor(private snackBar:MatSnackBar,public dialog: MatDialog) { }
+  constructor(private snackBar:MatSnackBar,public dialog: MatDialog,private mapService:MapService) { }
 
   notificationDisplayed: boolean = false;
   notificationQueue: RideResponseDTO[] = [];
@@ -38,13 +39,10 @@ export class PassengerSocketService {
       try{
         const ride: RideResponseDTO = JSON.parse(message.body);
         console.log(ride);
-        //this.setReturnRide(ride);
-        this.openDialog(ride);
       }
       catch{
         const error:String = message.body;
         console.log(error);
-        //this.setReturnError(error);
       }
     });
   }
@@ -63,32 +61,7 @@ export class PassengerSocketService {
     });
   }
 
-  openDialog(ride:RideResponseDTO): void {
-    let msg = ''
-    let message = ride.status;
-    if (message == "ACCEPTED")
-    {
-      msg = "Your ride was accepted!"
-    }
-    if (message == "CANCELED")
-    {
-      msg = "Your ride was canceled!"
-    }
-    if (message == "REJECTED")
-    {
-      msg = "Your ride was rejected!"
-    }
-    if (message == "ACTIVE")
-    {
-      msg = "Your ride has started!"
-    }
-    if (message == "FINISHED")
-    {
-      msg = "Your ride is over!"
-      //TODO add ride review
-      return
-    }
-  }
+
 
 
 }
