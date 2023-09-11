@@ -24,6 +24,9 @@ export class AcceptDeclineService {
   }
 
   declineRide(id: number, explanation:ExplanationDTO): Observable<RideResponse>{
+    console.log("USO U DECLINE:");
+    console.log(explanation.reason);
+    console.log(explanation);
     return this.http.put<RideResponse>(environment.apiHost + `api/ride/${id}/cancel`,
       {
         headers: this.headers,

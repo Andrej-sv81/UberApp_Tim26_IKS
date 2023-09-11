@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, AfterViewInit, Input, Output, EventEmitter, OnInit, OnDestroy} from '@angular/core';
 import  * as L from 'leaflet';
 import 'leaflet-routing-machine'
 import { TokenService } from 'src/app/modules/auth/token/token.service';
@@ -16,7 +16,7 @@ import {EstimatedRideService} from "../../modules/services/estimated-ride.servic
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements AfterViewInit, OnInit{
+export class MapComponent implements AfterViewInit, OnInit, OnDestroy{
   private map:any;
 
 
@@ -59,10 +59,6 @@ export class MapComponent implements AfterViewInit, OnInit{
     );
     tiles.addTo(this.map);
 
-    //this.search();
-    // this.addMarker();
-    // this.registerOnClick();
-    //this.route();
   }
 
   search(street:string): void {
@@ -111,11 +107,17 @@ export class MapComponent implements AfterViewInit, OnInit{
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+      iconUrl: 'https://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Car-icon.png',
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
+  }
+
+  ngOnDestroy(): void {
+    if (this.map) {
+      this.map.remove();
+    }
   }
 
 
