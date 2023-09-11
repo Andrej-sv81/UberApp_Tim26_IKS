@@ -32,8 +32,11 @@ export class ToolbarComponent implements OnInit{
       }else if(this.role === "ROLE_DRIVER"){
         this.router.navigate(["/driver-home"])
       }
+    }else{
+      this.router.navigate(["/unregistered"])
     }
     }
+
   
     
 
