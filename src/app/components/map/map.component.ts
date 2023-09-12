@@ -9,6 +9,8 @@ import {MapService} from "../../modules/services/map.service";
 import {LocationDTO} from "../../modules/passenger/request-ride/request-ride-model/locationDTO";
 import {PassengerDTO} from "../../modules/passenger/request-ride/request-ride-model/passengerDTO";
 import {EstimatedRideService} from "../../modules/services/estimated-ride.service";
+import {icon, Marker} from "leaflet";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -18,7 +20,7 @@ import {EstimatedRideService} from "../../modules/services/estimated-ride.servic
 })
 export class MapComponent implements AfterViewInit, OnInit, OnDestroy{
   private map:any;
-
+  private markers: L.Marker[] = [];
 
   @Output() data = new EventEmitter<{fromMap:string,toMap:string}>();
 
@@ -40,7 +42,15 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy{
   }
 
 
-  constructor(private mapService:MapService, private estimatedService:EstimatedRideService, private requestRideService:RequestRideService) {}
+  constructor(private mapService:MapService, private estimatedService:EstimatedRideService, private requestRideService:RequestRideService, private router:Router) {}
+
+  ngOnDestroy(): void {
+    if (this.map) {
+      // Remove the map from the DOM and clean up resources
+      this.map.remove();
+      this.map = null; // Reset map to null
+    }
+    }
 
   private initMap(): void {
     this.map = L.map('map',{
@@ -100,10 +110,6 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy{
 
   }
 
-  private addMarker(): void {
-    const lat: number = 45.25;
-    const lon: number = 19.8228;
-  }
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
@@ -112,12 +118,6 @@ export class MapComponent implements AfterViewInit, OnInit, OnDestroy{
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
-  }
-
-  ngOnDestroy(): void {
-    if (this.map) {
-      this.map.remove();
-    }
   }
 
 

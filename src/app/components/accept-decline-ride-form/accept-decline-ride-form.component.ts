@@ -55,7 +55,7 @@ export class AcceptDeclineRideFormComponent implements OnInit{
   onAccept(){
     this.acceptDeclineService.acceptRide(this.rideDetails.id).subscribe({
       next:(result) =>{
-        this.router.navigateByUrl("/start-ride-driver");
+        this.router.navigate(["/start-ride-driver"]);
       }
     });
   }

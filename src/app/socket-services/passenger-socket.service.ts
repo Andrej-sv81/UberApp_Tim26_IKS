@@ -29,8 +29,6 @@ export class PassengerSocketService {
       that.openSocket(passengerId);
       //that.openInvitesSocket(passengerId);  TODO kad se implementira dodavanje prijatelja
       that.openVehicleLocationSocket(passengerId);
-      //that.openNotificationSocket(passengerId);   TODO kad se implementira zakazivanje za buducnost
-
     });
   }
 
@@ -38,6 +36,7 @@ export class PassengerSocketService {
     this.stompClient.subscribe('/topic/passenger/ride/'+passengerId, (message:any) => {
       try{
         const ride: RideResponseDTO = JSON.parse(message.body);
+        this.openSnackbar("Your ride status is: " + ride.status +  ".");
         console.log(ride);
       }
       catch{
@@ -61,6 +60,14 @@ export class PassengerSocketService {
     });
   }
 
+
+  openSnackbar(message:string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
 
 
 
