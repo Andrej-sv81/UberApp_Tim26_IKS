@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {RideResponse} from "../passenger/request-ride/request-ride-model/ride-response";
 import {environment} from "../../environments/environment";
 import {RideResponseDTO} from "../DTO/RideResponseDTO";
+import {LocationDTO} from "../passenger/request-ride/request-ride-model/locationDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,12 @@ export class RideService {
     'Content-Type': 'application/json',
   });
   constructor(private http: HttpClient) { }
+
+  private vehicleLocation$ = new BehaviorSubject<any>({});
+  selectedVehicleLocation$ = this.vehicleLocation$.asObservable();
+  updateVehicleLocation(update:LocationDTO){
+    this.vehicleLocation$.next(update);
+  }
 
   rideDetails(id: number): Observable<RideResponseDTO>{
     return this.http.get<RideResponseDTO>(environment.apiHost + `api/ride/${id}`,
@@ -55,4 +62,6 @@ export class RideService {
         headers: this.headers
       });
   }
+
+
 }
