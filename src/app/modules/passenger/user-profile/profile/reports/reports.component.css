@@ -1,0 +1,12 @@
+.main{
+    padding:50px;
+    padding-top: 15px;
+}
+div{
+    height: 100%;
+    width: 100%;
+    border: solid black 5px;
+    padding: 15px;
+    margin: 20px;
+    margin-top: 0px;
+}

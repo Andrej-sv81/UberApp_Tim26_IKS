@@ -25,6 +25,7 @@
     "@stomp/rx-stomp": "^2.0.0",
     "@stomp/stompjs": "^7.0.0",
     "@types/leaflet-routing-machine": "^3.2.4",
+    "chart.js": "^4.4.0",
     "leaflet": "^1.9.3",
     "leaflet-routing-machine": "^3.2.12",
     "mdb-angular-ui-kit": "^4.0.0",
