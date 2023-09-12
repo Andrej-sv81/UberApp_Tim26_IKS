@@ -14,12 +14,20 @@ var ReportsComponent = /** @class */ (function () {
     function ReportsComponent(service) {
         this.service = service;
         this.labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        this.data1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        this.data2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
     ReportsComponent.prototype.ngOnInit = function () {
-        var data1 = this.service.ReturnMonthlyRides();
-        var data2 = this.service.ReturnMonthlyEarnings();
-        this.RenderChart1(data1);
-        this.RenderChart2(data2);
+        var _this = this;
+        this.service.ReturnMonthlyStats().subscribe({
+            next: function (result) {
+                _this.data1 = result.numberOfRides;
+                _this.data2 = result.sumOfPrices;
+                _this.RenderChart1(_this.data1);
+                _this.RenderChart2(_this.data2);
+            },
+            error: (function (error) { })
+        });
     };
     ReportsComponent.prototype.RenderChart1 = function (data1) {
         var data = {

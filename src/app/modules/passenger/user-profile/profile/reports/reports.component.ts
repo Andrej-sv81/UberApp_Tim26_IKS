@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { ReportService } from '../report.service';
+import { error } from '@angular/compiler-cli/src/transformers/util';
 
 Chart.register(...registerables);
 
@@ -13,13 +14,24 @@ export class ReportsComponent implements OnInit{
 
   constructor(private service: ReportService){}
   labels = ['JAN', 'FEB', "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+  data1 = [0,0,0,0,0,0,0,0,0,0,0,0];
+  data2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+
   ngOnInit(): void
   {
-    const data1 = this.service.ReturnMonthlyRides();
-    const data2 = this.service.ReturnMonthlyEarnings();
 
-    this.RenderChart1(data1);
-    this.RenderChart2(data2);
+    this.service.ReturnMonthlyStats().subscribe({
+      next: (result) => {
+        this.data1 = result.numberOfRides;
+        this.data2 = result.sumOfPrices;
+
+        this.RenderChart1(this.data1);
+        this.RenderChart2(this.data2);
+      },
+      error: (error =>{})
+    });
+
   }
 
 

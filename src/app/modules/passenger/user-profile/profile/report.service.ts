@@ -1,17 +1,25 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { environment } from 'src/app/environments/environment';
+import { TokenService } from 'src/app/modules/auth/token/token.service';
+import { Reports } from '../model/reports';
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService{
 
-  constructor() { }
+  constructor(private http: HttpClient, private token: TokenService) { }
+  private headers = new HttpHeaders({
+  });
 
-  ReturnMonthlyRides(): number[]{
-    return [65, 59, 80, 81, 56, 55, 40, 23, 2, 100, 57, 87];
+
+  ReturnMonthlyStats(): Observable<Reports>{
+    return this.http.get<Reports>(environment.apiHost + 'api/driver/report/' + this.token.getUser().id,
+    {
+      headers: this.headers
+    });
   }
 
-  ReturnMonthlyEarnings(): number[]{
-    return [456, 259, 180, 281, 356, 585, 450, 233, 211, 1020, 537, 87];
-  }
+
 }

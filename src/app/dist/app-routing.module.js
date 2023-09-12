@@ -15,6 +15,7 @@ var login_component_1 = require("./modules/auth/login/login.component");
 var registration_component_1 = require("./modules/passenger/registration/register/registration.component");
 var safety_component_1 = require("./components/safety/safety.component");
 var request_ride_component_1 = require("./modules/passenger/request-ride/request-ride.component");
+var login_guard_1 = require("./modules/auth/guard/login.guard");
 var activation_component_1 = require("./modules/passenger/account-activation/activation/activation.component");
 var profile_component_1 = require("./modules/passenger/user-profile/profile/profile.component");
 var info_component_1 = require("./modules/passenger/user-profile/profile/info/info.component");
@@ -47,7 +48,7 @@ var routes = [
     { path: 'current-ride-passenger', component: current_ride_passenger_component_1.CurrentRidePassengerComponent },
     { path: 'current-ride-driver', component: current_ride_driver_component_1.CurrentRideDriverComponent },
     { path: 'start-ride-driver', component: driver_start_ride_component_1.DriverStartRideComponent },
-    { path: 'profile', component: profile_component_1.ProfileComponent, children: [
+    { path: 'profile', component: profile_component_1.ProfileComponent, canActivate: [login_guard_1.LoginGuard], children: [
             { path: 'info', component: info_component_1.InfoComponent },
             { path: 'history', component: history_component_1.HistoryComponent },
             { path: 'favorites', component: favorites_component_1.FavoritesComponent },

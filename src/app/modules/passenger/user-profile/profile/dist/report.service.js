@@ -8,14 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.ReportService = void 0;
 var core_1 = require("@angular/core");
+var http_1 = require("@angular/common/http");
+var environment_1 = require("src/app/environments/environment");
 var ReportService = /** @class */ (function () {
-    function ReportService() {
+    function ReportService(http, token) {
+        this.http = http;
+        this.token = token;
+        this.headers = new http_1.HttpHeaders({});
     }
-    ReportService.prototype.ReturnMonthlyRides = function () {
-        return [65, 59, 80, 81, 56, 55, 40, 23, 2, 100, 57, 87];
-    };
-    ReportService.prototype.ReturnMonthlyEarnings = function () {
-        return [456, 259, 180, 281, 356, 585, 450, 233, 211, 1020, 537, 87];
+    ReportService.prototype.ReturnMonthlyStats = function () {
+        return this.http.get(environment_1.environment.apiHost + 'api/driver/report/' + this.token.getUser().id, {
+            headers: this.headers
+        });
     };
     ReportService = __decorate([
         core_1.Injectable({
