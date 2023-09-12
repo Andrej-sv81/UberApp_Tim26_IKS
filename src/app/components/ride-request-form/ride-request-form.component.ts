@@ -9,6 +9,8 @@ import {RideRequest} from "../../modules/passenger/request-ride/request-ride-mod
 import {RouteDTO} from "../../modules/passenger/request-ride/request-ride-model/routeDTO";
 import {TokenService} from "../../modules/auth/token/token.service";
 import {PassengerDTO} from "../../modules/passenger/request-ride/request-ride-model/passengerDTO";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-ride-request-form',
@@ -17,6 +19,7 @@ import {PassengerDTO} from "../../modules/passenger/request-ride/request-ride-mo
 })
 export class RideRequestFormComponent {
   requestRideForm: FormGroup;
+  addFriends: FormGroup;
   departure:any;
   latDeparture:any;
   lonDeparture:any;
@@ -31,9 +34,11 @@ export class RideRequestFormComponent {
   passengersRide:PassengerDTO[] = [];
   rideRoute:any;
   scheduledTime:string = "";
+  friendEmail:string ="";
+  showAddFriendsForm = false;
 
 
-  constructor(private fb: FormBuilder, private requestRideService:RequestRideService, private mapService:MapService, private tokenService:TokenService) {
+  constructor(private fb: FormBuilder, private requestRideService:RequestRideService, private mapService:MapService, private tokenService:TokenService, private snackBar:MatSnackBar) {
     this.requestRideForm = this.fb.group({
       departure: [''],
       destination: [''],
@@ -41,6 +46,9 @@ export class RideRequestFormComponent {
       baby: [false],              // Initial value can be set here
       petFlag: [false]
     });
+    this.addFriends = this.fb.group({
+      friendEmail:['']
+    })
   }
 
   createRequest(){
@@ -83,6 +91,26 @@ export class RideRequestFormComponent {
       }
     })
 
+  }
+
+  addFriend(){
+    this.requestRideService.addFriend(this.friendEmail).subscribe({
+      next: (result) =>{
+        this.passengersRide.push(result);
+        this.openSnackbar("Friend added to your ride");
+      },error:(error) =>{
+        this.openSnackbar("Error ocured maybe you have put invalid username.")
+      }
+    })
+
+  }
+
+  openSnackbar(message:string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 
 

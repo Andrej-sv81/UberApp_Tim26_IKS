@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { RideRequest } from '../passenger/request-ride/request-ride-model/ride-request';
 import { RideResponse } from '../passenger/request-ride/request-ride-model/ride-response';
+import {PassengerDTO} from "../passenger/request-ride/request-ride-model/passengerDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,10 @@ export class RequestRideService {
     {
       headers: this.headers
     });
+  }
+
+  addFriend(email:string):Observable<PassengerDTO>{
+    return this.http.get<PassengerDTO>(environment.apiHost + 'api/user/'+email,{headers:this.headers})
   }
 
 }

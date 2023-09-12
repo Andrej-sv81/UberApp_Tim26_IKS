@@ -22,8 +22,15 @@
       <input type="checkbox" id="pet" name="petFlag" formControlName="petFlag">
     </div>
     <div class="btn-container">
-      <button id="add-friends" type="button">+Add friends</button>
+      <button class="add-friends" type="button" (click)="showAddFriendsForm=true">+Add friends</button>
       <button class="confirm" type="submit">Confirm</button>
     </div>
+  </form>
+</div>
+<div class="add-friends-form" *ngIf="showAddFriendsForm">
+  <form [formGroup]="addFriends" (ngSubmit)="addFriend()">
+    <input  id="email" type="text" placeholder="Your friends email" formControlName="friendEmail">
+    <button class="add-friends-2" type="submit">+Add</button>
+    <button class="close" type="button" (click)="showAddFriendsForm=false">Close</button>
   </form>
 </div>
