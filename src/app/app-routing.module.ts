@@ -23,6 +23,7 @@ import {DriverHomeComponent} from "./modules/driver/driver-home/driver-home.comp
 import { PasswordResetComponent } from './modules/passenger/password-reset/password-reset.component';
 import { ReviewComponent } from './modules/passenger/user-profile/profile/review/review.component';
 import {DriverStartRideComponent} from "./modules/driver/driver-start-ride/driver-start-ride.component";
+import { ReportsComponent } from './modules/passenger/user-profile/profile/reports/reports.component';
 
 
 const routes: Routes = [
@@ -41,13 +42,14 @@ const routes: Routes = [
   {path: 'current-ride-passenger', component: CurrentRidePassengerComponent},
   {path: 'current-ride-driver', component: CurrentRideDriverComponent},
   {path: 'start-ride-driver', component:DriverStartRideComponent},
-  {path: 'profile', component: ProfileComponent, canActivate:[LoginGuard], children:[
+  {path: 'profile', component: ProfileComponent,  canActivate:[LoginGuard], children:[
       {path: 'info', component: InfoComponent},
       {path: 'history', component: HistoryComponent},
       {path: 'favorites', component: FavoritesComponent},
       {path: 'update', component: UpdateComponent},
       {path: 'change-password', component: ChangePasswordComponent},
       {path: 'review/:id', component: ReviewComponent},
+      {path: 'reports', component: ReportsComponent},
       {path: '', redirectTo: 'info', pathMatch: 'full'},
       {path: '**', component: InfoComponent},
   ]},

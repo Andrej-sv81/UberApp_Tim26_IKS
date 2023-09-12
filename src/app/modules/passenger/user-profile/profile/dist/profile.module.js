@@ -20,6 +20,8 @@ var change_password_component_1 = require("./change-password/change-password.com
 var material_module_1 = require("src/app/material/material/material.module");
 var directives_module_1 = require("../directives/directives.module");
 var sort_1 = require("@angular/material/sort");
+var review_component_1 = require("./review/review.component");
+var reports_component_1 = require("./reports/reports.component");
 var ProfileModule = /** @class */ (function () {
     function ProfileModule() {
     }
@@ -32,6 +34,8 @@ var ProfileModule = /** @class */ (function () {
                 info_component_1.InfoComponent,
                 update_component_1.UpdateComponent,
                 change_password_component_1.ChangePasswordComponent,
+                review_component_1.ReviewComponent,
+                reports_component_1.ReportsComponent,
             ],
             imports: [
                 common_1.CommonModule,

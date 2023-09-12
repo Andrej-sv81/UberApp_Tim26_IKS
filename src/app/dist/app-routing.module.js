@@ -12,24 +12,26 @@ var router_1 = require("@angular/router");
 var help_component_1 = require("./components/help/help.component");
 var home_component_1 = require("./components/home/home.component");
 var login_component_1 = require("./modules/auth/login/login.component");
-var registration_component_1 = require("./modules/registration/register/registration.component");
+var registration_component_1 = require("./modules/passenger/registration/register/registration.component");
 var safety_component_1 = require("./components/safety/safety.component");
-var request_ride_component_1 = require("./components/request-ride/request-ride.component");
+var request_ride_component_1 = require("./modules/passenger/request-ride/request-ride.component");
 var login_guard_1 = require("./modules/auth/guard/login.guard");
-var activation_component_1 = require("./modules/account-activation/activation/activation.component");
-var profile_component_1 = require("./modules/user-profile/profile/profile.component");
-var info_component_1 = require("./modules/user-profile/profile/info/info.component");
-var history_component_1 = require("./modules/user-profile/profile/history/history.component");
-var favorites_component_1 = require("./modules/user-profile/profile/favorites/favorites.component");
-var update_component_1 = require("./modules/user-profile/profile/update/update.component");
-var change_password_component_1 = require("./modules/user-profile/profile/change-password/change-password.component");
-var accept_decline_ride_component_1 = require("./modules/accept-decline-ride/accept-decline-ride.component");
-var current_ride_passenger_component_1 = require("./modules/current-ride-passenger/current-ride-passenger.component");
-var current_ride_driver_component_1 = require("./modules/current-ride-driver/current-ride-driver.component");
+var activation_component_1 = require("./modules/passenger/account-activation/activation/activation.component");
+var profile_component_1 = require("./modules/passenger/user-profile/profile/profile.component");
+var info_component_1 = require("./modules/passenger/user-profile/profile/info/info.component");
+var history_component_1 = require("./modules/passenger/user-profile/profile/history/history.component");
+var favorites_component_1 = require("./modules/passenger/user-profile/profile/favorites/favorites.component");
+var update_component_1 = require("./modules/passenger/user-profile/profile/update/update.component");
+var change_password_component_1 = require("./modules/passenger/user-profile/profile/change-password/change-password.component");
+var accept_decline_ride_component_1 = require("./modules/driver/accept-decline-ride/accept-decline-ride.component");
+var current_ride_passenger_component_1 = require("./modules/passenger/current-ride-passenger/current-ride-passenger.component");
+var current_ride_driver_component_1 = require("./modules/driver/current-ride-driver/current-ride-driver.component");
 var unregistered_component_1 = require("./modules/unregistered/unregistered.component");
-var driver_home_component_1 = require("./modules/driver-home/driver-home.component");
-var password_reset_component_1 = require("./modules/password-reset/password-reset.component");
-var review_component_1 = require("./modules/user-profile/profile/review/review.component");
+var driver_home_component_1 = require("./modules/driver/driver-home/driver-home.component");
+var password_reset_component_1 = require("./modules/passenger/password-reset/password-reset.component");
+var review_component_1 = require("./modules/passenger/user-profile/profile/review/review.component");
+var driver_start_ride_component_1 = require("./modules/driver/driver-start-ride/driver-start-ride.component");
+var reports_component_1 = require("./modules/passenger/user-profile/profile/reports/reports.component");
 var routes = [
     { path: '', redirectTo: "unregistered", pathMatch: 'full' },
     { path: 'unregistered', component: unregistered_component_1.UnregisteredComponent },
@@ -42,9 +44,10 @@ var routes = [
     { path: 'registration', component: registration_component_1.RegistrationComponent },
     { path: 'request-ride', component: request_ride_component_1.RequestRideComponent },
     { path: 'activate', component: activation_component_1.ActivationComponent },
-    { path: 'accept-decline-ride', component: accept_decline_ride_component_1.AcceptDeclineRideComponent },
+    { path: 'accept-decline-ride/:rideId', component: accept_decline_ride_component_1.AcceptDeclineRideComponent },
     { path: 'current-ride-passenger', component: current_ride_passenger_component_1.CurrentRidePassengerComponent },
     { path: 'current-ride-driver', component: current_ride_driver_component_1.CurrentRideDriverComponent },
+    { path: 'start-ride-driver', component: driver_start_ride_component_1.DriverStartRideComponent },
     { path: 'profile', component: profile_component_1.ProfileComponent, canActivate: [login_guard_1.LoginGuard], children: [
             { path: 'info', component: info_component_1.InfoComponent },
             { path: 'history', component: history_component_1.HistoryComponent },
@@ -52,6 +55,7 @@ var routes = [
             { path: 'update', component: update_component_1.UpdateComponent },
             { path: 'change-password', component: change_password_component_1.ChangePasswordComponent },
             { path: 'review/:id', component: review_component_1.ReviewComponent },
+            { path: 'reports', component: reports_component_1.ReportsComponent },
             { path: '', redirectTo: 'info', pathMatch: 'full' },
             { path: '**', component: info_component_1.InfoComponent },
         ] },
